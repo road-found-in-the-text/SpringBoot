@@ -21,4 +21,16 @@ public class ScriptRequestDto {
 
     }
 
+    @Getter
+    @Setter
+    public static class Update {
+
+        @NotNull(message = "title은 필수 입력값입니다.")
+        private String title;
+
+        // @NotNull(message = "type은 필수 입력값입니다.")
+        private String type;
+
+    }
+
 }

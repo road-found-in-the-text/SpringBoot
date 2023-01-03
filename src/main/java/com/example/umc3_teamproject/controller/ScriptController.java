@@ -12,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -34,7 +38,7 @@ public class ScriptController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> readGather(@PathVariable("id") Long id) {
+    public ResponseEntity<?> readScriptById(@PathVariable("id") Long id) {
 
         // 참고 문헌: https://jogeum.net/9
         Optional<Script> optionalProduct=scriptRepository.findById(id);
@@ -45,6 +49,53 @@ public class ScriptController {
         }
 
         log.info("gather test fail");
+        return null;
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
+
+        // 참고 문헌: https://jogeum.net/9
+        Optional<Script> optionalProduct=scriptRepository.findByUserId(userId);
+        if (optionalProduct.isPresent()) {
+            Script script1 = optionalProduct.get();
+            log.info("gather test success");
+            return scriptResponseDto.success(script1);
+        }
+
+        log.info("gather test fail");
+        return null;
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Map<String, Object>> getScriptListAll() {
+
+        // 참고문헌: https://goddaehee.tistory.com/209
+        List<Script> scripts = scriptRepository.findAll();
+
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", scripts);
+        result.put("count", scripts.size());
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid ScriptRequestDto.Update script1) {
+
+        Script script_new= scriptService.updateScript(script1);
+
+        Optional<Script> optionalProduct=scriptRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Script before_script = optionalProduct.get();
+            log.info("gather test success");
+
+            before_script.setTitle(script_new.getTitle());
+            before_script.setType(script_new.getType());
+
+            return scriptResponseDto.success(before_script);
+        }
+
         return null;
     }
 

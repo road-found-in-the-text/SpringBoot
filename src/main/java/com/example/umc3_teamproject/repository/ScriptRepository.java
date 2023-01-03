@@ -14,4 +14,6 @@ import java.util.Optional;
 // @RequiredArgsConstructor   // @AllArgsConstructor 대신 사용
 public interface ScriptRepository extends JpaRepository<Script, Long> {
     Optional<Script> findById(Long id);
+
+    Optional<Script> findByUserId(Long id);
 }

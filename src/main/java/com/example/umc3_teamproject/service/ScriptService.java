@@ -40,6 +40,17 @@ public class ScriptService {
         return scriptResponse.success(script);
     }
 
+    public Script updateScript(ScriptRequestDto.Update script1) {
+
+        Script script_new=Script.builder()
+                .title(script1.getTitle())
+                .type(script1.getType())
+                .build();
+        scriptRepository.save(script_new);
+
+        return script_new;
+    }
+
 
 
 
