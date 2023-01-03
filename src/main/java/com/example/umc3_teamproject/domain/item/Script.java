@@ -1,8 +1,6 @@
 package com.example.umc3_teamproject.domain.item;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +11,8 @@ import java.util.List;
 @Table(name = "script")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Script extends BaseEntity {
 
     @Id                   // Primary Key와 연결

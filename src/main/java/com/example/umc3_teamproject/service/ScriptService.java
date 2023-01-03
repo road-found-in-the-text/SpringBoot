@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +21,12 @@ public class ScriptService {
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponse;
 
+    /*
     @Transactional(readOnly = true)
     public List<Script> findAll() {
         return scriptRepository.findAll();
     }
+     */
 
     public ResponseEntity<?> writeScript(ScriptRequestDto.Register script1) {
 
@@ -33,10 +38,9 @@ public class ScriptService {
         scriptRepository.save(script);
 
         return scriptResponse.success(script);
-
-
-
     }
+
+
 
 
 
