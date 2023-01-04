@@ -6,9 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Umc3TeamprojectApplication {
 
+	static {
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+	}
 	public static void main(String[] args) {
 
-		SpringApplication.run(Umc3TeamprojectApplication.class, args);
+		SpringApplication.run(GettingStartedSpringAwsS3Application.class, args);
 	}
 
 }
