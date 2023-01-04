@@ -1,8 +1,3 @@
-# SpringBoot
-
-### Forum 안에 코드를 구현했습니다.
-### 다른 코드들은 forum을 구성하기 위해 제가 임의로 설정한 코드들입니다.
-
 # S3 연동
 일단 저는   
 https://velog.io/@do-hoon/게시글-생성-파일-업로드SpringBoot-JPA-AWS-S3    
