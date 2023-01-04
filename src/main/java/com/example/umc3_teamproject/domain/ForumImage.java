@@ -1,6 +1,5 @@
-package com.example.umc3_teamproject.Forum.domain;
+package com.example.umc3_teamproject.domain;
 
-import com.example.umc3_teamproject.Forum.domain.Forum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

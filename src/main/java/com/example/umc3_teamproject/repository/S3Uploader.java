@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.Forum.repository;
+package com.example.umc3_teamproject.repository;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;

@@ -1,22 +1,20 @@
-package com.example.umc3_teamproject.Forum.service;
+package com.example.umc3_teamproject.service;
 
-import com.example.umc3_teamproject.Forum.domain.Forum;
-import com.example.umc3_teamproject.Forum.domain.ForumImage;
-import com.example.umc3_teamproject.Forum.domain.ForumScript;
-import com.example.umc3_teamproject.Forum.repository.*;
-import com.example.umc3_teamproject.Forum.repository.Dto.ForumSearchById;
-import com.example.umc3_teamproject.Forum.repository.Dto.request.ScriptIdsToRequest;
-import com.example.umc3_teamproject.domain.*;
-import com.example.umc3_teamproject.Forum.repository.Dto.request.createForumRequest;
-import com.example.umc3_teamproject.Forum.repository.Dto.request.updateForumRequest;
-import com.example.umc3_teamproject.Forum.repository.Dto.response.createForumResponse;
-import com.example.umc3_teamproject.service.ScriptService;
-import com.example.umc3_teamproject.service.UserService;
+import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
+import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
+import com.example.umc3_teamproject.domain.Dto.request.updateForumRequest;
+import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
+import com.example.umc3_teamproject.domain.Forum;
+import com.example.umc3_teamproject.domain.ForumImage;
+import com.example.umc3_teamproject.domain.ForumScript;
+import com.example.umc3_teamproject.repository.ForumImageRepository;
+import com.example.umc3_teamproject.repository.ForumRepository;
+import com.example.umc3_teamproject.repository.ForumScriptRepository;
+import com.example.umc3_teamproject.repository.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +61,7 @@ public class ForumService {
 
     // forum 생성
     @Transactional
-    public createForumResponse createForum(Long user_id,createForumRequest request)throws IOException{
+    public createForumResponse createForum(Long user_id, createForumRequest request)throws IOException{
         // jwt 사용할 시에는 User user = userUtil.findCurrent(); 이런 식으로 처리해서
         // httpheader에 access 토큰을 받아서 사용하니까 request body에 id를 받아올 필요 없음
         Forum forum = new Forum();
@@ -130,7 +128,7 @@ public class ForumService {
 
     // update 수정
     @Transactional
-    public Forum updateForum(Long forum_id,updateForumRequest request){
+    public Forum updateForum(Long forum_id, updateForumRequest request){
         // User user = userUtill.findCurrent();
         Forum findForum = findOne(forum_id);
         findForum.getForumScripts().removeAll(findForum.getForumScripts());

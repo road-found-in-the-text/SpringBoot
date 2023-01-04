@@ -1,7 +1,5 @@
-package com.example.umc3_teamproject.Forum.domain;
+package com.example.umc3_teamproject.domain;
 
-import com.example.umc3_teamproject.Forum.domain.Forum;
-import com.example.umc3_teamproject.domain.Script;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

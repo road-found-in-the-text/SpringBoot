@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.Forum.domain;
+package com.example.umc3_teamproject.domain;
 
 
 import com.example.umc3_teamproject.domain.*;
@@ -74,7 +74,6 @@ public class Forum {
     }
 
     public void updateForum(String title, String content,List<Script> scripts) {
-        this.writer = user.getName();
         this.title = title;
         this.content = content;
         if(!scripts.isEmpty()){

@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.Forum.repository.Dto;
+package com.example.umc3_teamproject.domain.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

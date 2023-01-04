@@ -1,7 +1,8 @@
-package com.example.umc3_teamproject.Forum.repository;
+package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.Forum.domain.Forum;
-import com.example.umc3_teamproject.Forum.repository.Dto.ForumSearchById;
+
+import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
+import com.example.umc3_teamproject.domain.Forum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
