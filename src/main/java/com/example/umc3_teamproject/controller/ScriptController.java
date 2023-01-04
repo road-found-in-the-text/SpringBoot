@@ -83,7 +83,7 @@ public class ScriptController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid ScriptRequestDto.Update script1) {
 
-        Script script_new= scriptService.updateScript(script1);
+        Script script_new= scriptService.updateScript(id, script1);
 
         Optional<Script> optionalProduct=scriptRepository.findById(id);
         if (optionalProduct.isPresent()) {
@@ -99,4 +99,18 @@ public class ScriptController {
         return null;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteScript(@PathVariable Long id) {
+
+        // Script script= scriptRepository.findById(id);
+        // String result=scriptService.remove(id);
+        // script.deleteScript();
+
+        return scriptService.remove(id);
+        /*
+        if (script==null) {
+            throw new ScriptNotFoundException(String.format("ID[%s] not found", id));
+        }
+         */
+    }
 }
