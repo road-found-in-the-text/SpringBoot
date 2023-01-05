@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.service;
 
+import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
 import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
 import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
 import com.example.umc3_teamproject.domain.Dto.request.updateForumRequest;
