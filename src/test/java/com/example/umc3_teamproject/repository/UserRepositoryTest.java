@@ -1,6 +1,5 @@
 package com.example.umc3_teamproject.repository;
-
-import com.example.umc3_teamproject.domain.user.User;
+import com.example.umc3_teamproject.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,24 +13,24 @@ import javax.transaction.Transactional;
 @SpringBootTest
 public class UserRepositoryTest {
 
-    @Autowired UserRepository userRepository;
+    @Autowired MemberRepository memberRepository;
 
     @Test
     @Transactional
     public void testUser() throws Exception {
 
         //given
-        User user = new User();
-        user.setUsername("memberA");
+        Member member = new Member();
+        member.setName("memberA");
 
         //when
-        Long savedId = userRepository.save(user);
-        User findUser = userRepository.find(savedId);
+        Long savedId = memberRepository.save(member);
+        Member findMember = memberRepository.findOne(savedId);
 
         //then
-        Assertions.assertThat(findUser.getId()).isEqualTo(user.getId());
-        Assertions.assertThat(findUser.getUsername()).isEqualTo(user.getUsername());
-        Assertions.assertThat(findUser).isEqualTo(user);
-        System.out.println("findUser == user:" + (findUser == user));
+        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
+        Assertions.assertThat(findMember.getName()).isEqualTo(member.getName());
+        Assertions.assertThat(findMember).isEqualTo(member);
+        System.out.println("findMember == member:" + (findMember == member));
     }
 }
