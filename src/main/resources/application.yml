@@ -14,7 +14,8 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show_sql: true
     format_sql: true
@@ -22,3 +23,4 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+    org.hibernate.type: trace
