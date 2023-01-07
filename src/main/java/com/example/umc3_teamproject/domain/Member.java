@@ -12,8 +12,10 @@ public class Member {
     @Id @GeneratedValue
     @Column(name="memberId")
     private Long id;
+    private String email;
     private String pw;
     private String name;
+    //private String imageUrl
 //    @Enumerated(EnumType.STRING)
 //    private Tier Tier;
 //    private boolean comments_alarm_permission;

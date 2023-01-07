@@ -29,7 +29,7 @@ class memberServiceTest {
         Long savedId = memberService.join(member);
 
         //then
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertEquals(member, memberRepository.findById(savedId));
 
     }
 
@@ -50,5 +50,4 @@ class memberServiceTest {
         //then
         fail("예외가 발생해야 한다.");
     }
-
 }
