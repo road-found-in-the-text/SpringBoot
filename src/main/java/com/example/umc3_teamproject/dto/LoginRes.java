@@ -9,4 +9,11 @@ public class LoginRes {
     private String imageUrl;
     private Tier tier;
     private LoginType loginType;
+
+    //허용
+    private boolean comments_alarm_permission;
+    private boolean voice_permission;
+    private boolean event_permission;
+    private boolean report_status;
+
 }
