@@ -21,14 +21,16 @@ public class MemberController {
     //회원가입
     @PostMapping("/members/create")
     public CreateMemberResponse create(@RequestBody @Valid CreateMemberRequest request){
+
         Member member = new Member();
 
         member.setEmail(request.getEmail());
         member.setPw(request.getPw());
-        member.setName(request.getName());
+        member.setNickName(request.getName());
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
+
     }
 
     @PutMapping("/members/create/{id}")
@@ -37,8 +39,8 @@ public class MemberController {
             @RequestBody @Valid UpdateMemberRequest request){
 
         memberService.update(id, request.getName());
-        Member findMember = memberService.findOne(id);
-        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+        Member findMember = memberService.findById(id);
+        return new UpdateMemberResponse(findMember.getId(), findMember.getNickName());
     }
 
     @Data
@@ -71,6 +73,12 @@ public class MemberController {
         }
     }
 
-    //로그인
+    //카카오로그인
+    @GetMapping("/login/kakao")
+    public @ResponseBody String kakaoCallback(String code) {
 
+
+
+        return "카카오 인증 완료: 코드값: "+code;
+    }
 }
