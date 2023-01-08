@@ -30,11 +30,14 @@ public class SignupReq {
     @NotBlank(message="닉네임을 입력해주세요.")
     private String nickName;
 
-    public SignupReq(String email, String pw, Tier tier, String nickName){
+    private String imageUrl;
+
+    public SignupReq(String email, String pw, Tier tier, String nickName, String imageUrl){
         this.email=email;
         this.pw = pw;
         this.nickName = nickName;
         this.tier = tier;
+        this.imageUrl = imageUrl;
     }
 
 }
