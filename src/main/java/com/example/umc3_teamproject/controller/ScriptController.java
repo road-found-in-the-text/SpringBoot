@@ -7,6 +7,10 @@ import com.example.umc3_teamproject.repository.ScriptRepository;
 import com.example.umc3_teamproject.service.ScriptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +32,7 @@ public class ScriptController {
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponseDto;
 
-    @PostMapping("/new1")
+    @PostMapping("/new")
     public ResponseEntity<?> writeScript(@Validated ScriptRequestDto.Register write){
         // List<ScriptDto> result = productRepository.search(condition);
         // System.out.println(result);
@@ -54,17 +58,21 @@ public class ScriptController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
+                                              // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        // 참고 문헌: https://jogeum.net/9
-        Optional<Script> optionalProduct=scriptRepository.findByUserId(userId);
-        if (optionalProduct.isPresent()) {
-            Script script1 = optionalProduct.get();
-            log.info("gather test success");
-            return scriptResponseDto.success(script1);
+        List<Script> scriptList=null;
+
+        if (userId==null) {
+            return null;
+        } else {
+            scriptList=scriptRepository.findByUserId(userId);
+
+            Map<String, Object> result=new HashMap<>();
+            result.put("scripts", scriptList);
+            result.put("count", scriptList.size());
+
+            return ResponseEntity.ok().body(result);
         }
-
-        log.info("gather test fail");
-        return null;
     }
 
     @GetMapping("/all")

@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -23,10 +20,6 @@ public class ScriptService {
     @Autowired
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponse;
-
-    private EntityManager entityManager;   // 변경 저장 위해 사용
-
-    private static List<Script> scripts = new ArrayList<>();
 
     /*
     @Transactional(readOnly = true)
