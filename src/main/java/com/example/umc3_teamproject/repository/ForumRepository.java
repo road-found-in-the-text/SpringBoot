@@ -3,6 +3,8 @@ package com.example.umc3_teamproject.repository;
 
 import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
 import com.example.umc3_teamproject.domain.Forum;
+import com.example.umc3_teamproject.domain.QForum;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -15,7 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ForumRepository {
 
+
     private final EntityManager em;
+    private final JPAQueryFactory jpaQueryFactory;
 
     // forum 저장
     public void save(Forum forum){
@@ -50,6 +54,21 @@ public class ForumRepository {
     }
 
     // script가 포함된 forum 찾기
+    public List<Forum> findAllByType(String type){
+        String jpql = "select f From Forum f ";
+        jpql += " where f.deleted_status = false";
+        System.out.println(type);
+        System.out.println(type.equals("script"));
+        if(type.equals("script".toString())){
+            jpql += " and f.script_status = true";
+        }else if(type.equals("interview")){
+            jpql += " and f.interview_status = true";
+        }else{
+            jpql += " and f.script_status = false and f.interview_status = false";
+        }
+        return em.createQuery(jpql).getResultList();
+    }
+
     public List<Forum> findAllByScript(){
         String jpql = "select f From Forum f ";
         jpql += " where f.deleted_status = :deleted_status";
@@ -103,6 +122,18 @@ public class ForumRepository {
             query = query.setParameter("id", forumSearchById.getUserId());
         }
         return query.getResultList();
+    }
+
+    public List<Forum> SearchAllByKeyword(String search_keyword){
+        QForum qForum = QForum.forum;
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.title.containsIgnoreCase(search_keyword)
+                        .or(qForum.content.containsIgnoreCase(search_keyword)))
+                .orderBy(qForum.like_num.desc())
+                .offset(0)
+                .limit(10)
+                .fetch();
     }
 
 }

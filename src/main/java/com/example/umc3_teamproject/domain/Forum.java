@@ -48,8 +48,8 @@ public class Forum {
 
 //    private List<Interview> interviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forum",orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>(); // 댓글
+//    @OneToMany(mappedBy = "forum",orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>(); // 댓글
 //
     @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumImage> forumImages = new ArrayList<>();
@@ -104,10 +104,6 @@ public class Forum {
     //== 비즈니스 로직==//
     public void changeDeleted(boolean deleted){
         this.deleted_status = deleted;
-    }
-
-    public void setUser(User user){
-        this.user = user;
     }
 
     public void setScript_status_true(){
