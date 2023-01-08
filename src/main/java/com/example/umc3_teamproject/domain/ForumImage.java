@@ -21,8 +21,10 @@ public class ForumImage {
     @Column(name = "ForumImage_Id")
     private Long id;
 
+    @Column(length = 4000)
     private String imageUrl;
 
+    @Column(length = 4000)
     private String storeFilename;
 
     private LocalDateTime createTime;

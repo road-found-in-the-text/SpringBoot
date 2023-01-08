@@ -15,7 +15,7 @@ import java.util.List;
 public class updateForumRequest {
     private String title;
     private String content;
-    private List<ScriptIdsToRequest> scriptIdToRequests;
+    private List<ScriptIdsToRequest> scriptIds;
     private List<String> saveImageUrl = new ArrayList<>();
 
     @ApiModelProperty(value = "게시글 이미지", required = false)

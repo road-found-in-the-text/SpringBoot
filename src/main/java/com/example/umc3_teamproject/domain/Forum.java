@@ -48,10 +48,10 @@ public class Forum {
 
 //    private List<Interview> interviews = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "forum",orphanRemoval = true)
-//    private List<Comment> comments = new ArrayList<>(); // 댓글
-//
     @OneToMany(mappedBy = "forum",orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>(); // 댓글
+    //
+    @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<ForumImage> forumImages = new ArrayList<>();
 
     // video는 어떻게 해야 할지 고민을 해봐야 겠다.
@@ -73,32 +73,12 @@ public class Forum {
         this.deleted_status = false;
     }
 
-    public void updateForum(String title, String content,List<Script> scripts) {
+    public void updateForum(String title, String content) {
+        this.writer = user.getName();
         this.title = title;
         this.content = content;
-        if(!scripts.isEmpty()){
-            this.script_status = true;
-            for(int i = 0 ; i < scripts.size();i++){
-                ForumScript forumScript = new ForumScript();
-                forumScript.setScript(scripts.get(i));
-                scripts.get(i).addForumScript(forumScript);
-                addForumScript(forumScript);
-            }
-        }else{
-            this.script_status = false;
-        }
+        this.forumScripts = new ArrayList<>();
         this.updateTime = LocalDateTime.now();
-    }
-
-    //== 연간관계 메서드 ==//
-    public void addForumScript(ForumScript forumScript){
-        forumScripts.add(forumScript);
-        forumScript.setForum(this);
-        forumScript.setDeleted_status(false);
-    }
-
-    public void deleteForumScript(ForumScript forumScript){
-
     }
 
     //== 비즈니스 로직==//
@@ -106,7 +86,21 @@ public class Forum {
         this.deleted_status = deleted;
     }
 
+    public void setUser(User user){
+        this.user = user;
+    }
+
     public void setScript_status_true(){
         this.script_status = true;
+    }
+
+    public void likePlus(){this.like_num++;}
+
+    public void likeMinus(){
+        if(this.like_num == 0){
+            like_num = 0;
+        }else{
+            like_num--;
+        }
     }
 }
