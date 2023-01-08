@@ -1,9 +1,9 @@
 package com.example.umc3_teamproject.repository;
 
-
 import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
 import com.example.umc3_teamproject.domain.Forum;
 import com.example.umc3_teamproject.domain.QForum;
+import com.example.umc3_teamproject.exception.NoForumExist;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -33,6 +33,9 @@ public class ForumRepository {
     // forum 하나 찾기
     public Forum findOne(Long forum_id){
         Forum forum = em.find(Forum.class, forum_id);
+        if(forum == null){
+            throw new NoForumExist("forum_id가 " + forum_id + "인 forum은 존재하지 않습니다.");
+        }
         if(forum.isDeleted_status() == false){
             return forum;
         }else{

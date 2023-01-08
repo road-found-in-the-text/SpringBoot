@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public class createForumRequest {
     private String title;
     private String content;
-    private List<ScriptIdsToRequest> scriptIdToRequests;
+    private List<ScriptIdsToRequest> scriptIds;
 
     @ApiModelProperty(value = "이미지 파일", required = false)
     private List<MultipartFile> imageFiles = new ArrayList<>();

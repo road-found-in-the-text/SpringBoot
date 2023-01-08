@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.domain.Dto.response;
 
-import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
+import com.example.umc3_teamproject.Forum.repository.Dto.request.ScriptIdsToRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +15,7 @@ public class ForumDataToGetResult {
     private Long forumId;
     private String title;
     private String comment;
+    private int like_num;
     private List<ScriptIdsToRequest> scriptIdToRequests;
     private List<String> forumImage_url;
 }

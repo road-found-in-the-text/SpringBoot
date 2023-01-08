@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class updateForumResponse<T> {
-    private T data;
+@AllArgsConstructor
+public class LikeResponseDto {
+    private Long forum_id;
+    private int like_num;
 }
