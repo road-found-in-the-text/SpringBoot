@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
+
     @CreatedDate    // 데이터 생성할 때 시간 자동 생성
     private LocalDateTime createdDate;
 
@@ -21,3 +22,4 @@ public abstract class BaseEntity {
     private LocalDateTime modifiedDate;
 
 }
+
