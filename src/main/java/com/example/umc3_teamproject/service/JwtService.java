@@ -24,7 +24,7 @@ public class JwtService {
     @param userIdx
     @return String
      */
-    public String createJwt(int userIdx){
+    public String createJwt(Long userIdx){
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
@@ -39,7 +39,7 @@ public class JwtService {
    @param reviewIdx
    @return String
     */
-    public String createReviewJwt(int reviewIdx){
+    public String createReviewJwt(Long reviewIdx){
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")

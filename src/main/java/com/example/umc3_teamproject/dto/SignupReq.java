@@ -5,14 +5,15 @@ import com.example.umc3_teamproject.domain.Tier;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL) //null일 경우 생성되지 않는다.
 public class SignupReq {
 
     @NotBlank(message = "이메일을 입력해주세요")
@@ -24,7 +25,7 @@ public class SignupReq {
     private String pw;
 
 
-    private Tier tier;
+    private int tier;
 
     @Pattern(regexp="[가-힣|a-z|A-Z|0-9]{1,30}",message="1~30길이의 알파벳, 한글, 숫자로 입력해주세요")
     @NotBlank(message="닉네임을 입력해주세요.")
@@ -32,7 +33,7 @@ public class SignupReq {
 
     private String imageUrl;
 
-    public SignupReq(String email, String pw, Tier tier, String nickName, String imageUrl){
+    public SignupReq(String email, String pw, int tier, String nickName, String imageUrl){
         this.email=email;
         this.pw = pw;
         this.nickName = nickName;

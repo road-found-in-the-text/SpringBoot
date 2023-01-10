@@ -1,6 +1,5 @@
 package com.example.umc3_teamproject.service;
 
-import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,14 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 class memberServiceTest {
 
-    @Autowired MemberService memberService;
+    @Autowired
+    LoginService memberService;
     @Autowired MemberRepository memberRepository;
 
     @Test

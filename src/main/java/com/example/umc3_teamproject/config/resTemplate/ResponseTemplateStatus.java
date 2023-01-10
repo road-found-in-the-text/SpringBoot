@@ -31,11 +31,12 @@ public enum ResponseTemplateStatus {
     //양식
     INCORRECT_PASSWORD(false, "비밀번호 형식을 다시 한 번 확인해주세요.", 4011),
     NICKNAME_DUPLICATED(false, "이미 존재하는 닉네임입니다.", 4012),
-    EMAIL_DUPLICATED(false, "이미 존재하는 이메일입니다.", 4013),
-    PASSWORD_DUPLICATED(false, "비밀번호가 기존 비밀번호와 동일합니다.", 4014),
-    EMPTY_WITHDRAWREASON(false, "탈퇴 사유를 입력해주세요.", 4015 ),
-    INCORRECT_NICKNAME(false, "닉네임 형식을 다시 한 번 확인해주세요", 4016);
-
+    MODIFY_FAIL_NICKNAME(false,"닉네임을 바꿀 수 없습니다.", 4013),
+    EMAIL_DUPLICATED(false, "이미 존재하는 이메일입니다.", 4014),
+    PASSWORD_DUPLICATED(false, "비밀번호가 기존 비밀번호와 동일합니다.", 4015),
+    EMPTY_WITHDRAWREASON(false, "탈퇴 사유를 입력해주세요.", 4016 ),
+    INCORRECT_NICKNAME(false, "닉네임 형식을 다시 한 번 확인해주세요", 4017),
+    FAIL_WITHDRAW(false, "탈퇴에 실패하였습니다.", 4018);
 
     private final boolean isSuccess;
     private final String message;
