@@ -1,5 +1,4 @@
-package com.example.umc3_teamproject.domain;
-
+package com.example.umc3_teamproject.domain.item;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,61 +7,51 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Where(clause = "deleted_status = false")
-public class Comment extends BaseEntity{
+public class NestedComment extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "COMMENT_ID")
+    @Column(name = "NESTED_COMMENT_ID")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "forum_id")
-    private Forum forum;
-
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     private String content;
     private boolean deleted_status;
     private int like_num;
 
-    @OneToMany(mappedBy = "comment")
-    private List<NestedComment> nestedComments = new ArrayList<>();
-
-    public void addNestedComment(NestedComment nestedComment){
-        nestedComments.add(nestedComment);
-        nestedComment.setComment(this);
-    }
-
-    public void createComment(String content,Forum forum,Member member){
+    //== 비즈니스 로직==//
+    public void createNestedComment(String content,Comment comment,Member member){
         this.member = member;
         this.content = content;
-        this.forum = forum;
+        this.comment = comment;
         this.setCreatedDate(LocalDateTime.now());
         this.setModifiedDate(LocalDateTime.now());
     }
 
-    public void updateComment(String content){
+    public void updateNestedComment(String content){
         this.content = content;
         this.setModifiedDate(LocalDateTime.now());
 
     }
-
 
     //== 비즈니스 로직==//
     public void deleteComment() {
         this.deleted_status = true;
     }
 
-
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
 }

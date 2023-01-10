@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Builder
 @Entity
 @Table(name = "script")
@@ -16,7 +18,7 @@ import java.util.List;
 @Where(clause = "deleted = false")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Script extends BaseEntity {
+public class Script {
 
     @Id                   // Primary Key와 연결
     @GeneratedValue(strategy = GenerationType.AUTO)       // 식별자 값을 자동 생성
@@ -26,9 +28,9 @@ public class Script extends BaseEntity {
     @Column(name="userId", updatable = false)
     private Long userId;
 
-    // @ManyToOne(fetch = LAZY)
-    // @JoinColumn(name = "user_id")
-    // private User user_id;
+//     @ManyToOne(fetch = LAZY)
+//     @JoinColumn(name = "user_id")
+//     private Member userId;
 
     @Column
     private String title;

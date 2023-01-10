@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.domain.ForumScript;
+import com.example.umc3_teamproject.domain.item.ForumScript;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -34,8 +34,8 @@ public class ScriptResponseDto {
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
                 .type(script.getType())
-                .createdDate(script.getCreatedDate())
-                .modifiedDate(script.getModifiedDate())
+//                .createdDate(script.getCreatedDate())
+//                .modifiedDate(script.getModifiedDate())
                 .build();
         return ResponseEntity.ok(body);
     }

@@ -1,25 +1,18 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
-    username: root
+    url: jdbc:h2:tcp://localhost/~/umc3project;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
     password:
-<<<<<<< HEAD
     driver-class-name: org.h2.Driver
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-=======
-
->>>>>>> upstream/main
 
   #swagger? ?? ???
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-<<<<<<< HEAD
 
   profiles:
     include: oauth
@@ -42,23 +35,14 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
-=======
->>>>>>> upstream/main
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
-<<<<<<< HEAD
       hibernate:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
-=======
-      hibernate.format_sql: true
-      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    show_sql: true
-    format_sql: true
->>>>>>> upstream/main
 
 logging:
   level:

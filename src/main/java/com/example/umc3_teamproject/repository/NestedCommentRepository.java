@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.domain.NestedComment;
+import com.example.umc3_teamproject.domain.item.NestedComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

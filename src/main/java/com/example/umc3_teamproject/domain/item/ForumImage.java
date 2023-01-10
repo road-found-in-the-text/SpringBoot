@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain;
+package com.example.umc3_teamproject.domain.item;
 
 import lombok.Builder;
 import lombok.Getter;

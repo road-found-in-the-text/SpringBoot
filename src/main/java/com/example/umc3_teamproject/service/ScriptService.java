@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 @Service
@@ -51,7 +50,7 @@ public class ScriptService {
             Script updatedScript=new Script();
             updatedScript.setScriptId(id);
             updatedScript.setUserId(before_script.getUserId());
-            updatedScript.setCreatedDate(before_script.getCreatedDate());
+//            updatedScript.setCreatedDate(before_script.getCreatedDate());
             updatedScript.setTitle(script1.getTitle());
             updatedScript.setType(script1.getType());
             scriptRepository.save(updatedScript);
@@ -91,7 +90,7 @@ public class ScriptService {
             Script deletedScript=new Script();
             deletedScript.setScriptId(id);
             deletedScript.setUserId(before_script.getUserId());
-            deletedScript.setCreatedDate(before_script.getCreatedDate());
+//            deletedScript.setCreatedDate(before_script.getCreatedDate());
             deletedScript.setTitle(before_script.getTitle());
             deletedScript.setType(before_script.getType());
             deletedScript.setDeleted(true);

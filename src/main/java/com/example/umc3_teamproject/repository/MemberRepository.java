@@ -1,7 +1,7 @@
 package com.example.umc3_teamproject.repository;
 
 
-import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.item.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

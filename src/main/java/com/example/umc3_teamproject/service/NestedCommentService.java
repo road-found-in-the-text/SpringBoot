@@ -1,14 +1,14 @@
 package com.example.umc3_teamproject.service;
 
 
-import com.example.umc3_teamproject.domain.Comment;
 import com.example.umc3_teamproject.domain.Dto.GetResult;
 import com.example.umc3_teamproject.domain.Dto.request.createNestedCommentRequest;
 import com.example.umc3_teamproject.domain.Dto.request.updateNestedCommentRequest;
 import com.example.umc3_teamproject.domain.Dto.response.NestedCommentDataToGetResult;
 import com.example.umc3_teamproject.domain.Dto.response.createNestedCommentResponse;
-import com.example.umc3_teamproject.domain.Member;
-import com.example.umc3_teamproject.domain.NestedComment;
+import com.example.umc3_teamproject.domain.item.Comment;
+import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.item.NestedComment;
 import com.example.umc3_teamproject.repository.CommentRepository;
 import com.example.umc3_teamproject.repository.NestedCommentRepository;
 import lombok.RequiredArgsConstructor;

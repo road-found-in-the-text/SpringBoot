@@ -1,5 +1,6 @@
-package com.example.umc3_teamproject.domain;
+package com.example.umc3_teamproject.domain.item;
 
+import com.example.umc3_teamproject.domain.item.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "Member")
-public class Member extends BaseEntity {
+public class Member {
 
     @Id //Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
@@ -37,7 +38,7 @@ public class Member extends BaseEntity {
 //    @Enumerated(value = EnumType.STRING)
 //    private LoginType loginType; //일반 로그인 또는 소셜로그인
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Script> scripts = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
