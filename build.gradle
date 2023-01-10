@@ -37,15 +37,29 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+<<<<<<< HEAD
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation "com.amazonaws:aws-java-sdk-s3"
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+=======
+
+
+	implementation 'mysql:mysql-connector-java'
+
+	// Querydsl
+	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'javax.servlet:jstl'
+
+	// Gradle
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+>>>>>>> upstream/main
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+<<<<<<< HEAD
 }
 
 //querydsl 추가
@@ -68,3 +82,6 @@ configurations {
 	querydsl.extendsFrom compileClasspath
 }
 
+=======
+}
+>>>>>>> upstream/main
