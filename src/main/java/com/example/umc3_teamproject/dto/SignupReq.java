@@ -3,6 +3,7 @@ package com.example.umc3_teamproject.dto;
 
 import com.example.umc3_teamproject.domain.Tier;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +15,9 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SignupReq {
-
+    private Long memberId;
     @NotBlank(message = "이메일을 입력해주세요")
     @Email(message="이메일 양식을 확인해주세요")
     private String email;
@@ -33,12 +35,6 @@ public class SignupReq {
 
     private String imageUrl;
 
-    public SignupReq(String email, String pw, int tier, String nickName, String imageUrl){
-        this.email=email;
-        this.pw = pw;
-        this.nickName = nickName;
-        this.tier = tier;
-        this.imageUrl = imageUrl;
-    }
+
 
 }

@@ -24,11 +24,11 @@ public class JwtService {
     @param userIdx
     @return String
      */
-    public String createJwt(Long userIdx){
+    public String createJwt(Long memberId){
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
-                .claim("userIdx",userIdx)
+                .claim("memberId",memberId)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365))) // 만료기간 -> 약 1년
                 .signWith(SignatureAlgorithm.HS256, SecurityConfig.JWT_SECRET_KEY)
@@ -81,7 +81,7 @@ public class JwtService {
         }
 
         // 3. userIdx 추출
-        return claims.getBody().get("userIdx",Integer.class);  // jwt 에서 userIdx를 추출합니다.
+        return claims.getBody().get("memberId",Integer.class);  // jwt 에서 userIdx를 추출합니다.
     }
     /*
     JWT에서 reviewIdx 추출

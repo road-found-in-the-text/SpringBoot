@@ -84,7 +84,7 @@ public class MemberController {
             LoginRes loginRes = loginService.logIn(loginReq);
             return new ResponseTemplate<>(loginRes);
         } catch (ResponseException exception) {
-            return new ResponseTemplate<>(exception.getStatus());
+            return new ResponseTemplate<>(FAIL);
         }
     }
 

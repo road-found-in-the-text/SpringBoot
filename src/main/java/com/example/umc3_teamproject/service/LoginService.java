@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.DATABASE_ERROR;
-import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.INVALID_PASSWORD;
+import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
 
 @Service
 public class LoginService {
@@ -38,7 +37,11 @@ public class LoginService {
     public LoginRes logIn(LoginReq loginReq) throws ResponseException {
         Member member = memberRepository.getPw(loginReq);
         String password;
+        if (loginReq.getPw()==null || loginReq.getPw().length()==0){
+            throw new ResponseException(INVALID_EMAIL); //사실 이메일이 없다가 맞는듯
+        }
         try {
+            //여기서 없을 수 있음
             password = new AES128(SecurityConfig.USER_INFO_PASSWORD_KEY).decrypt(member.getPw()); // 암호화
             // 회원가입할 때 비밀번호가 암호화되어 저장되었기 떄문에 로그인을 할때도 암호화된 값끼리 비교를 해야합니다.
         } catch (Exception ignored) {
