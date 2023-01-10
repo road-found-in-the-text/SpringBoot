@@ -1,8 +1,11 @@
 package com.example.umc3_teamproject.domain.item;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -36,9 +39,10 @@ public class Script extends BaseEntity {
     @Column
     private boolean deleted;
 
-    @PreRemove
-    public void deleteScript(){
-        this.deleted = false;
-    }
+    // paragraph를 list로 추가
+    // @OneToMany(mappedBy = "users")
+    // @JsonBackReference
+    // private List<Paragraph> paragraphList = new ArrayList<>();
+
 
 }
