@@ -15,7 +15,7 @@ import javax.persistence.*;
         initialValue = 1,
         allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class ForumScript {
+public class ForumScript extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

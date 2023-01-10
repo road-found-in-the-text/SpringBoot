@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForumSearchById {
-    private Long userId;
+public class ForumSearchByForumId {
+    private Long forum_id;
 }

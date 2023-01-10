@@ -1,6 +1,8 @@
 package com.example.umc3_teamproject.service;
 
-import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
+import com.example.umc3_teamproject.domain.*;
+import com.example.umc3_teamproject.domain.Dto.ForumSearchByForumId;
+import com.example.umc3_teamproject.domain.Dto.ForumSearchByUserId;
 import com.example.umc3_teamproject.domain.Dto.GetResult;
 import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
 import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
@@ -8,14 +10,8 @@ import com.example.umc3_teamproject.domain.Dto.request.updateForumRequest;
 import com.example.umc3_teamproject.domain.Dto.response.ForumDataToGetResult;
 import com.example.umc3_teamproject.domain.Dto.response.LikeResponseDto;
 import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
-import com.example.umc3_teamproject.domain.Forum;
-import com.example.umc3_teamproject.domain.ForumImage;
-import com.example.umc3_teamproject.domain.ForumScript;
 import com.example.umc3_teamproject.exception.NoScriptId;
-import com.example.umc3_teamproject.repository.ForumImageRepository;
-import com.example.umc3_teamproject.repository.ForumRepository;
-import com.example.umc3_teamproject.repository.ForumScriptRepository;
-import com.example.umc3_teamproject.repository.S3Uploader;
+import com.example.umc3_teamproject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,11 +28,13 @@ import java.util.stream.Collectors;
 public class ForumService {
 
     private final ForumRepository forumRepository;
-    private final ScriptService scriptService;
+//    private final ScriptService scriptService;
+
+    private final ScriptRepository scriptRepository;
 
     private final ForumScriptRepository forumScriptRepository;
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     private final ForumImageRepository forumImageRepository;
 
@@ -60,7 +58,7 @@ public class ForumService {
     }
 
     // 유저로 조회
-    public List<Forum> findAllById(ForumSearchById forumSearchById){return forumRepository.findAllByUserId(forumSearchById);}
+    public List<Forum> findAllById(ForumSearchByUserId forumSearchByUserId){return forumRepository.findAllByUserId(forumSearchByUserId);}
 
 
     // forum create
@@ -69,10 +67,10 @@ public class ForumService {
         // jwt 사용할 시에는 User user = userUtil.findCurrent(); 이런 식으로 처리해서
         // httpheader에 access 토큰을 받아서 사용하니까 request body에 id를 받아올 필요 없음
         Forum forum = new Forum();
-        User findUser = userService.findOne(user_id);
+        Member findMember = memberService.findById(user_id);
         List<ScriptIdsToRequest> scriptIdToRequests = new ArrayList<>();
         List<String> postImages = new ArrayList<>();
-        forum.createForum(findUser,request.getTitle(), request.getContent());
+        forum.createForum(findMember,request.getTitle(), request.getContent());
 
         // script가 있다면 실행
         if(request.getScriptIds() != null && !request.getScriptIds().isEmpty()){
@@ -124,7 +122,7 @@ public class ForumService {
 
         List<ForumScript> scripts = request.getScriptIds().stream()
                 .map(ids -> {try {
-                    return scriptService.findOne(ids.getScript_id());
+                    return scriptRepository.findById(ids.getScript_id()).get();
                 }catch (RuntimeException runtimeException){
                     throw new NoScriptId("아이디 " + ids.getScript_id()+"의 script가 존재하지 않습니다.",runtimeException);
                 }
@@ -135,7 +133,7 @@ public class ForumService {
         return scripts.stream()
                 .map(script_one -> {
                     try{
-                        return new ScriptIdsToRequest(script_one.getScript().getId());
+                        return new ScriptIdsToRequest(script_one.getScript().getScriptId());
                     }catch (RuntimeException runtimeException){
                         throw  new NoScriptId("아이디 " + script_one.getId()+"의 script가 존재하지 않습니다.");
                     }
@@ -154,7 +152,7 @@ public class ForumService {
     public GetResult updateForumResult(Long user_id, Long forum_id, createForumRequest request){
         Forum updateForum = updateForum(forum_id, request);
         forumRepository.save(updateForum);
-        ForumDataToGetResult forumDataToGetResult = new ForumDataToGetResult(updateForum.getUser().getId(),
+        ForumDataToGetResult forumDataToGetResult = new ForumDataToGetResult(updateForum.getMember().getId(),
                 updateForum.getId(),updateForum.getTitle(),updateForum.getContent(),updateForum.getLike_num(),
                 request.getScriptIds(),
                 updateForum.getForumImages().stream().map(
@@ -207,19 +205,19 @@ public class ForumService {
     public GetResult getForumAll(){
         List<Forum> forums= findAll();
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
     }
 
     // user_id로 조회
-    public GetResult getForumByUserId(Long forum_id){
-        List<Forum> forums= findAllById(new ForumSearchById(forum_id));
+    public GetResult getForumByUserId(Long user_id){
+        List<Forum> forums= findAllById(new ForumSearchByUserId(user_id));
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
@@ -229,13 +227,13 @@ public class ForumService {
     public GetResult getForumByForumId(Long forum_id){
         Forum forum= forumRepository.findOne(forum_id);
         ForumDataToGetResult forumDataToGetResult = new ForumDataToGetResult(
-                forum.getUser().getId(),
+                forum.getMember().getId(),
                 forum.getId(),
                 forum.getTitle(),
                 forum.getContent(),
                 forum.getLike_num(),
                 forum.getForumScripts().stream().map(
-                        i -> new ScriptIdsToRequest(i.getScript().getId())
+                        i -> new ScriptIdsToRequest(i.getScript().getScriptId())
                 ).collect(Collectors.toList()),
                 forum.getForumImages().stream().map(
                         i -> i.getImageUrl()
@@ -250,8 +248,8 @@ public class ForumService {
     public GetResult getForumByType(String type){
         List<Forum> forums= forumRepository.findAllByType(type);
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
@@ -261,8 +259,8 @@ public class ForumService {
     public GetResult getForumByScript(){
         List<Forum> forums= forumRepository.findAllByScript();
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
@@ -272,8 +270,8 @@ public class ForumService {
     public GetResult getForumByInterview(){
         List<Forum> forums= forumRepository.findAllByInterview();
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
@@ -283,8 +281,8 @@ public class ForumService {
     public GetResult getForum_No_script_No_interview(){
         List<Forum> forums= forumRepository.findAllByFree();
         List<ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
@@ -294,8 +292,8 @@ public class ForumService {
     public GetResult SearchAllByKeyword(String search_keyword){
         List<Forum> searchedForum= forumRepository.SearchAllByKeyword(search_keyword);
         List<ForumDataToGetResult> forumDataToGetResultRespons = searchedForum.stream().map(
-                        s -> new ForumDataToGetResult(s.getUser().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getId())).collect(Collectors.toList()),
+                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);

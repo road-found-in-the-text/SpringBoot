@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.domain.Dto.ForumSearchById;
+
+import com.example.umc3_teamproject.domain.Dto.ForumSearchByUserId;
 import com.example.umc3_teamproject.domain.Forum;
 import com.example.umc3_teamproject.domain.QForum;
 import com.example.umc3_teamproject.exception.NoForumExist;
@@ -47,7 +48,7 @@ public class ForumRepository {
     // forum은 to one 관계가 user밖에 없어서 쓸 일이 없을 것 같다.
     public List<Forum> findAllWithUser(){
         return em.createQuery("select f from Forum f " +
-                " join fetch f.user").getResultList();
+                " join fetch f.member").getResultList();
     }
 
     // 모든 forum 검색
@@ -109,20 +110,20 @@ public class ForumRepository {
     }
 
     // 해당 유저의 모든 forum 찾기
-    public List<Forum> findAllByUserId(ForumSearchById forumSearchById){
-        String jpql = "select f From Forum f join f.user u";
+    public List<Forum> findAllByUserId(ForumSearchByUserId forumSearchByUserId){
+        String jpql = "select f From Forum f join f.member u";
 
         jpql += " where f.deleted_status = :deleted_status";
         // userId로 검색
-        if (StringUtils.hasText(String.valueOf(forumSearchById.getUserId()))) {
+        if (StringUtils.hasText(String.valueOf(forumSearchByUserId.getUser_id()))) {
             jpql += " and u.id = :id";
         }
         TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
 
         query = query.setParameter("deleted_status", false);
 
-        if (StringUtils.hasText(String.valueOf(forumSearchById.getUserId()))) {
-            query = query.setParameter("id", forumSearchById.getUserId());
+        if (StringUtils.hasText(String.valueOf(forumSearchByUserId.getUser_id()))) {
+            query = query.setParameter("id", forumSearchByUserId.getUser_id());
         }
         return query.getResultList();
     }

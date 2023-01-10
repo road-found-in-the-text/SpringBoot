@@ -6,6 +6,8 @@ import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
 import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
 import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
 import com.example.umc3_teamproject.domain.Forum;
+import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.Script;
 import com.example.umc3_teamproject.repository.ForumRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -41,11 +43,11 @@ public class ForumServiceTest {
     public void forum_삭제() throws Exception{
         //given
         Response response = createUser_Script_ForumScript();
-        User user = response.user;
+        Member member = response.member;
         Forum forum = response.forum;
         List<ScriptIdsToRequest> scriptIdsToRequests = response.scriptIdsToRequests;
 
-        createForumResponse forum_create_test = forumService.createForum(user.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
+        createForumResponse forum_create_test = forumService.createForum(member.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
         //when
 
         String s = forumService.deleteForum(forum_create_test.getForum_id());
@@ -63,7 +65,7 @@ public class ForumServiceTest {
         Forum forum = response.forum;
         List<ScriptIdsToRequest> scriptIdsToRequests = response.scriptIdsToRequests;
         //when
-        createForumResponse forum_create_test = forumService.createForum(response.user.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
+        createForumResponse forum_create_test = forumService.createForum(response.member.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
         //then
         Forum forum1 = forumRepository.findOne(forum_create_test.getForum_id());
         System.out.println(forum1.getId());
@@ -73,13 +75,13 @@ public class ForumServiceTest {
     public void forum_수정() throws Exception{
         //given
         Response response = createUser_Script_ForumScript();
-        User user = response.user;
+        Member member = response.member;
         Forum forum = response.forum;
         List<ScriptIdsToRequest> scriptIdsToRequests = response.scriptIdsToRequests;
 
-        createForumResponse forum_create_test = forumService.createForum(response.user.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
+        createForumResponse forum_create_test = forumService.createForum(response.member.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
         //when
-        GetResult getResult = forumService.updateForumResult(user.getId(), forum_create_test.getForum_id(), new createForumRequest(
+        GetResult getResult = forumService.updateForumResult(member.getId(), forum_create_test.getForum_id(), new createForumRequest(
                 "update1", "updateContent1", null, null)
         );
         //then
@@ -95,11 +97,11 @@ public class ForumServiceTest {
     public void forum_하나_조회() throws Exception{
         //given
         Response response = createUser_Script_ForumScript();
-        User user = response.user;
+        Member member = response.member;
         Forum forum = response.forum;
         List<ScriptIdsToRequest> scriptIdsToRequests = response.scriptIdsToRequests;
 
-        createForumResponse forum_create_test = forumService.createForum(response.user.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
+        createForumResponse forum_create_test = forumService.createForum(response.member.getId(), new createForumRequest(forum.getTitle(), forum.getContent(), scriptIdsToRequests, null));
         //when
         forumService.getForumByForumId(2L);
         //then
@@ -108,30 +110,35 @@ public class ForumServiceTest {
 
     @Transactional
     public Response createUser_Script_ForumScript(){
-        User user = new User();
-        user.createUser("김현재","password","nickname");
-        em.persist(user);
+        Member member = new Member();
+        member.setNickName("김현재");
+        member.setId(1L);
+        member.setPw("password");
+        member.setEmail("@naver.com");
+        em.persist(member);
 
         // script 생성
         Script script = new Script();
-        script.createScript(user,"script1","type");
+        script.setType("script");
+        script.setUserId(member.getId());
+        script.setTitle("script1");
         em.persist(script);
 
         Forum forum = new Forum();
-        forum.createForum(user,"title","content");
-        ScriptIdsToRequest scriptIdsToRequest1 = new ScriptIdsToRequest(script.getId());
+        forum.createForum(member,"title","content");
+        ScriptIdsToRequest scriptIdsToRequest1 = new ScriptIdsToRequest(script.getScriptId());
         List<ScriptIdsToRequest> scriptIdsToRequests = new ArrayList<>();
         scriptIdsToRequests.add(scriptIdsToRequest1);
-        return new Response(user,forum,scriptIdsToRequests);
+        return new Response(member,forum,scriptIdsToRequests);
     }
 
     static class Response{
-        private User user;
+        private Member member;
         private Forum forum;
         private List<ScriptIdsToRequest> scriptIdsToRequests;
 
-        public Response(User user, Forum forum, List<ScriptIdsToRequest> scriptIdsToRequests) {
-            this.user = user;
+        public Response(Member member, Forum forum, List<ScriptIdsToRequest> scriptIdsToRequests) {
+            this.member = member;
             this.forum = forum;
             this.scriptIdsToRequests = scriptIdsToRequests;
         }
