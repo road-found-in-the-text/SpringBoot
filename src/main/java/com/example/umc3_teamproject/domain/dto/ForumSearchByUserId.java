@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain.Dto;
+package com.example.umc3_teamproject.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForumSearchByForumId {
-    private Long forum_id;
+public class ForumSearchByUserId {
+    private Long user_id;
 }

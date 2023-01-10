@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain.Dto;
+package com.example.umc3_teamproject.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

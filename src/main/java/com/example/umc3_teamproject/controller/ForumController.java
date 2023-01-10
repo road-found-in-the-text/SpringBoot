@@ -1,19 +1,16 @@
 package com.example.umc3_teamproject.controller;
 
-import com.example.umc3_teamproject.domain.Dto.GetResult;
-import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
-import com.example.umc3_teamproject.domain.Dto.response.LikeResponseDto;
-import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
+import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.dto.request.createForumRequest;
+import com.example.umc3_teamproject.domain.dto.response.LikeResponseDto;
+import com.example.umc3_teamproject.domain.dto.response.createForumResponse;
 import com.example.umc3_teamproject.service.ForumService;
 import io.swagger.annotations.Api;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

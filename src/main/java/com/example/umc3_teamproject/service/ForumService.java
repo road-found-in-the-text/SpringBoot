@@ -1,15 +1,14 @@
 package com.example.umc3_teamproject.service;
 
 
-import com.example.umc3_teamproject.domain.Dto.ForumSearchByForumId;
-import com.example.umc3_teamproject.domain.Dto.ForumSearchByUserId;
-import com.example.umc3_teamproject.domain.Dto.GetResult;
-import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
-import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
-import com.example.umc3_teamproject.domain.Dto.request.updateForumRequest;
-import com.example.umc3_teamproject.domain.Dto.response.ForumDataToGetResult;
-import com.example.umc3_teamproject.domain.Dto.response.LikeResponseDto;
-import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
+import com.example.umc3_teamproject.domain.dto.ForumSearchByUserId;
+import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.dto.request.ScriptIdsToRequest;
+import com.example.umc3_teamproject.domain.dto.request.createForumRequest;
+import com.example.umc3_teamproject.domain.dto.request.updateForumRequest;
+import com.example.umc3_teamproject.domain.dto.response.ForumDataToGetResult;
+import com.example.umc3_teamproject.domain.dto.response.LikeResponseDto;
+import com.example.umc3_teamproject.domain.dto.response.createForumResponse;
 import com.example.umc3_teamproject.domain.item.*;
 import com.example.umc3_teamproject.exception.NoScriptId;
 import com.example.umc3_teamproject.repository.*;

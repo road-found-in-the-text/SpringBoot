@@ -1,10 +1,10 @@
 package com.example.umc3_teamproject.service;
 
 
-import com.example.umc3_teamproject.domain.Dto.GetResult;
-import com.example.umc3_teamproject.domain.Dto.request.ScriptIdsToRequest;
-import com.example.umc3_teamproject.domain.Dto.request.createForumRequest;
-import com.example.umc3_teamproject.domain.Dto.response.createForumResponse;
+import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.dto.request.ScriptIdsToRequest;
+import com.example.umc3_teamproject.domain.dto.request.createForumRequest;
+import com.example.umc3_teamproject.domain.dto.response.createForumResponse;
 import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.domain.item.Script;

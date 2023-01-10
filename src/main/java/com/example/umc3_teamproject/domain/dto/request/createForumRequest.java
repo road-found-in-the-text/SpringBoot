@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain.Dto.request;
+package com.example.umc3_teamproject.domain.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

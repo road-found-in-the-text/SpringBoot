@@ -1,6 +1,6 @@
-package com.example.umc3_teamproject.domain.Dto.response;
+package com.example.umc3_teamproject.domain.dto.response;
 
-import com.example.umc3_teamproject.domain.Dto.NestedCommentData;
+import com.example.umc3_teamproject.domain.dto.NestedCommentData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

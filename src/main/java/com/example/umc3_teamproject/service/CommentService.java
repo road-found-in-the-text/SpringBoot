@@ -1,12 +1,12 @@
 package com.example.umc3_teamproject.service;
 
 
-import com.example.umc3_teamproject.domain.Dto.GetResult;
-import com.example.umc3_teamproject.domain.Dto.NestedCommentData;
-import com.example.umc3_teamproject.domain.Dto.request.createCommentRequest;
-import com.example.umc3_teamproject.domain.Dto.request.updateCommentRequest;
-import com.example.umc3_teamproject.domain.Dto.response.CommentDataToGetResult;
-import com.example.umc3_teamproject.domain.Dto.response.createCommentResponse;
+import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.dto.NestedCommentData;
+import com.example.umc3_teamproject.domain.dto.request.createCommentRequest;
+import com.example.umc3_teamproject.domain.dto.request.updateCommentRequest;
+import com.example.umc3_teamproject.domain.dto.response.CommentDataToGetResult;
+import com.example.umc3_teamproject.domain.dto.response.createCommentResponse;
 
 import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.Forum;
