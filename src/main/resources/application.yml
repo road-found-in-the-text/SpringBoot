@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password:
+    password: kyungmin_root
 
 
   #swagger? ?? ???
@@ -13,7 +13,7 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate.format_sql: true
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
