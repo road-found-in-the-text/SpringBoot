@@ -1,9 +1,9 @@
 package com.example.umc3_teamproject.repository;
 
 
-import com.example.umc3_teamproject.domain.Dto.ForumSearchByUserId;
-import com.example.umc3_teamproject.domain.Forum;
-import com.example.umc3_teamproject.domain.QForum;
+import com.example.umc3_teamproject.domain.dto.ForumSearchByUserId;
+import com.example.umc3_teamproject.domain.item.Forum;
+import com.example.umc3_teamproject.domain.item.QForum;
 import com.example.umc3_teamproject.exception.NoForumExist;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

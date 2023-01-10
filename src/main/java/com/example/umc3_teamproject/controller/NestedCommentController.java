@@ -1,9 +1,9 @@
 package com.example.umc3_teamproject.controller;
 
-import com.example.umc3_teamproject.domain.Dto.GetResult;
-import com.example.umc3_teamproject.domain.Dto.request.createNestedCommentRequest;
-import com.example.umc3_teamproject.domain.Dto.request.updateNestedCommentRequest;
-import com.example.umc3_teamproject.domain.Dto.response.createNestedCommentResponse;
+import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.dto.request.createNestedCommentRequest;
+import com.example.umc3_teamproject.domain.dto.request.updateNestedCommentRequest;
+import com.example.umc3_teamproject.domain.dto.response.createNestedCommentResponse;
 import com.example.umc3_teamproject.service.NestedCommentService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;

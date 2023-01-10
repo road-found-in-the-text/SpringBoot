@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.domain.Comment;
+import com.example.umc3_teamproject.domain.item.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -42,6 +42,16 @@ dependencies {
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+
+	implementation 'mysql:mysql-connector-java'
+
+	// Querydsl
+	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'javax.servlet:jstl'
+
+	// Gradle
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
@@ -67,4 +77,5 @@ configurations {
 	}
 	querydsl.extendsFrom compileClasspath
 }
+
 
