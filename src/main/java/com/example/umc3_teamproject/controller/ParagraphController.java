@@ -47,7 +47,7 @@ public class ParagraphController {
         }
     }
 
-    @GetMapping("/user/{userId}/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> readParagraphById(@PathVariable("id") Long id) {
         Optional<Paragraph> optionalProduct=paragraphRepository.findById(id);
         if (optionalProduct.isPresent()) {
@@ -72,7 +72,7 @@ public class ParagraphController {
         }
         return null;
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteParagraph(@PathVariable Long id) {
         return paragraphService.remove(id);
 

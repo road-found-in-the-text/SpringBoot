@@ -25,6 +25,7 @@ public class Paragraph extends BaseEntity {
     private Long userId;
 
     //private String imgName;
+
     //private String imgUrl;
 
     @Column

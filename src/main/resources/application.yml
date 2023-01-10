@@ -4,12 +4,9 @@ spring:
     url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 1234
-
-  #swagger? ?? ???
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,7 +15,6 @@ spring:
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show_sql: true
     format_sql: true
-
 logging:
   level:
     org.hibernate.SQL: debug
