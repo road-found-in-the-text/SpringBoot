@@ -29,9 +29,19 @@ public class MemberRepository {
 
 
     public Long createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into Member (email, pw,  nickName, tier, imageUrl, int loginType, boolean comments_alarm_permission, boolean voice_permission, boolean event_permission, boolean report_status) VALUES (?,?,?,?,?,0,false,false,false,false)"; // 실행될 동적 쿼리문
-        Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl()}; // 동적 쿼리의 ?부분에 주입될 값
+        String createUserQuery = "insert into Member (memberId, email, pw,  nickName, tier, imageUrl, loginType, comments_alarm_permission, voice_permission, event_permission, report_status) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
+
+        System.out.println(signupReq.getNickName());
+        System.out.println(signupReq.getPw());
+        System.out.println(signupReq.getEmail());
+        System.out.println(signupReq.getMemberId());
+        System.out.println(signupReq.getImageUrl());
+        System.out.println(signupReq.getTier());
+        Object[] createUserParams = new Object[]{signupReq.getMemberId(),signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
+
         this.jdbcTemplate.update(createUserQuery, createUserParams);
+
         // email -> postUserReq.getEmail(), password -> postUserReq.getPassword(), nickname -> postUserReq.getNickname() 로 매핑(대응)시킨다음 쿼리문을 실행한다.
         // 즉 DB의 User Table에 (email, password, nickname)값을 가지는 유저 데이터를 삽입(생성)한다.
 
