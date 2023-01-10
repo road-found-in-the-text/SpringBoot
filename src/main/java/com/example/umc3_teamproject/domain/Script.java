@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Builder
 @Entity
 @Table(name = "script")
@@ -23,12 +25,13 @@ public class Script extends BaseEntity {
     @Column(name="scriptId", updatable = false)
     private Long scriptId;
 
-    @Column(name="userId", updatable = false)
-    private Long userId;
+//    @Column(name="userId", updatable = false)
+//    private Long userId;
 
-    // @ManyToOne(fetch = LAZY)
-    // @JoinColumn(name = "user_id")
-    // private User user_id;
+
+     @ManyToOne(fetch = LAZY)
+     @JoinColumn(name = "user_id")
+     private Member member;
 
     @Column
     private String title;

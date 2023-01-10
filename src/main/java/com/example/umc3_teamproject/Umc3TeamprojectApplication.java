@@ -11,7 +11,7 @@ public class Umc3TeamprojectApplication {
 	}
 	public static void main(String[] args) {
 
-		SpringApplication.run(GettingStartedSpringAwsS3Application.class, args);
+		SpringApplication.run(Umc3TeamprojectApplication.class, args);
 	}
 
 }
