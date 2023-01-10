@@ -10,8 +10,8 @@ public class ParagraphForm {
     private String type;
     private long userId;
     private long scriptId;
-    private String imgName;
-    private String imgUrl;
+    //private String imgName;
+    //private String imgUrl;
 
 }
 

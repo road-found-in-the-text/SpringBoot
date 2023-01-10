@@ -15,7 +15,7 @@ public class ParagraphRequestDto {
         @NotNull(message = "title은 필수 입력값입니다.")
         private String title;
         private String type;
-        private String imageUrl;
+        //private String imageUrl;
     }
     @Getter
     @Setter
