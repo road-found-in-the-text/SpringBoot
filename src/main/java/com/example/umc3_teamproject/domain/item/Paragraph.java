@@ -41,4 +41,8 @@ public class Paragraph extends BaseEntity {
     public void deleteParagraph(){
         this.deleted = false;
     }
+
+    //@ManyToOne(mappedBy = "users")
+
+
 }
