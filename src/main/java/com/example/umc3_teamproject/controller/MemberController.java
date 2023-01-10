@@ -19,6 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원가입
+    /*
     @PostMapping("/members/create")
     public CreateMemberResponse create(@RequestBody @Valid CreateMemberRequest request){
 
@@ -30,8 +31,10 @@ public class MemberController {
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
+     }
+    */
 
-    }
+
 
     @PutMapping("/members/create/{id}")
     public UpdateMemberResponse updateMemberName(
@@ -76,7 +79,6 @@ public class MemberController {
     //카카오로그인
     @GetMapping("/login/kakao")
     public @ResponseBody String kakaoCallback(String code) {
-
 
 
         return "카카오 인증 완료: 코드값: "+code;

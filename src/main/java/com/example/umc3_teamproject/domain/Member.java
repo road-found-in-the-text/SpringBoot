@@ -19,35 +19,25 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
     @Column(name="memberId")
     private Long id;
-
     @Column(nullable = false, length=50, unique=true)
     private String email;
-
     @Column(nullable = false, length=100)
     private String pw;
-
     @Column(nullable = false, length=30)
     private String nickName;
-
     @Column(nullable = true)
     private String imageUrl;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Tier tier ;
-
     @Enumerated(value = EnumType.STRING)
     private LoginType loginType; //일반 로그인 또는 소셜로그인
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Script> scripts = new ArrayList<>();
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Interview> interviews = new ArrayList<>();
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
 

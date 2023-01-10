@@ -16,7 +16,26 @@ public enum ResponseTemplateStatus {
     INVALID_JWT(false, "유효하지 않은 JWT입니다.", 2002),
 
     //3000: DB 부분 오류
-    DATABASE_ERROR(false, "데이버베이스 요청 오류", 3000);
+    DATABASE_ERROR(false, "데이버베이스 요청 오류", 3000),
+    //4000: 유저 부분 오류
+    EMPTY_EMAIL(false, "이메일을 입력해주세요",4001),
+    EMPTY_UPDATE(false, "변경할 사항이 없습니다.", 4002),
+    EMPTY_PASSWORD(false, "비밀번호를 입력해주세요", 4003),
+    EMPTY_NICKNAME(false, "닉네임을 입력해주세요,", 4004),
+
+    INVALID_OAUTH_ACCESS_TOKEN(false, "OAuth Accesstoken이 유효하지 않습니다.", 4006),
+    INVALID_EMAIL(false, "이메일이 올바르지 않습니다.", 4007),
+    INVALID_PASSWORD(false, "비밀번호가 올바르지 않습니다.", 4008),
+    NO_AUTH_USER(false, "소셜로그인 유저는 비밀번호 변경이 불가능합니다.",4009),
+    INVALID_SIGNUP(false, "회원가입 양식을 다시 한 번 확인해주세요", 4010),
+    //양식
+    INCORRECT_PASSWORD(false, "비밀번호 형식을 다시 한 번 확인해주세요.", 4011),
+    NICKNAME_DUPLICATED(false, "이미 존재하는 닉네임입니다.", 4012),
+    EMAIL_DUPLICATED(false, "이미 존재하는 이메일입니다.", 4013),
+    PASSWORD_DUPLICATED(false, "비밀번호가 기존 비밀번호와 동일합니다.", 4014),
+    EMPTY_WITHDRAWREASON(false, "탈퇴 사유를 입력해주세요.", 4015 ),
+    INCORRECT_NICKNAME(false, "닉네임 형식을 다시 한 번 확인해주세요", 4016);
+
 
     private final boolean isSuccess;
     private final String message;

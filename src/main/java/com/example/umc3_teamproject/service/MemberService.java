@@ -1,50 +1,30 @@
 package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.domain.Member;
-import com.example.umc3_teamproject.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
-public class MemberService {
-
-    private final MemberRepository memberRepository;
-
+public interface MemberService {
     //회원가입
     @Transactional
-    public Long join(Member member) {
-        validateDuplicateUser(member);
-        memberRepository.save(member);
-        return member.getId();
-    }
+    public Long saveMember(Member member);
 
-    private void validateDuplicateUser(Member member) {
-        //EXCEPTION
-        List<Member> findMembers = memberRepository.findByName(member.getNickName());
-        if (!findMembers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 이름입니다.");
-        }
-    }
+    UserDetails loginOAuth2Member(String provider, OAuth2Token oAuth2Token, OAuth2UserInfo userinfo);
+
+    Optional<OAuth2AccountDTO> getOAuth2Account(String nickName);
 
     //회원 전체 조회
-
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
+    public List<Member> findMembers();
 
     //회원 한 명 조희
-    public Member findById(Long memberId) {
-        return memberRepository.findById(memberId);
-    }
+    public Member findById(Long memberId);
 
     @Transactional
-    public void update(Long id, String name) {
-        Member member = memberRepository.findById(id);
-        member.setNickName(name);
-    }
+    public void update(Long id, String name);
 }
