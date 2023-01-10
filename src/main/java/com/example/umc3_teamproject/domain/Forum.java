@@ -2,6 +2,7 @@ package com.example.umc3_teamproject.domain;
 
 
 import com.example.umc3_teamproject.domain.*;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
         initialValue = 1,
         allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Forum {
+public class Forum extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Forum_SEQ_GEN")
@@ -30,8 +31,6 @@ public class Forum {
     private String title;                       // 제목
     private String content;                     // 글
     private int like_num;                           // 좋아요 수
-    private LocalDateTime createTime;           // 생성 시간
-    private LocalDateTime updateTime;           // 수정 시간
     private boolean deleted_status;             // 삭제 유무
     private boolean script_status;              // 대본 유무
     private boolean image_status;               // 이미지 유무
@@ -41,15 +40,15 @@ public class Forum {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User user;                          // User 테이블과 양방향 관계
+    private Member member;                          // User 테이블과 양방향 관계
 
     @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ForumScript> forumScripts = new ArrayList<>();
 
 //    private List<Interview> interviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forum",orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>(); // 댓글
+//    @OneToMany(mappedBy = "forum",orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>(); // 댓글
     //
     @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<ForumImage> forumImages = new ArrayList<>();
@@ -59,26 +58,24 @@ public class Forum {
     //== 생성 메서드 ==//
 
     // 일단은 script만 생각했다 interview는 script 다 한 다음에 생각하자.
-    public void createForum(User user,String title, String content) {
-        this.writer = user.getName();
+    public void createForum(Member member,String title, String content) {
+        this.writer = member.getNickName();
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.member = member;
         this.script_status = false;
         this.report_status = false;
         this.image_status = false;
         this.video_status = false;
-        this.createTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
         this.deleted_status = false;
     }
 
     public void updateForum(String title, String content) {
-        this.writer = user.getName();
+        this.writer = member.getNickName();
         this.title = title;
         this.content = content;
         this.forumScripts = new ArrayList<>();
-        this.updateTime = LocalDateTime.now();
+
     }
 
     //== 비즈니스 로직==//
@@ -86,8 +83,8 @@ public class Forum {
         this.deleted_status = deleted;
     }
 
-    public void setUser(User user){
-        this.user = user;
+    public void setUser(Member member){
+        this.member = member;
     }
 
     public void setScript_status_true(){
