@@ -47,7 +47,7 @@ public class MemberService {
             throw new ResponseException(INVALID_JWT);
         }
         try {
-            Long userIdx = memberRepository.createUser(signupReq);
+            int userIdx = memberRepository.createUser(signupReq);
 //            return new PostUserRes(userIdx);
             String jwt = jwtService.createJwt(userIdx);
             return new SignupRes(userIdx, jwt);
@@ -65,7 +65,7 @@ public class MemberService {
                 throw new ResponseException(MODIFY_FAIL_NICKNAME);
             }
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
-            throw new ResponseException(DATABASE_ERROR);
+            throw new ResponseException(PATCH_DATABASE_ERROR);
         }
     }
 

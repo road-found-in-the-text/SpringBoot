@@ -49,7 +49,7 @@ public class LoginService {
         }
 
         if (loginReq.getPw().equals(password)) { //비말번호가 일치한다면 userIdx를 가져온다.
-            Long userIdx = memberRepository.getPw(loginReq).getId();
+            int userIdx = memberRepository.getPw(loginReq).getId();
             // return new PostLoginRes(userIdx);
 //  *********** 해당 부분은 7주차 - JWT 수업 후 주석해제 및 대체해주세요!  **************** //
             String jwt = jwtService.createJwt(userIdx);

@@ -28,16 +28,10 @@ public class MemberRepository {
     }
 
 
-    public Long createUser(SignupReq signupReq) {
+    public int createUser(SignupReq signupReq) {
         String createUserQuery = "insert into Member (memberId, email, pw,  nickName, tier, imageUrl, loginType, comments_alarm_permission, voice_permission, event_permission, report_status) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
-        System.out.println(signupReq.getNickName());
-        System.out.println(signupReq.getPw());
-        System.out.println(signupReq.getEmail());
-        System.out.println(signupReq.getMemberId());
-        System.out.println(signupReq.getImageUrl());
-        System.out.println(signupReq.getTier());
         Object[] createUserParams = new Object[]{signupReq.getMemberId(),signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
@@ -46,7 +40,7 @@ public class MemberRepository {
         // 즉 DB의 User Table에 (email, password, nickname)값을 가지는 유저 데이터를 삽입(생성)한다.
 
         String lastInserIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery, Long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery, int.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
 
     // 이메일 확인
@@ -59,7 +53,7 @@ public class MemberRepository {
     // 회원정보 변경
     public int modifyUserName(UpdateNickNameReq updateNickNameReq) {
         String modifyUserNameQuery = "update Member set nickName = ? where memberId = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
-        Object[] modifyUserNameParams = new Object[]{updateNickNameReq.getNickName(), updateNickNameReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
+        Object[] modifyUserNameParams = new Object[]{updateNickNameReq.getNickName(), updateNickNameReq.getMemberId()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
@@ -93,7 +87,7 @@ public class MemberRepository {
         String getUsersByNickNameParams = name;
         return this.jdbcTemplate.query(getUsersByNickNameQuery,
                 (rs, rowNum) -> new MemberRes(
-                        rs.getLong("memberId"),
+                        rs.getInt("memberId"),
                         rs.getString("nickName"),
                         rs.getString("imageUrl"),
                         rs.getInt("tier"),
@@ -103,6 +97,7 @@ public class MemberRepository {
                         rs.getBoolean("event_permission"),
                         rs.getBoolean("report_status")
                         ),
+
                          // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUsersByNickNameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
@@ -113,7 +108,7 @@ public class MemberRepository {
         String getUsersQuery = "select * from Member"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new MemberRes(
-                        rs.getLong("memberId"),
+                        rs.getInt("memberId"),
                         rs.getString("nickName"),
                         rs.getString("imageUrl"),
                         rs.getInt("tier"),
@@ -133,7 +128,7 @@ public class MemberRepository {
         int getUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new MemberRes(
-                        rs.getLong("memberId"),
+                        rs.getInt("memberId"),
                         rs.getString("nickName"),
                         rs.getString("imageUrl"),
                         rs.getInt("tier"),

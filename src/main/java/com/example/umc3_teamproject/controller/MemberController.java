@@ -9,13 +9,12 @@ import com.example.umc3_teamproject.service.JwtService;
 import com.example.umc3_teamproject.service.LoginService;
 
 import com.example.umc3_teamproject.service.MemberService;
-import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +23,7 @@ import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateSt
 @RestController
 @RequestMapping("/members")
 public class MemberController {
-    //final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass()); // Log를 남기기: 일단은 모르고 넘어가셔도 무방합니다.
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired  // 객체 생성을 스프링에서 자동으로 생성해주는 역할. 주입하려 하는 객체의 타입이 일치하는 객체를 자동으로 주입한다.
     // IoC(Inversion of Control, 제어의 역전) / DI(Dependency Injection, 의존관계 주입)에 대한 공부하시면, 더 깊이 있게 Spring에 대한 공부를 하실 수 있을 겁니다!(일단은 모르고 넘어가셔도 무방합니다.)
@@ -151,15 +150,15 @@ public class MemberController {
      */
     @ResponseBody
     @PatchMapping("/{memberId}")
-    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") Long memberId, @RequestBody Member member) {
+    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") int memberId, @RequestBody Member member) {
         try {
 
             //*********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
-            int userIdxByJwt = jwtService.getUserIdx();
+            int userIdxByJwt = jwtService.getmemberId();
             //userIdx와 접근한 유저가 같은지 확인
             if(memberId != userIdxByJwt){
-                return new ResponseTemplate<>(INVALID_JWT);
+                return new ResponseTemplate<>(NO_JWT);
             }
             //같다면 유저네임 변경
 //  **************************************************************************
@@ -180,4 +179,27 @@ public class MemberController {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+
+
+
+    @ResponseBody
+    @DeleteMapping("/{memberId}")
+    public ResponseTemplate<String> DeleteUser(@PathVariable("memberId") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getmemberId();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new ResponseTemplate<>(NO_JWT);
+            }
+
+            DeleteUserReq deleteUserReq = new DeleteUserReq(userIdx);
+            memberService.deleteUser(deleteUserReq);
+
+            String result = userIdx + "의 정보가 완전히 삭제되었습니다.";
+            return new ResponseTemplate<>(result);
+        } catch (ResponseException exception) {
+            return new ResponseTemplate<>((exception.getStatus()));
+        }
+    }
+
 }
