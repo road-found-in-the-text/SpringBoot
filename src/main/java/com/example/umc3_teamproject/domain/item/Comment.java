@@ -37,7 +37,7 @@ public class Comment extends BaseEntity {
     private boolean deleted_status;
     private int like_num;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<NestedComment> nestedComments = new ArrayList<>();
 
     public void addNestedComment(NestedComment nestedComment){
