@@ -29,10 +29,10 @@ public class MemberRepository {
 
 
     public int createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into Member (memberId, email, pw,  nickName, tier, imageUrl, loginType, comments_alarm_permission, voice_permission, event_permission, report_status) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
+        String createUserQuery = "insert into Member (email, pw,  nickName, tier, imageUrl, loginType, comments_alarm_permission, voice_permission, event_permission, report_status) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
-        Object[] createUserParams = new Object[]{signupReq.getMemberId(),signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
+        Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -149,6 +149,5 @@ public class MemberRepository {
 
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
-
 
 }

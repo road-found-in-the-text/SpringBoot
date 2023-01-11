@@ -1,20 +1,16 @@
 package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 
 import static com.example.umc3_teamproject.domain.Tier.BRONZE;
 
-@Entity
+
 @Getter @Setter
-@NoArgsConstructor
-@Table(name = "Member")
+@NoArgsConstructor @AllArgsConstructor
 public class Member extends BaseTimeEntity {
 
     @Id //Primary Key
