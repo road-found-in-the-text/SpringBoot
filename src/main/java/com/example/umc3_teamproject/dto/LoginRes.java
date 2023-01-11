@@ -12,6 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor // 해당 클래스의 모든 멤버 변수(userIdx, jwt)를 받는 생성자를 생성
 public class LoginRes {
 
-    private Long memberId;
+    private int memberId;
     private String jwt;
 }

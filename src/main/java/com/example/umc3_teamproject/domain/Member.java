@@ -3,6 +3,7 @@ package com.example.umc3_teamproject.domain;
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,13 +13,14 @@ import static com.example.umc3_teamproject.domain.Tier.BRONZE;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 @Table(name = "Member")
 public class Member extends BaseTimeEntity {
 
     @Id //Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
     @Column(name="memberId")
-    private Long id;
+    private int id;
     @Column(nullable = false, unique=true)
     private String email;
     @Column(nullable = false)

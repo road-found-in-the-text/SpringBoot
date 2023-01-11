@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupReq {
-    private Long memberId;
+    private int memberId;
     @NotBlank(message = "이메일을 입력해주세요")
     @Email(message="이메일 양식을 확인해주세요")
     private String email;

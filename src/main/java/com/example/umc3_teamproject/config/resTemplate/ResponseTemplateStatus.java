@@ -14,9 +14,11 @@ public enum ResponseTemplateStatus {
     //2000: Request 성공 및 오류
     EMPTY_JWT(false, "JWT를 입력해주세요.", 2001),
     INVALID_JWT(false, "유효하지 않은 JWT입니다.", 2002),
+    NO_JWT(false, "해당 JWT를 가진 사람이 없습니다.", 2003),
 
     //3000: DB 부분 오류
     DATABASE_ERROR(false, "데이버베이스 요청 오류", 3000),
+    PATCH_DATABASE_ERROR(false, "닉네임 수정 데이터베이스 요청 오류", 3001),
     //4000: 유저 부분 오류
     EMPTY_EMAIL(false, "이메일을 입력해주세요",4001),
     EMPTY_UPDATE(false, "변경할 사항이 없습니다.", 4002),
