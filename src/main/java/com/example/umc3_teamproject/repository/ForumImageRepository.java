@@ -14,4 +14,13 @@ public interface ForumImageRepository extends JpaRepository<ForumImage,Long> {
     @Modifying
     @Query("delete from ForumImage f where f.id in :ids")
     void deleteAllByIdInQuery(@Param("ids") List<Long> ids);
+
+    @Transactional
+    @Modifying
+    @Query("delete from ForumImage f where f.id = :id")
+    void deleteByIdInQuery(@Param("id") Long id);
+
+    List<ForumImage> findAllByForumId(Long forum_id);
+
+
 }

@@ -5,9 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class GetResult<T> {
+    private String result = "success";
     private int count;
     private T data;
+
+    public GetResult(int count, T data){
+        this.count = count;
+        this.data = data;
+    }
 }

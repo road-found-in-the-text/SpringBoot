@@ -29,7 +29,7 @@ public class MemberRepository {
 
 
     public Long createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into Member (email, pw,  nickName, tier, imageUrl, loginType, comments_alarm_permission, voice_permission, event_permission, report_status) " +
+        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, comments_alarm_permission, voice_permission, event_permission, report_status) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
         Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
@@ -52,7 +52,7 @@ public class MemberRepository {
 
     // 회원정보 변경
     public int modifyUserName(UpdateNickNameReq updateNickNameReq) {
-        String modifyUserNameQuery = "update Member set nickName = ? where memberId = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        String modifyUserNameQuery = "update Member set nick_name = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] modifyUserNameParams = new Object[]{updateNickNameReq.getNickName(), updateNickNameReq.getMemberId()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
@@ -67,10 +67,10 @@ public class MemberRepository {
                 (rs, rowNum) -> new Member(
                         rs.getString("email"),
                         rs.getString("pw"),
-                        rs.getString("nickName"),
-                        rs.getString("imageUrl"),
+                        rs.getString("nick_name"),
+                        rs.getString("image_url"),
                         rs.getInt("tier"),
-                        rs.getInt("loginType"),
+                        rs.getInt("login_type"),
                         rs.getBoolean("comments_alarm_permission"),
                         rs.getBoolean("voice_permission"),
                         rs.getBoolean("event_permission"),
@@ -87,11 +87,11 @@ public class MemberRepository {
         String getUsersByNickNameParams = name;
         return this.jdbcTemplate.query(getUsersByNickNameQuery,
                 (rs, rowNum) -> new MemberRes(
-                        rs.getLong("memberId"),
-                        rs.getString("nickName"),
-                        rs.getString("imageUrl"),
+                        rs.getLong("member_id"),
+                        rs.getString("nick_name"),
+                        rs.getString("image_url"),
                         rs.getInt("tier"),
-                        rs.getInt("loginType"),
+                        rs.getInt("login_type"),
                         rs.getBoolean("comments_alarm_permission"),
                         rs.getBoolean("voice_permission"),
                         rs.getBoolean("event_permission"),
@@ -108,11 +108,11 @@ public class MemberRepository {
         String getUsersQuery = "select * from Member"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new MemberRes(
-                        rs.getLong("memberId"),
-                        rs.getString("nickName"),
-                        rs.getString("imageUrl"),
+                        rs.getLong("member_id"),
+                        rs.getString("nick_name"),
+                        rs.getString("image_url"),
                         rs.getInt("tier"),
-                        rs.getInt("loginType"),
+                        rs.getInt("login_type"),
                         rs.getBoolean("comments_alarm_permission"),
                         rs.getBoolean("voice_permission"),
                         rs.getBoolean("event_permission"),
@@ -124,17 +124,16 @@ public class MemberRepository {
 
     // 해당 userIdx를 갖는 유저조회
     public Member getUser(Long userIdx) {
-        String getUserQuery = "select * from Member where memberId = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
+        String getUserQuery = "select * from Member where member_id = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
         Long getUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new Member(
-
                         rs.getString("email"),
                         rs.getString("pw"),
-                        rs.getString("nickName"),
-                        rs.getString("imageUrl"),
+                        rs.getString("nick_name"),
+                        rs.getString("image_url"),
                         rs.getInt("tier"),
-                        rs.getInt("loginType"),
+                        rs.getInt("login_type"),
                         rs.getBoolean("comments_alarm_permission"),
                         rs.getBoolean("voice_permission"),
                         rs.getBoolean("event_permission"),
@@ -146,7 +145,7 @@ public class MemberRepository {
     //USER table tuple 삭제
     @Transactional
     public int deleteUser(DeleteUserReq deleteUserReq) {
-        String deleteUserQuery = "delete from Member where memberId = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        String deleteUserQuery = "delete from Member where member_id = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] deleteUserParams = new Object[]{deleteUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);

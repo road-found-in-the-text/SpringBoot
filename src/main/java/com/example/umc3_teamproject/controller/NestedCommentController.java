@@ -1,48 +1,48 @@
 package com.example.umc3_teamproject.controller;
 
 import com.example.umc3_teamproject.domain.dto.GetResult;
-import com.example.umc3_teamproject.domain.dto.request.createNestedCommentRequest;
-import com.example.umc3_teamproject.domain.dto.request.updateNestedCommentRequest;
-import com.example.umc3_teamproject.domain.dto.response.createNestedCommentResponse;
+import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
 import com.example.umc3_teamproject.service.NestedCommentService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = {"Comment Api"})
+@Api(tags = {"NestedComment Api"})
+@RequestMapping("/comment/{comment-id}/nested-comment")
 public class NestedCommentController {
     private final NestedCommentService nestedCommentService;
 
-    @PostMapping("/comment/{comment-id}/nested-comment")
-    public createNestedCommentResponse createComment(@PathVariable("comment-id") Long comment_id,
-                                                     @RequestBody @Validated createNestedCommentRequest request){
+    @PostMapping("/new")
+    public ResponseEntity<?> createComment(@PathVariable("comment-id") Long comment_id,
+                                           @RequestBody @Validated NestedCommentRequestDto.createNestedCommentRequest request){
         return nestedCommentService.createNestedComment(comment_id,request);
     }
 
-    @PutMapping("/comment/{comment-id}/nested-comment/{nested-comment-id}")
-    public createNestedCommentResponse updateComment(@PathVariable("comment-id") Long comment_id,
+    @PutMapping("/edit/{nested-comment-id}")
+    public ResponseEntity<?> updateComment(@PathVariable("comment-id") Long comment_id,
                                                @PathVariable("nested-comment-id") Long nestedComment_id,
-                                               @RequestBody @Validated updateNestedCommentRequest request){
+                                               @RequestBody @Validated NestedCommentRequestDto.updateNestedCommentRequest request){
         return nestedCommentService.updateNestedComment(nestedComment_id,request);
     }
 
-    @DeleteMapping("/comment/{comment-id}/nested-comment/{nested-comment-id}")
+    @DeleteMapping("/delete/{nested-comment-id}")
     public String deleteNestedComment(@PathVariable("comment-id") Long comment_id,
                                 @PathVariable("nested-comment-id") Long nestedComment_id){
         return nestedCommentService.deleteNestedComment(nestedComment_id);
     }
 
-    @GetMapping("/comment/{comment-id}/nested-comment/{nested-comment-id}")
-    public GetResult getNestedCommentByNestedCommentId(@PathVariable("comment-id") Long comment_id,
+    @GetMapping("/{nested-comment-id}")
+    public ResponseEntity<?> getNestedCommentByNestedCommentId(@PathVariable("comment-id") Long comment_id,
                                                        @PathVariable("nested-comment-id") Long nestedComment_id){
         return nestedCommentService.getNestedCommentByNestedCommentId(nestedComment_id);
     }
 
-    @GetMapping("/comment/{comment-id}/nested-comment")
-    public GetResult getAllNestedCommentByCommentId(@PathVariable("comment-id") Long comment_id){
+    @GetMapping("")
+    public ResponseEntity<?> getAllNestedCommentByCommentId(@PathVariable("comment-id") Long comment_id){
         return nestedCommentService.getAllByCommentId(comment_id);
     }
 }
