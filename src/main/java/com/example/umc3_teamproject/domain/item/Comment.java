@@ -1,7 +1,9 @@
 package com.example.umc3_teamproject.domain.item;
 
 
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.item.BaseEntity;
+import com.example.umc3_teamproject.dto.MemberRes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +39,7 @@ public class Comment extends BaseEntity {
     private boolean deleted_status;
     private int like_num;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<NestedComment> nestedComments = new ArrayList<>();
 
     public void addNestedComment(NestedComment nestedComment){
@@ -45,7 +47,7 @@ public class Comment extends BaseEntity {
         nestedComment.setComment(this);
     }
 
-    public void createComment(String content,Forum forum,Member member){
+    public void createComment(String content, Forum forum, Member member){
         this.member = member;
         this.content = content;
         this.forum = forum;

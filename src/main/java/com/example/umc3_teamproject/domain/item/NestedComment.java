@@ -1,5 +1,7 @@
 package com.example.umc3_teamproject.domain.item;
 
+import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.dto.MemberRes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +34,7 @@ public class NestedComment extends BaseEntity{
     private int like_num;
 
     //== 비즈니스 로직==//
-    public void createNestedComment(String content,Comment comment,Member member){
+    public void createNestedComment(String content, Comment comment, Member member){
         this.member = member;
         this.content = content;
         this.comment = comment;

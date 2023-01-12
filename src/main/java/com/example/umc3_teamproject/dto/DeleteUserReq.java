@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DeleteUserReq {
-    private int userIdx;
+    private Long userIdx;
 }

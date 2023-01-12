@@ -7,13 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
-@SequenceGenerator(
-        name = "ForumScript_SEQ_GEN",
-        sequenceName = "ForumScript_SEQ", // 매핑할 데이터베이스 시퀀스 이름
-        initialValue = 1,
-        allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ForumScript extends BaseEntity{
 
@@ -22,11 +19,11 @@ public class ForumScript extends BaseEntity{
     @Column(name = "ForumScript_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "script_id")
     private Script script;
 

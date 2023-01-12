@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SignupRes {
 
-    private int memberId;
+    private Long memberId;
     private String jwt;
 }

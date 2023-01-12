@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -29,7 +30,7 @@ public class ForumImage {
 
     private LocalDateTime createTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "forum_id")
     private Forum forum;
 

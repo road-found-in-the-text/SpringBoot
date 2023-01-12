@@ -25,7 +25,7 @@ public class JwtService {
     @param userIdx
     @return String
      */
-    public String createJwt(int userIdx){
+    public String createJwt(Long userIdx){
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
@@ -61,7 +61,7 @@ public class JwtService {
     @return int
     @throws BaseException
      */
-    public int getmemberId() throws ResponseException {
+    public Long getmemberId() throws ResponseException {
         //1. JWT 추출
         String accessToken = getJwt();
         if(accessToken == null || accessToken.length() == 0){
@@ -79,10 +79,10 @@ public class JwtService {
         }
 
         // 3. userIdx 추출
-        return claims.getBody().get("userIdx",Integer.class);  // jwt 에서 userIdx를 추출합니다.
+        return claims.getBody().get("userIdx",Long.class);  // jwt 에서 userIdx를 추출합니다.
     }
 
-    public int getrepInx() throws ResponseException{
+    public Long getrepInx() throws ResponseException{
         //1. JWT 추출
         String accessToken = getJwt();
         if(accessToken == null || accessToken.length() == 0){
@@ -100,7 +100,7 @@ public class JwtService {
         }
 
         // 3. userIdx 추출
-        return claims.getBody().get("repInx",Integer.class);  // jwt 에서 repInx를 추출합니다.
+        return claims.getBody().get("repInx",Long.class);  // jwt 에서 repInx를 추출합니다.
     }
 
 }

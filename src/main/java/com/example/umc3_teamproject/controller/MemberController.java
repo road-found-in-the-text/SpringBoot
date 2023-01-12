@@ -131,13 +131,13 @@ public class MemberController {
     // Path-variable
     @ResponseBody
     @GetMapping("/{memberId}") // (GET) 127.0.0.1:9000/users/:userIdx
-    public ResponseTemplate<MemberRes> getUser(@PathVariable("memberId") int memberId) {
+    public ResponseTemplate<Member> getUser(@PathVariable("memberId") Long memberId) {
         // @PathVariable RESTful(URL)에서 명시된 파라미터({})를 받는 어노테이션, 이 경우 userId값을 받아옴.
         //  null값 or 공백값이 들어가는 경우는 적용하지 말 것
         //  .(dot)이 포함된 경우, .을 포함한 그 뒤가 잘려서 들어감
         // Get Users
         try {
-            MemberRes getUserRes = loginService.getUser(memberId);
+            Member getUserRes = loginService.getUser(memberId);
             return new ResponseTemplate<>(getUserRes);
         } catch (ResponseException exception) {
             return new ResponseTemplate<>((exception.getStatus()));
@@ -151,12 +151,12 @@ public class MemberController {
      */
     @ResponseBody
     @PatchMapping("/{memberId}")
-    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") int memberId, @RequestBody Member member) {
+    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") Long memberId, @RequestBody Member member) {
         try {
 
             //*********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
-            int userIdxByJwt = jwtService.getmemberId();
+            Long userIdxByJwt = jwtService.getmemberId();
             //userIdx와 접근한 유저가 같은지 확인
             if(memberId != userIdxByJwt){
                 return new ResponseTemplate<>(NO_JWT);
@@ -185,9 +185,9 @@ public class MemberController {
 
     @ResponseBody
     @DeleteMapping("/{memberId}")
-    public ResponseTemplate<String> DeleteUser(@PathVariable("memberId") int userIdx) {
+    public ResponseTemplate<String> DeleteUser(@PathVariable("memberId") Long userIdx) {
         try {
-            int userIdxByJwt = jwtService.getmemberId();
+            Long userIdxByJwt = jwtService.getmemberId();
             //userIdx와 접근한 유저가 같은지 확인
             if(userIdx != userIdxByJwt){
                 return new ResponseTemplate<>(NO_JWT);
