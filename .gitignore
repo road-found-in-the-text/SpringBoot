@@ -1,3 +1,5 @@
+application.yml
+
 HELP.md
 .gradle
 build/
@@ -35,6 +37,7 @@ src/main/java/com/example/umc3_teamproject/config/SecurityConfig.java
 /dist/
 /nbdist/
 /.nb-gradle/
+applicatoin.yml
 
 ### VS Code ###
 .vscode/

@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
+
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,5 +150,15 @@ public class MemberRepository {
 
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
+=======
+
+import com.example.umc3_teamproject.domain.item.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+
+
 
 }
