@@ -14,6 +14,7 @@ import static com.example.umc3_teamproject.domain.Tier.BRONZE;
 
 @Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
+@Table(name="Member")
 public class Member extends BaseTimeEntity {
 
     @Id //Primary Key

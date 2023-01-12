@@ -24,7 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Forum extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Forum_SEQ_GEN")
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "Forum_SEQ_GEN")
     @Column(name = "FORUM_ID")
     private Long id;
 
