@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.service;
 
 
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.NestedCommentData;
 import com.example.umc3_teamproject.domain.dto.request.createCommentRequest;
@@ -10,7 +11,7 @@ import com.example.umc3_teamproject.domain.dto.response.createCommentResponse;
 
 import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.Forum;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.dto.MemberRes;
 import com.example.umc3_teamproject.repository.CommentRepository;
 
 import lombok.RequiredArgsConstructor;

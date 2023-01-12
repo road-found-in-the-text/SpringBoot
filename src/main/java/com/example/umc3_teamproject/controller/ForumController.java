@@ -81,10 +81,6 @@ public class ForumController {
     }
 
     // /forum/search?title = "sldkjf"
-    @GetMapping("/forum/search")
-    public GetResult SearchAllByTitle(@RequestParam("q") String search_keyword){
-        return forumService.SearchAllByKeyword(search_keyword);
-    }
 
     @PutMapping("/forum/like/plus/{forum-id}")
     public LikeResponseDto likePlus(@PathVariable("forum-id") Long forum_id){

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MemberRes {
 
-    private int id;
+    private Long id;
     private String nickName;
     private String imageUrl;
     private int tier;

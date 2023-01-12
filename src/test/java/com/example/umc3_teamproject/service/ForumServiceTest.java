@@ -6,7 +6,6 @@ import com.example.umc3_teamproject.domain.dto.request.ScriptIdsToRequest;
 import com.example.umc3_teamproject.domain.dto.request.createForumRequest;
 import com.example.umc3_teamproject.domain.dto.response.createForumResponse;
 import com.example.umc3_teamproject.domain.item.Forum;
-import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.ForumRepository;
 import org.junit.jupiter.api.Test;

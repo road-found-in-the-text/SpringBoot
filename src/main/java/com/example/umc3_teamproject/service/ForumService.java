@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.service;
 
 
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.ForumSearchByUserId;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.ScriptIdsToRequest;
@@ -289,15 +290,7 @@ public class ForumService {
     }
 
     // title로 forum 검색
-    public GetResult SearchAllByKeyword(String search_keyword){
-        List<Forum> searchedForum= forumRepository.SearchAllByKeyword(search_keyword);
-        List<ForumDataToGetResult> forumDataToGetResultRespons = searchedForum.stream().map(
-                        s -> new ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
-                                s.getForumImages().stream().map(i -> i.getImageUrl()).collect(Collectors.toList())))
-                .collect(Collectors.toList());
-        return new GetResult(forumDataToGetResultRespons.size(), forumDataToGetResultRespons);
-    }
+
 
     @Transactional
     public LikeResponseDto likePlus(Long forum_id){

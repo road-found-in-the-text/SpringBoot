@@ -6,16 +6,6 @@ spring:
     username: root
     password: root
   driver-class-name: com.mysql.cj.jdbc.Driver
-=======
-    url: jdbc:h2:tcp://localhost/~/umc3project;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
-
 
   #swagger? ?? ???
   mvc:
@@ -38,7 +28,6 @@ jpa:
     level:
       org.hibernate.SQL: debug
 
-=======
   profiles:
     include: oauth
 

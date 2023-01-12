@@ -1,22 +1,25 @@
 package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
+import com.example.umc3_teamproject.domain.item.Comment;
+import com.example.umc3_teamproject.domain.item.Script;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.umc3_teamproject.domain.Tier.BRONZE;
 
 
-@Getter @Setter
+@Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
 public class Member extends BaseTimeEntity {
 
     @Id //Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
     @Column(name="memberId")
-    private int id;
+    private Long id;
     @Column(nullable = false, unique=true)
     private String email;
     @Column(nullable = false)
@@ -36,6 +39,14 @@ public class Member extends BaseTimeEntity {
     private boolean report_status;
 
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Script> scripts = new ArrayList<>();
+    //
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<Interview> interviews = new ArrayList<>();
+//
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
 /*
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

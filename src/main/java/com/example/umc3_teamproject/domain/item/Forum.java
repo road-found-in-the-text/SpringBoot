@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.domain.item;
 
 
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.item.BaseEntity;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;

@@ -3,6 +3,7 @@ package com.example.umc3_teamproject.service;
 import com.example.umc3_teamproject.config.AES128;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class MemberService {
             throw new ResponseException(INVALID_JWT);
         }
         try {
-            int userIdx = memberRepository.createUser(signupReq);
+            Long userIdx = memberRepository.createUser(signupReq);
 //            return new PostUserRes(userIdx);
             String jwt = jwtService.createJwt(userIdx);
             return new SignupRes(userIdx, jwt);
@@ -56,6 +57,11 @@ public class MemberService {
             throw new ResponseException(DATABASE_ERROR);
         }
     }
+
+    public Member findById(Long userIdx) {
+        return memberRepository.getUser(userIdx);
+    }
+
 
     // 회원정보 수정(Patch)
     public void modifyNickName(UpdateNickNameReq updateNickNameReq) throws ResponseException {

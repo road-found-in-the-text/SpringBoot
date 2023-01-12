@@ -49,7 +49,7 @@ public class LoginService {
         }
 
         if (loginReq.getPw().equals(password)) { //비말번호가 일치한다면 userIdx를 가져온다.
-            int userIdx = memberRepository.getPw(loginReq).getId();
+            Long userIdx = memberRepository.getPw(loginReq).getId();
             // return new PostLoginRes(userIdx);
 //  *********** 해당 부분은 7주차 - JWT 수업 후 주석해제 및 대체해주세요!  **************** //
             String jwt = jwtService.createJwt(userIdx);
@@ -62,7 +62,7 @@ public class LoginService {
     }
 
     // 해당 이메일이 이미 User Table에 존재하는지 확인
-    public int checkEmail(String email) throws ResponseException {
+    public Long checkEmail(String email) throws ResponseException {
         try {
             return memberRepository.checkEmail(email);
         } catch (Exception exception) {
@@ -93,9 +93,9 @@ public class LoginService {
 
 
     // 해당 userIdx를 갖는 User의 정보 조회
-    public MemberRes getUser(int userIdx) throws ResponseException {
+    public Member getUser(Long userIdx) throws ResponseException {
         try {
-            MemberRes getUserRes = memberRepository.getUser(userIdx);
+            Member getUserRes = memberRepository.getUser(userIdx);
             return getUserRes;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
