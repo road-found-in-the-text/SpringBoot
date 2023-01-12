@@ -30,6 +30,7 @@ out/
 
 
 src/main/java/com/example/umc3_teamproject/config/SecurityConfig.java
+src/main/resources/templates/index.html
 
 ### NetBeans ###
 /nbproject/private/
