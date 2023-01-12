@@ -36,7 +36,7 @@ public class Forum extends BaseEntity {
     private boolean interview_status;           // 인터뷰 유무
     private boolean report_status;              // 신고 유무
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Member member;                          // User 테이블과 양방향 관계
 

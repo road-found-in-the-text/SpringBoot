@@ -2,6 +2,7 @@ package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;
+import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Script;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
     @Column(name="memberId")
     private Long id;
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false) //unique true
     private String email;
     @Column(nullable = false)
     private String pw;
@@ -48,6 +49,9 @@ public class Member extends BaseTimeEntity {
 //
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Forum> forums = new ArrayList<>();
 
 /*
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

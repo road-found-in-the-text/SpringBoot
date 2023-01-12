@@ -9,6 +9,7 @@ import com.example.umc3_teamproject.repository.MemberRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.logging.Logger;
 
@@ -35,6 +36,7 @@ public class MemberService {
     }
     // ******************************************************************************
     // 회원가입(POST)
+    @Transactional
     public SignupRes createUser(SignupReq signupReq) throws ResponseException {
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
         if (loginService.checkEmail(signupReq.getEmail()) == 1) {

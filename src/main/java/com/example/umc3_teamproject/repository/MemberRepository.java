@@ -28,6 +28,7 @@ public class MemberRepository {
     }
 
 
+    @Transactional
     public Long createUser(SignupReq signupReq) {
         String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, comments_alarm_permission, voice_permission, event_permission, report_status) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
