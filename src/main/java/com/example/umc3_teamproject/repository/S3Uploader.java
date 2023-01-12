@@ -29,6 +29,9 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String   bucket;
 
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
         File converted_to_File = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
@@ -44,7 +47,10 @@ public class S3Uploader {
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        String s = amazonS3Client.getUrl(bucket, fileName).toString();
+        String filename = s.substring(s.lastIndexOf(".amazonaws.com/")+15);
+        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+filename;
+        return url;
     }
 
     private void removeNewFile(File targetFile) {
@@ -66,5 +72,6 @@ public class S3Uploader {
 
         return Optional.empty();
     }
+
 
 }
