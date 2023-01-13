@@ -19,11 +19,11 @@ public class ForumScript extends BaseEntity{
     @Column(name = "ForumScript_ID")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "script_id")
     private Script script;
 

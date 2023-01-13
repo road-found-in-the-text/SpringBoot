@@ -31,7 +31,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
-    @ManyToOne(fetch = LAZY)
+
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Member member;
 

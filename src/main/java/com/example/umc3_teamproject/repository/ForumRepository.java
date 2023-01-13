@@ -120,6 +120,4 @@ public class ForumRepository {
         }
         return query.getResultList();
     }
-
-
 }

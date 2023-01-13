@@ -84,7 +84,7 @@ public class MemberRepository {
     // 해당 nickname을 갖는 유저들의 정보 조회
     @Transactional(readOnly = true)
     public List<MemberRes> getUsersByNickName(String name) {
-        String getUsersByNickNameQuery = "select * from Member where nickName =?"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
+        String getUsersByNickNameQuery = "select * from Member where nick_name =?"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
         String getUsersByNickNameParams = name;
         return this.jdbcTemplate.query(getUsersByNickNameQuery,
                 (rs, rowNum) -> new MemberRes(
