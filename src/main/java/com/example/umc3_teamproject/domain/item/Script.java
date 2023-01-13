@@ -42,9 +42,9 @@ public class Script {
     private boolean deleted;
 
     // paragraph를 list로 추가
-    // @OneToMany(mappedBy = "users")
-    // @JsonBackReference
-    // private List<Paragraph> paragraphList = new ArrayList<>();
+    @OneToMany(mappedBy = "scriptId")
+    @JsonBackReference
+    private List<Paragraph> paragraphList = new ArrayList<>();
 
 
 }
