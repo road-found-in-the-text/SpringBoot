@@ -1,16 +1,17 @@
 spring:
+  application: name:umc3_teamproject
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/TEXTROAD?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: kyungmin_root
+    password: root
+  driver-class-name: com.mysql.cj.jdbc.Driver
 
 
   #swagger? ?? ???
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -20,6 +21,52 @@ spring:
     show_sql: true
     format_sql: true
 
+  logging:
+    level:
+      org.hibernate.SQL: debug
+
+  profiles:
+    include: oauth
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: d5517e911cbbe70ba473c242d40d0407
+            redirect-uri: "http://localhost:8080/oauth/kakao"
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, account_email #동의 항목
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
 logging:
   level:
     org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIASMZOOGKFETFBS5HN       # AWS IAM AccessKey 적기
+      secretKey: 8rDENsB8x5F2Fo20bmFiAkMEGqIHoz44ni3C7QsT   # AWS IAM SecretKey 적기
+    s3:
+      bucket: com.gleonroad.umcproject
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+

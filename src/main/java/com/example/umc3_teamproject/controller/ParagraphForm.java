@@ -14,4 +14,3 @@ public class ParagraphForm {
     //private String imgUrl;
 
 }
-

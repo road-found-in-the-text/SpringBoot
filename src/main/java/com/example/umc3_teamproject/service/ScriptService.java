@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 @Service
@@ -175,7 +174,7 @@ public class ScriptService {
     /*
     @Transactional
     public void updateItem(Long scriptId, Script scriptItem) {
-        
+
         Script findItem= scriptRepository.findOne(scriptId);
         findItem.setTitle(scriptItem.getTitle());
         findItem.setType(scriptItem.getType());

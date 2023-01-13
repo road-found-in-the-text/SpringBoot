@@ -58,7 +58,7 @@ public class ScriptController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
-                                              // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+        // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Script> scriptList=null;
 
