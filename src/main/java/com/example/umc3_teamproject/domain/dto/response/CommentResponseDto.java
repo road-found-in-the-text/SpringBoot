@@ -14,19 +14,19 @@ public class CommentResponseDto {
     public static class Body {
         private Long forumId;
         private Long commentId;
-        private Long userId;
-        private String userNickname;
+        private Long writerId;
+        private String writer;
         private String content;
-        private int like_num;
+        private int likeNum;
         private List<NestedCommentResponseDto.Body> nestedCommentDatas;
 
         public Body(Comment comment,List<NestedCommentResponseDto.Body> nestedCommentDatas) {
             this.forumId = comment.getForum().getId();
             this.commentId = comment.getId();
-            this.userId = comment.getMember().getId();
-            this.userNickname = comment.getMember().getNickName();
+            this.writerId = comment.getMember().getId();
+            this.writer = comment.getMember().getNickName();
             this.content = comment.getContent();
-            this.like_num = comment.getLike_num();
+            this.likeNum = comment.getLike_num();
             this.nestedCommentDatas = nestedCommentDatas;
         }
     }

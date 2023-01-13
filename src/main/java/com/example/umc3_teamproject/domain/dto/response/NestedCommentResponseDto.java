@@ -12,20 +12,20 @@ public class NestedCommentResponseDto {
     @Data
     @NoArgsConstructor
     public static class Body {
-        private Long comment_id;
-        private Long nested_comment_id;
-        private Long user_id;
-        private String user_nickname;
+        private Long commentId;
+        private Long nestedCommentId;
+        private Long writerId;
+        private String writer;
         private String content;
-        private int like_num;
+        private int likeNum;
 
         public Body(NestedComment nestedComment) {
-            this.comment_id = nestedComment.getComment().getId();
-            this.nested_comment_id = nestedComment.getId();
-            this.user_id = nestedComment.getMember().getId();
-            this.user_nickname = nestedComment.getMember().getNickName();
+            this.commentId = nestedComment.getComment().getId();
+            this.nestedCommentId = nestedComment.getId();
+            this.writerId = nestedComment.getMember().getId();
+            this.writer = nestedComment.getMember().getNickName();
             this.content = nestedComment.getContent();
-            this.like_num = nestedComment.getLike_num();
+            this.likeNum = nestedComment.getLike_num();
         }
     }
 }

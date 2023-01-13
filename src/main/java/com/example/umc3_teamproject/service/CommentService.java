@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.service;
 
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.CommentRequestDto;
@@ -52,7 +53,7 @@ public class CommentService {
     public List<Comment> findAllByForumId(Long forum_id){return commentRepository.findByForumId(forum_id);}
 
     @Transactional
-    public ResponseEntity<?> createComment (Long forum_id, CommentRequestDto.createCommentRequest request){
+    public ResponseTemplate<CommentResponseDto.Body> createComment (Long forum_id, CommentRequestDto.createCommentRequest request){
         Forum findForum = forumService.findOne(forum_id);
         if(findForum == null){
             throw new ForumNotFoundException("아이디가 " + forum_id + "인 forum은 존재하지 않습니다.");
@@ -64,19 +65,19 @@ public class CommentService {
         Comment comment = new Comment();
         comment.createComment(request.getContent(),findForum,writer);
         commentRepository.save(comment);
-        return ResponseEntity.ok(new CommentResponseDto.Body(comment,null));
+        return new ResponseTemplate<>(new CommentResponseDto.Body(comment,null));
 //                CommentResponseDto.success(comment,null);
 //                new CommentResponseDto.createCommentResponse(comment.getId(),findForum.getId(),writer.getNickName(),request.getContent());
     }
 
     @Transactional
-    public ResponseEntity<?> updateComment(Long comment_id, CommentRequestDto.updateCommentRequest request){
+    public ResponseTemplate<CommentResponseDto.Body> updateComment(Long comment_id, CommentRequestDto.updateCommentRequest request){
         Comment findComment = commentRepository.findById(comment_id).get();
         if(findComment == null){
             throw new CommentNotFoundException("아이디가 " + comment_id + "인 댓글은 존재하지 않습니다.");
         }
         findComment.updateComment(request.getContent());
-        return ResponseEntity.ok(new CommentResponseDto.Body(findComment,
+        return new ResponseTemplate<>(new CommentResponseDto.Body(findComment,
                 findComment.getNestedComments().stream().map(
                         nested_comment -> new NestedCommentResponseDto.Body(nested_comment
                         )).collect(Collectors.toList())));
@@ -96,7 +97,7 @@ public class CommentService {
         return "comment_id " +comment_id +  " 삭제 성공";
     }
 
-    public ResponseEntity<?> getCommentByCommentId(Long forum_id,Long comment_id) {
+    public ResponseTemplate<CommentResponseDto.Body> getCommentByCommentId(Long forum_id,Long comment_id) {
         Forum findForum = forumService.findOne(forum_id);
         if(findForum == null){
             throw new ForumNotFoundException("아이디가 " + forum_id + "인 forum은 존재하지 않습니다.");
@@ -112,10 +113,10 @@ public class CommentService {
                         findComment.getNestedComments().stream().map(
                                 nested_comment -> new NestedCommentResponseDto.Body(nested_comment
                                 )).collect(Collectors.toList()));
-        return ResponseEntity.ok(new GetResult(1,commentDataToGetResult));
+        return new ResponseTemplate<>(commentDataToGetResult);
     }
 
-    public ResponseEntity<?> getAllByForumId(Long forum_id) {
+    public ResponseTemplate<List<CommentResponseDto.Body>> getAllByForumId(Long forum_id) {
         Forum findForum = forumService.findOne(forum_id);
         if(findForum == null){
             throw new ForumNotFoundException("아이디가 " + forum_id + "인 forum은 존재하지 않습니다.");
@@ -127,7 +128,7 @@ public class CommentService {
                                         nested_comment -> new NestedCommentResponseDto.Body(nested_comment))
                                         .collect(Collectors.toList())))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new GetResult(commentDataToGetResults.size(),commentDataToGetResults));
+        return new ResponseTemplate<>(commentDataToGetResults);
 
     }
 }

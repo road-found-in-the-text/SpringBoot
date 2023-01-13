@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.service;
 
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
@@ -53,7 +54,7 @@ public class NestedCommentService {
     public List<NestedComment> findAllByCommentId(Long comment_id){return nestedCommentRepository.findByCommentId(comment_id);}
 
     @Transactional
-    public ResponseEntity<?> createNestedComment (Long comment_id, NestedCommentRequestDto.createNestedCommentRequest request){
+    public ResponseTemplate<NestedCommentResponseDto.Body> createNestedComment (Long comment_id, NestedCommentRequestDto.createNestedCommentRequest request){
         Comment findComment = commentRepository.findById(comment_id).orElseThrow(
                 () -> new CommentNotFoundException("아이디가 " + comment_id + "인 댓글은 존재하지 않습니다.")
         );
@@ -65,17 +66,17 @@ public class NestedCommentService {
         NestedComment nestedComment = new NestedComment();
         nestedComment.createNestedComment(request.getContent(),findComment,writer);
         nestedCommentRepository.save(nestedComment);
-        return ResponseEntity.ok(new NestedCommentResponseDto.Body(nestedComment));
+        return new ResponseTemplate<>(new NestedCommentResponseDto.Body(nestedComment));
 
     }
 
     @Transactional
-    public ResponseEntity<?> updateNestedComment(Long nestedComment_id, NestedCommentRequestDto.updateNestedCommentRequest request){
+    public ResponseTemplate<NestedCommentResponseDto.Body> updateNestedComment(Long nestedComment_id, NestedCommentRequestDto.updateNestedCommentRequest request){
         NestedComment findNestedComment = nestedCommentRepository.findById(nestedComment_id).orElseThrow(
                 ()->new NestedCommentNotFoundException("아이디가 " + nestedComment_id + "인 대댓글은 존재하지 않습니다.")
         );
         findNestedComment.updateNestedComment(request.getContent());
-        return ResponseEntity.ok(new NestedCommentResponseDto.Body(findNestedComment));
+        return new ResponseTemplate<>(new NestedCommentResponseDto.Body(findNestedComment));
 
     }
 
@@ -85,19 +86,19 @@ public class NestedCommentService {
                 ()->new NestedCommentNotFoundException("아이디가 " + nestedComment_id + "인 대댓글은 존재하지 않습니다.")
         );
         findNestedComment.deleteComment();
-        return "comment_id " +nestedComment_id +  " 삭제 성공";
+        return "nested_comment_id " +nestedComment_id +  " 삭제 성공";
     }
 
-    public ResponseEntity<?> getNestedCommentByNestedCommentId(Long nestedComment_id) {
+    public ResponseTemplate<NestedCommentResponseDto.Body> getNestedCommentByNestedCommentId(Long nestedComment_id) {
         NestedComment findNestedComment = nestedCommentRepository.findById(nestedComment_id).orElseThrow(
                 ()->new NestedCommentNotFoundException("아이디가 " + nestedComment_id + "인 대댓글은 존재하지 않습니다.")
         );
         NestedCommentResponseDto.Body createNestedCommentResponse = new NestedCommentResponseDto.Body(findNestedComment);
-        return ResponseEntity.ok(new GetResult(1,createNestedCommentResponse));
+        return new ResponseTemplate<>(createNestedCommentResponse);
 
     }
 
-    public ResponseEntity<?> getAllByCommentId(Long comment_id) {
+    public ResponseTemplate<List<NestedCommentResponseDto.Body>> getAllByCommentId(Long comment_id) {
         Comment findComment = commentRepository.findById(comment_id).orElseThrow(
                 () -> new CommentNotFoundException("아이디가 " + comment_id + "인 댓글은 존재하지 않습니다.")
         );
@@ -105,6 +106,6 @@ public class NestedCommentService {
         List<NestedCommentResponseDto.Body> nestedCommentDataToGetResults = nestedComments.stream().map(
                         s -> new NestedCommentResponseDto.Body(s))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new GetResult(nestedCommentDataToGetResults.size(),nestedCommentDataToGetResults));
+        return new ResponseTemplate<>(nestedCommentDataToGetResults);
     }
 }

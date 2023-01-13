@@ -21,7 +21,6 @@ public class OAuthController {
     @GetMapping("/kakao")
     public SessionUser kakaoCallback(@RequestParam String code) throws Exception {
         String kakaoAccessToken = oAuthService.getKakaoAccessToken(code);
-        System.out.println(kakaoAccessToken);
         return oAuthService.createKakaoUser(kakaoAccessToken);
     }
 }
