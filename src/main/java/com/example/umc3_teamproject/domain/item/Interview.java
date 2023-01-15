@@ -1,10 +1,12 @@
 package com.example.umc3_teamproject.domain.item;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Builder
 @Entity
@@ -40,5 +42,11 @@ public class Interview extends BaseEntity {
 
     @Column
     private LocalDate interviewDate;
+
+    // paragraph를 list로 추가
+    // @OneToMany(mappedBy = "scriptId")
+    // @JsonBackReference
+    // private List<Paragraph> paragraphList = new ArrayList<>();
+
 
 }

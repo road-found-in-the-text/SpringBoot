@@ -51,16 +51,19 @@ public class InterviewController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
 
-        // 참고 문헌: https://jogeum.net/9
-        Optional<Interview> optionalProduct=interviewRepository.findByUserId(userId);
-        if (optionalProduct.isPresent()) {
-            Interview interview1 = optionalProduct.get();
-            log.info("gather test success");
-            return interviewResponseDto.success(interview1);
-        }
+        List<Interview> interviewList=null;
 
-        log.info("gather test fail");
-        return null;
+        if (userId==null) {
+            return null;
+        } else {
+            interviewList=interviewRepository.findByUserId(userId);
+
+            Map<String, Object> result=new HashMap<>();
+            result.put("scripts", interviewList);
+            result.put("count", interviewList.size());
+
+            return ResponseEntity.ok().body(result);
+        }
     }
 
     @GetMapping("/all")
