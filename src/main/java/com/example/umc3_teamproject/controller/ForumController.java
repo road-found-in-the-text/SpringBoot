@@ -39,14 +39,14 @@ public class ForumController {
     @ResponseBody
     @PutMapping("/edit/{forum-id}")
     public ResponseTemplate<ForumResponseDto.ForumDataToGetResult> updateForum(@PathVariable("forum-id")  Long forum_id,
-                                                                               @ModelAttribute ForumRequestDto.updateForumRequest request){
+                                                                               @ModelAttribute ForumRequestDto.updateForumRequest request) throws ResponseException {
         return forumService.updateForum(forum_id,request);
     }
 
     // 해당 forum_id의 forum 글을 삭제(forum_id를 통해서 삭제)
     @ApiOperation(value = "해당 forum-id인 forum 삭제")
     @DeleteMapping("/delete/{forum-id}")
-    public String deleteForum(@PathVariable("forum-id")  Long forum_id){
+    public ResponseTemplate<String> deleteForum(@PathVariable("forum-id")  Long forum_id) throws ResponseException {
         return forumService.deleteForum(forum_id);
     }
 
@@ -63,7 +63,7 @@ public class ForumController {
     @ApiOperation(value = "user-id의 사용자가 만든 모든 forum 조회", notes = "user-id의 사용자가 만든 모든 forum 조회")
     @ResponseBody
     @GetMapping("/user/{user-id}")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByUserId(@PathVariable("user-id")Long user_id){
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByUserId(@PathVariable("user-id")Long user_id) throws ResponseException {
         return forumService.getForumByUserId(user_id);
     }
 
@@ -71,7 +71,7 @@ public class ForumController {
     @ApiOperation(value = "해당 forum-id인 forum 하나 조회",notes = "해당 forum-id인 forum 하나 조회")
     @ResponseBody
     @GetMapping("/{forum-id}")
-    public ResponseTemplate<ForumResponseDto.ForumDataToGetResult> getForumByForumId(@PathVariable("forum-id")Long id){
+    public ResponseTemplate<ForumResponseDto.ForumDataToGetResult> getForumByForumId(@PathVariable("forum-id")Long id) throws ResponseException {
         return forumService.getForumByForumId(id);
     }
 
@@ -108,19 +108,19 @@ public class ForumController {
     // /forum/search?title = "sldkjf"
     @ApiOperation(value = "해당 forum-id인 forum 좋아요 수 하나 증가")
     @PutMapping("/{forum-id}/like/plus")
-    public ResponseTemplate<ForumResponseDto.LikeResponseDto> likePlus(@PathVariable("forum-id") Long forum_id){
+    public ResponseTemplate<ForumResponseDto.LikeResponseDto> likePlus(@PathVariable("forum-id") Long forum_id) throws ResponseException {
         return forumService.likePlus(forum_id);
     }
 
     @ApiOperation(value = "해당 forum-id인 forum 좋아요 수 하나 감소")
     @PutMapping("/{forum-id}/like/minus")
-    public ResponseTemplate<ForumResponseDto.LikeResponseDto> likeMinus(@PathVariable("forum-id") Long forum_id){
+    public ResponseTemplate<ForumResponseDto.LikeResponseDto> likeMinus(@PathVariable("forum-id") Long forum_id) throws ResponseException {
         return forumService.likeMinus(forum_id);
     }
 
     @ApiOperation(value = "해당 forum-id인 forum 좋아요 수 조회")
     @GetMapping("/{forum-id}/like")
-    public ResponseTemplate<ForumResponseDto.LikeResponseDto> getForumLike(@PathVariable("forum-id") Long forum_id){
+    public ResponseTemplate<ForumResponseDto.LikeResponseDto> getForumLike(@PathVariable("forum-id") Long forum_id) throws ResponseException {
         return forumService.getLike(forum_id);
     }
 

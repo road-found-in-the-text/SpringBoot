@@ -5,7 +5,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@Getter
 public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
@@ -39,7 +43,8 @@ public class S3Uploader {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        // s3에 저장되는 파일이름을 바꾸고 싶으면 여기를 수정하면 됩니다.
+        String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -47,9 +52,7 @@ public class S3Uploader {
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        String s = amazonS3Client.getUrl(bucket, fileName).toString();
-        String filename = s.substring(s.lastIndexOf(".amazonaws.com/")+15);
-        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+filename;
+        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+fileName;
         return url;
     }
 
@@ -73,5 +76,11 @@ public class S3Uploader {
         return Optional.empty();
     }
 
-
+    public void deleteFile(final String deleteFileName) {
+        // 나중에 s3 주소가 변경될 시에 bucket 이름을 바꿔줘야 하니 여기를 바꿔주면 됩니다.
+        String fileName = "forumImage/" + deleteFileName;
+        System.out.println(bucket);
+        System.out.println(fileName);
+        amazonS3Client.deleteObject(bucket,fileName);
+    }
 }

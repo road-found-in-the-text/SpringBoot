@@ -4,6 +4,7 @@ package com.example.umc3_teamproject.repository;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,20 +128,25 @@ public class MemberRepository {
     public Member getUser(Long userIdx) {
         String getUserQuery = "select * from Member where member_id = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
         Long getUserParams = userIdx;
-        return this.jdbcTemplate.queryForObject(getUserQuery,
-                (rs, rowNum) -> new Member(
-                        rs.getString("email"),
-                        rs.getString("pw"),
-                        rs.getString("nick_name"),
-                        rs.getString("image_url"),
-                        rs.getInt("tier"),
-                        rs.getInt("login_type"),
-                        rs.getBoolean("comments_alarm_permission"),
-                        rs.getBoolean("voice_permission"),
-                        rs.getBoolean("event_permission"),
-                        rs.getBoolean("report_status")
-                ),
-                getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+        try{
+            return this.jdbcTemplate.queryForObject(getUserQuery,
+                    (rs, rowNum) -> new Member(
+                            rs.getString("email"),
+                            rs.getString("pw"),
+                            rs.getString("nick_name"),
+                            rs.getString("image_url"),
+                            rs.getInt("tier"),
+                            rs.getInt("login_type"),
+                            rs.getBoolean("comments_alarm_permission"),
+                            rs.getBoolean("voice_permission"),
+                            rs.getBoolean("event_permission"),
+                            rs.getBoolean("report_status")
+                    ),
+                    getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
     }
 
     //USER table tuple 삭제
