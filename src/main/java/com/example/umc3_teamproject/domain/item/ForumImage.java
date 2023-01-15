@@ -3,6 +3,7 @@ package com.example.umc3_teamproject.domain.item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Where(clause = "deleted_status = false")
 public class ForumImage {
 
     @Id
@@ -34,12 +36,18 @@ public class ForumImage {
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
+    private boolean deleted_status;
+
     @Builder
     public ForumImage(String imageUrl, String storeFilename, Forum forum) {
         this.imageUrl = imageUrl;
         this.storeFilename = storeFilename;
         this.forum = forum;
         this.createTime = LocalDateTime.now();
+    }
+
+    public void deleteImage(){
+        this.deleted_status = true;
     }
 
 }

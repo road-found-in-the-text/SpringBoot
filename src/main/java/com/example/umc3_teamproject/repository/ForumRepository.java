@@ -3,7 +3,9 @@ package com.example.umc3_teamproject.repository;
 
 import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.domain.item.Forum;
-import com.example.umc3_teamproject.exception.ForumNotFoundException;
+import com.example.umc3_teamproject.domain.item.QForum;
+import com.example.umc3_teamproject.exception.CustomException;
+import com.example.umc3_teamproject.exception.ErrorCode;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,16 +34,11 @@ public class ForumRepository {
     }
 
     // forum 하나 찾기
-    public Forum findOne(Long forum_id){
+    public Forum findOne(Long forum_id) throws CustomException {
         Forum forum = em.find(Forum.class, forum_id);
         if(forum == null){
-            throw new ForumNotFoundException("forum_id가 " + forum_id + "인 forum은 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.Forum_NOT_FOUND);
         }
-//        if(forum.isDeleted_status() == false){
-//            return forum;
-//        }else{
-//            return null;
-//        }
         return forum;
     }
 
@@ -119,6 +116,18 @@ public class ForumRepository {
             query = query.setParameter("id", forumSearchByUserId.getUser_id());
         }
         return query.getResultList();
+    }
+
+    public List<Forum> SearchAllByKeyword(String search_keyword){
+        QForum qForum = QForum.forum;
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.title.containsIgnoreCase(search_keyword)
+                        .or(qForum.content.containsIgnoreCase(search_keyword)))
+                .orderBy(qForum.like_num.desc())
+                .offset(0)
+                .limit(10)
+                .fetch();
     }
 
 

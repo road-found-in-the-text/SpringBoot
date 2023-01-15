@@ -41,7 +41,7 @@ public class ForumRequestDto {
         private List<ScriptIdsToRequest> scriptIds;
 
         @ApiModelProperty(value = "삭제한 이미지 경로를 제외한 남아있는 게시글 이미지 경로")
-        private List<String> saveImageUrl = new ArrayList<>();
+        private List<String> saveImageUrls = new ArrayList<>();
 
         @ApiModelProperty(value = "이미지 파일", required = false)
         private List<MultipartFile> imageFiles = new ArrayList<>();

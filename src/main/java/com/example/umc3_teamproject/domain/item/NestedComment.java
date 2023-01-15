@@ -10,6 +10,9 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -21,11 +24,11 @@ public class NestedComment extends BaseEntity{
     @Column(name = "NESTED_COMMENT_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
