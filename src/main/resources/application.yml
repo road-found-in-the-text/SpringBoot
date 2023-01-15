@@ -5,6 +5,11 @@ spring:
     username: root
     password: root
   driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 
 
   #swagger? ?? ???
@@ -59,8 +64,8 @@ logging:
 cloud:
   aws:
     credentials:
-      accessKey: AKIASMZOOGKFETFBS5HN       # AWS IAM AccessKey 적기
-      secretKey: 8rDENsB8x5F2Fo20bmFiAkMEGqIHoz44ni3C7QsT   # AWS IAM SecretKey 적기
+      accessKey: AKIASMZOOGKFOM3N7Y4X       # AWS IAM AccessKey 적기
+      secretKey: RiPqJzkuOqijfDyPckhZzkWdkKPYuD9R+BmtfsEp   # AWS IAM SecretKey 적기
     s3:
       bucket: com.gleonroad.umcproject
     region:
@@ -68,5 +73,3 @@ cloud:
       auto: false
     stack:
       auto: false
-
-

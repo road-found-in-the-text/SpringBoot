@@ -53,20 +53,12 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Forum> forums = new ArrayList<>();
 
-/*
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Script> scripts = new ArrayList<>();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Interview> interviews = new ArrayList<>();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Report> reports = new ArrayList<>();
 
 
- */
+
     @Builder
-    public Member(String email, String pw, String nickName, String imageUrl, int tier, int loginType, boolean comments_alarm_permission, boolean voice_permission, boolean event_permission, boolean report_status){
+    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, boolean comments_alarm_permission, boolean voice_permission, boolean event_permission, boolean report_status){
+        this.id = id;
         this.email = email;
         this.pw = pw;
         this.nickName = nickName;

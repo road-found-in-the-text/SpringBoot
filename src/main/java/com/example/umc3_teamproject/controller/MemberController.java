@@ -63,7 +63,6 @@ public class MemberController {
             return new ResponseTemplate<>(INVALID_EMAIL);
         }
         try {
-
             SignupRes signupRes = memberService.createUser(signupReq);
             return new ResponseTemplate<>(signupRes);
         } catch (ResponseException exception) {
