@@ -36,8 +36,8 @@ logging:
 cloud:
   aws:
     credentials:
-      accessKey: AKIAVBY3C7H4457634UD       # AWS IAM AccessKey 적기
-      secretKey: AsWIUnWtWygQCKJPLAUzVAuZ9HOMGBuuB/b2Oebm   # AWS IAM SecretKey 적기
+      accessKey:        # AWS IAM AccessKey 적기
+      secretKey:   # AWS IAM SecretKey 적기
     s3:
       bucket: umc3-road-found-bucket
     region:
