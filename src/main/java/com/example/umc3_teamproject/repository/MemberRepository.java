@@ -66,6 +66,7 @@ public class MemberRepository {
         String getPwParams = loginReq.getEmail(); // 주입될 email값을 클라이언트의 요청에서 주어진 정보를 통해 가져온다.
         return this.jdbcTemplate.queryForObject(getPwQuery,
                 (rs, rowNum) -> new Member(
+                        rs.getLong("member_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
                         rs.getString("nick_name"),
@@ -129,6 +130,7 @@ public class MemberRepository {
         Long getUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new Member(
+                        rs.getLong("member_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
                         rs.getString("nick_name"),
