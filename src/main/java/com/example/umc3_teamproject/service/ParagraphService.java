@@ -12,12 +12,12 @@ import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-
 
 public class ParagraphService {
     @Autowired
@@ -25,18 +25,18 @@ public class ParagraphService {
     private final ParagraphResponseDto paragraphResponse;
     public ResponseEntity<?> writeParagraph(ParagraphRequestDto.Register paragraph1) {
 
-
         Paragraph paragraph=Paragraph.builder()
                 .userId(paragraph1.getUserId())
                 .scriptId(paragraph1.getScriptId())
-                .title(paragraph1.getTitle())
-                .type(paragraph1.getType())
+                .contents(paragraph1.getContents())
                 .deleted(false)
                 .build();
-
         paragraphRepository.save(paragraph);
         return paragraphResponse.success(paragraph);
     }
+
+
+
 
     public Paragraph updateParagraph(Long id, ParagraphRequestDto.Update paragraph1) {
         Optional<Paragraph> optionalProduct=paragraphRepository.findById(id);
@@ -47,8 +47,7 @@ public class ParagraphService {
             updateParagraph.setScriptId(id);
             updateParagraph.setUserId(before_paragraph.getUserId());
             updateParagraph.setCreatedDate(before_paragraph.getCreatedDate());
-            updateParagraph.setTitle(paragraph1.getTitle());
-            updateParagraph.setType(paragraph1.getType());
+            updateParagraph.setContents(paragraph1.getContents());
             paragraphRepository.save(updateParagraph);
             return updateParagraph;
         }
@@ -64,8 +63,7 @@ public class ParagraphService {
             deletedParagraph.setScriptId(id);
             deletedParagraph.setUserId(before_paragraph.getUserId());
             deletedParagraph.setCreatedDate(before_paragraph.getCreatedDate());
-            deletedParagraph.setTitle(before_paragraph.getTitle());
-            deletedParagraph.setType(before_paragraph.getType());
+            deletedParagraph.setContents(before_paragraph.getContents());
             deletedParagraph.setDeleted(true);
             paragraphRepository.save(deletedParagraph);
             return id+" deleted success";
@@ -74,6 +72,9 @@ public class ParagraphService {
     }
     @Transactional
     public void saveItem(Paragraph paragraph) {
+
         paragraphRepository.save(paragraph);
+
+
     }
 }

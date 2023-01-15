@@ -4,6 +4,14 @@ spring:
     url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 1234
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+
+  #swagger? ?? ???
+
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -15,6 +23,25 @@ spring:
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show_sql: true
     format_sql: true
+
 logging:
   level:
     org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAVBY3C7H4457634UD       # AWS IAM AccessKey 적기
+      secretKey: AsWIUnWtWygQCKJPLAUzVAuZ9HOMGBuuB/b2Oebm   # AWS IAM SecretKey 적기
+    s3:
+      bucket: umc3-road-found-bucket
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

@@ -66,8 +66,7 @@ public class ParagraphController {
         if (optionalProduct.isPresent()) {
             Paragraph before_paragraph = optionalProduct.get();
             log.info("gather test success");
-            before_paragraph.setTitle(paragraph_new.getTitle());
-            before_paragraph.setType(paragraph_new.getType());
+            before_paragraph.setContents(paragraph_new.getContents());
             return  paragraphResponseDto.success(before_paragraph);
         }
         return null;
