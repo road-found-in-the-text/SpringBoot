@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -31,7 +32,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_id")
     private Member member;
 
@@ -39,7 +40,7 @@ public class Comment extends BaseEntity {
     private boolean deleted_status;
     private int like_num;
 
-    @OneToMany(mappedBy = "comment",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comment",orphanRemoval = true,cascade = ALL)
     private List<NestedComment> nestedComments = new ArrayList<>();
 
     public void addNestedComment(NestedComment nestedComment){
