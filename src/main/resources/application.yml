@@ -33,23 +33,33 @@ spring:
   profiles:
     include: oauth
 
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: d5517e911cbbe70ba473c242d40d0407
-            redirect-uri: "http://localhost:8080/oauth/kakao"
-            client-authentication-method: POST
-            authorization-grant-type: authorization_code
-            scope: profile_nickname, account_email #동의 항목
-            client-name: Kakao
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
+custom:
+  config:
+    oauth:
+      social:
+        base_url: http://localhost:8080
+
+        kakao:
+          client_id: d5517e911cbbe70ba473c242d40d0407
+          callback_path: "/oauth/kakao"
+          client-authentication-method: POST
+          authorization-grant-type: authorization_code
+          scope: profile_nickname, account_email #동의 항목
+          client-name: Kakao
+
+          authorization_uri: https://kauth.kakao.com/oauth/authorize
+          token_uri: https://kauth.kakao.com/oauth/token
+          user_info_uri: https://kapi.kakao.com/v2/user/me
+          user-name-attribute: id
+#          apple:
+#            cient-id: [CLIENT ID (org.example.apple)]
+#            team-id: [TEAM ID]
+#            #private key는 직접 생성
+#            callback_path : /oauth/apple/callback
+#
+#            authorization_uri: https://appleid.apple.com/auth/authorize
+#            token_uri: https://appleid.apple.com/auth/token
+#            public_key: https://appleid.apple.com/auth/keys
 
 
 logging:
@@ -73,3 +83,4 @@ cloud:
       auto: false
     stack:
       auto: false
+

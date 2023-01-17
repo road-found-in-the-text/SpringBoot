@@ -1,7 +1,7 @@
 package com.example.umc3_teamproject.domain;
 
 public enum LoginType {
-    DEFAULT(0), OAUTH(1);
+    DEFAULT(0), APPLE(1), KAKAO(2);
 
     public final int value;
 

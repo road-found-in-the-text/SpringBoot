@@ -148,7 +148,4 @@ public class MemberRepository {
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
 
     }
-
-
-
 }
