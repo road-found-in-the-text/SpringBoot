@@ -18,9 +18,8 @@ public class MemberRes {
     private int loginType;
 
     //허용
-    private boolean comments_alarm_permission;
-    private boolean voice_permission;
-    private boolean event_permission;
-    private boolean report_status;
+    private boolean memberStatus;
+
+    private boolean blockStatus;
 
 }

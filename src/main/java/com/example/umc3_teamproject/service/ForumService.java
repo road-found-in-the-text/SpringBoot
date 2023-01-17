@@ -352,10 +352,7 @@ public class ForumService {
         return new ResponseTemplate<>(new ForumResponseDto.LikeResponseDto(findForum.getId(),findForum.getLike_num()));
     }
 
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByKeyword(String search_keyword){
-        List<Forum> searchedForum= forumRepository.SearchAllByKeyword(search_keyword);
-        return getListFroumDataToGetResult(searchedForum);
-    }
+
 
     private ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToGetResult(List<Forum> forums) {
         List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
