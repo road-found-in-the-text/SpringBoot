@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Api
@@ -35,6 +36,15 @@ public class ForumResponseDto {
 
         @ApiParam(value = "해당 froum에 저장된 이미지 또는 비디오 url (복수 가능)", required = false, example = "1")
         private List<String> forumImage_url;
+
+        @ApiParam(value = "forum 생성일", required = false, example = "")
+        private LocalDateTime createDate;
+
+        @ApiParam(value = "forum 수정일", required = false, example = "1")
+        private LocalDateTime updateDate;
+
+
+
     }
 
     @Getter

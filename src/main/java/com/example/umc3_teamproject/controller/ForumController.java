@@ -125,4 +125,9 @@ public class ForumController {
     }
 
 
+    @GetMapping("/like")
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
+        return forumService.getSixForumByLikeDesc();
+    }
+
 }

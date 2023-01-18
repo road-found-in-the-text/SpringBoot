@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -99,7 +100,7 @@ public class ForumService {
         forumRepository.save(forum);
         return new ResponseTemplate<>(new ForumResponseDto.ForumDataToGetResult(forum.getMember().getId(),forum.getId(),
                 forum.getTitle(),forum.getContent(),forum.getLike_num(),
-                scriptIdToRequests,postImages));
+                scriptIdToRequests,postImages,forum.getCreatedDate(),forum.getModifiedDate()));
     }
 
     @Transactional
@@ -224,7 +225,8 @@ public class ForumService {
                 request.getScriptIds(),
                 findForum.getForumImages().stream().map(
                         ForumImage::getImageUrl
-                ).collect(Collectors.toList()));
+                ).collect(Collectors.toList())
+        ,findForum.getCreatedDate(),findForum.getModifiedDate());
         return new ResponseTemplate<>(forumDataToGetResult);
 //        return findForum;
     }
@@ -299,7 +301,7 @@ public class ForumService {
                 ).collect(Collectors.toList()),
                 forum.getForumImages().stream().map(
                         i -> i.getImageUrl()
-                ).collect(Collectors.toList()));
+                ).collect(Collectors.toList()),forum.getCreatedDate(),forum.getModifiedDate());
         return new ResponseTemplate<>(forumDataToGetResult);
     }
 
@@ -358,8 +360,16 @@ public class ForumService {
         List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
                         s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
                                 s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
-                                s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())))
+                                s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())
+                        , s.getCreatedDate(),s.getModifiedDate()))
                 .collect(Collectors.toList());
         return new ResponseTemplate<>(forumDataToGetResultRespons);
+    }
+
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
+        ForumRequestDto.searchDate7Days search7days = new ForumRequestDto.searchDate7Days(LocalDateTime.now().minusDays(7),LocalDateTime.now());
+
+        List<Forum> searchedForum= forumRepository.SearchSixForumByLikeDesc(search7days);
+        return getListFroumDataToGetResult(searchedForum);
     }
 }
