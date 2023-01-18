@@ -6,6 +6,8 @@ import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Component
 public class ParagraphResponseDto {
     @Getter
@@ -15,6 +17,9 @@ public class ParagraphResponseDto {
         private String result;
         private Long userId;
         private Long paragraphId;
+        private String contents;
+        //private List<String> paragraphImage_url;
+
         private Script scriptId;
         private String title;
         private String type;
@@ -28,8 +33,7 @@ public class ParagraphResponseDto {
                 .userId(paragraph.getUserId())
                 .scriptId(paragraph.getScriptId())
                 .paragraphId(paragraph.getParagraphId())
-                .title(paragraph.getTitle())
-                .type(paragraph.getType())
+                .contents(paragraph.getContents())
                 .createdDate(paragraph.getCreatedDate())
                 .modifiedDate(paragraph.getModifiedDate())
                 .build();
