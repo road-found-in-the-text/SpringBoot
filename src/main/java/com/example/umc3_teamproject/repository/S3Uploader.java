@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
+
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -31,7 +32,7 @@ public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
-    private String   bucket;
+    private String  bucket;
 
     @Value("${cloud.aws.region.static}")
     private String region;
@@ -43,8 +44,13 @@ public class S3Uploader {
     }
 
     private String upload(File uploadFile, String dirName) {
+
+        String fileName = dirName + "/" + uploadFile.getName();
+
         // s3에 저장되는 파일이름을 바꾸고 싶으면 여기를 수정하면 됩니다.
-        String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
+        // 기존 main
+        // String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
+
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -52,7 +58,11 @@ public class S3Uploader {
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+fileName;
+
+        String s = amazonS3Client.getUrl(bucket, fileName).toString();
+        String filename = s.substring(s.lastIndexOf(".amazonaws.com/")+15);
+        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+filename;
+
         return url;
     }
 
@@ -84,3 +94,4 @@ public class S3Uploader {
         amazonS3Client.deleteObject(bucket,fileName);
     }
 }
+

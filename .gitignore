@@ -28,11 +28,17 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-
+src/main/java/com/example/umc3_teamproject/config/AppleLoginUtil.java
 src/main/java/com/example/umc3_teamproject/config/SecurityConfig.java
 src/main/resources/templates/index.html
+
 src/main/resources/firebase/umc3-teamproject-firebase-adminsdk-tkrgr-eb04b44871.json
 *.yml
+src/main/resources/authkey
+src/main/resources/static
+src/main/java/com/example/umc3_teamproject/controller/AppleController.java
+src/main/resources/application.yml
+
 
 ### NetBeans ###
 /nbproject/private/

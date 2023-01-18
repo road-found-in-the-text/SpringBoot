@@ -124,10 +124,6 @@ public class ForumController {
         return forumService.getLike(forum_id);
     }
 
-    @GetMapping("/search")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword){
-        return forumService.SearchAllByKeyword(search_keyword);
-    }
 
     @GetMapping("/like")
     public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){

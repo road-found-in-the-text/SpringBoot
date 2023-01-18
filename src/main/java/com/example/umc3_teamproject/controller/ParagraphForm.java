@@ -2,15 +2,17 @@ package com.example.umc3_teamproject.controller;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 
 public class ParagraphForm {
-    private String title;
-    private String type;
+    private String contents;
     private long userId;
     private long scriptId;
-    //private String imgName;
-    //private String imgUrl;
+    //private List<ParagraphImage> paragraphImages = new ArrayList<>();
+
 
 }

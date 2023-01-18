@@ -35,11 +35,9 @@ public class Member extends BaseTimeEntity {
 
     private int loginType; //일반 로그인 또는 소셜로그인
 
-    private boolean comments_alarm_permission;
-    private boolean voice_permission;
-    private boolean event_permission;
-    private boolean report_status;
+    private int memberStatus;
 
+    private int blockStatus;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Script> scripts = new ArrayList<>();
@@ -57,7 +55,7 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, boolean comments_alarm_permission, boolean voice_permission, boolean event_permission, boolean report_status){
+    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
         this.pw = pw;
@@ -65,9 +63,8 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.tier = tier;
         this.loginType = loginType;
-        this.comments_alarm_permission = comments_alarm_permission;
-        this.voice_permission = voice_permission;
-        this.event_permission = event_permission;
-        this.report_status = report_status;
+
+        this.memberStatus = memberStatus;
+        this.blockStatus = blockStatus;
     }
 }
