@@ -42,7 +42,7 @@ public class ScriptResponseDto {
                 .userId(script.getUserId())
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
-                // .contents(firstP.getContent())
+                .contents(firstP.getContents())
                 .type(script.getType())
                 .createdDate(script.getCreatedDate())
                 .modifiedDate(script.getModifiedDate())

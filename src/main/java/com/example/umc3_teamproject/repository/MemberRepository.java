@@ -156,6 +156,23 @@ public class MemberRepository {
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
 
+    // 이메일로 user id 찾기
+    @Transactional
+    public Long findUserIdByEmail(String email) {
+        String findUserQuery = "select member_id from Member where email = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        // Object[] deleteUserParams = new Object[]{deleteUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
+        // return this.jdbcTemplate.query(findUserQuery, email);
+        return jdbcTemplate.queryForObject(findUserQuery, Long.class, email);
+    }
+
+    @Transactional
+    public int updatePassword(Long id, String pwd ) {
+
+        String modifyPasswordQuery = "update Member set pw = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        Object[] modifyPasswordParams = new Object[]{pwd, id}; // 주입될 값들(nickname, userIdx) 순
+
+        return this.jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
+    }
 
 }

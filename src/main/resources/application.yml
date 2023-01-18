@@ -55,6 +55,16 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+      # username: road.found.in.the.text@gmail.com
+    username: road.found.in.the.text
+    password: text1234!!
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 
 logging:
   level:
