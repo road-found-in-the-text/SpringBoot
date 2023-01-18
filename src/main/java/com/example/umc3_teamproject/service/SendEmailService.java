@@ -12,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.INVALID_JWT;
 
 @Service
@@ -22,7 +24,7 @@ public class SendEmailService {
     MemberRepository userRepository;
 
     private JavaMailSender mailSender;
-    private static final String FROM_ADDRESS = "본인의 이메일 주소를 입력하세요!";
+    private static final String FROM_ADDRESS = "road.found.in.the.text@gmail.com";
 
 
 
@@ -34,16 +36,19 @@ public class SendEmailService {
         dto.setMessage("안녕하세요. HOTTHINK 임시비밀번호 안내 관련 이메일 입니다." + "[" + userName + "]" +"님의 임시 비밀번호는 "
                 + str + " 입니다.");
         updatePassword(str,userEmail);
+        mailSend(dto);
         return dto;
     }
 
     public void updatePassword(String password_input,String userEmail) throws ResponseException {
         // String pw = EncryptionUtils.encryptMD5(str);
-        Long id = userRepository.findUserIdByEmail(userEmail);
+        Optional<Long> id = userRepository.findUserIdByEmail(userEmail);
         String pwd;
         try {
             pwd =  new AES128(SecurityConfig.USER_INFO_PASSWORD_KEY).encrypt(password_input); // 암호화코드
-            userRepository.updatePassword(id,pwd);
+            if (id.isPresent())
+                userRepository.updatePassword(id.get(),pwd);
+
         } catch (Exception ignored) { // 암호화가 실패하였을 경우 에러 발생
             throw new ResponseException(INVALID_JWT);
         }

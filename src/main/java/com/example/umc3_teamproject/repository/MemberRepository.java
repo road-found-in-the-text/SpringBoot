@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;;
 import java.util.List;
-
+import java.util.Optional;
 
 
 //데이터베이스 관련 작업을 전담.
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Repository
 public class MemberRepository {
-
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired //readme 참고
@@ -31,7 +31,7 @@ public class MemberRepository {
 
     @Transactional
     public Long createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, comments_alarm_permission, voice_permission, event_permission, report_status) " +
+        String createUserQuery = "insert into umc3.member (email, pw,  nick_name, tier, image_url, login_type, comments_alarm_permission, voice_permission, event_permission, report_status) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
         Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
@@ -108,7 +108,7 @@ public class MemberRepository {
 
     @Transactional(readOnly = true)
     public List<MemberRes> getUsers() {
-        String getUsersQuery = "select * from Member"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
+        String getUsersQuery = "select * from umc3.member"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
@@ -150,7 +150,7 @@ public class MemberRepository {
     //USER table tuple 삭제
     @Transactional
     public int deleteUser(DeleteUserReq deleteUserReq) {
-        String deleteUserQuery = "delete from Member where member_id = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        String deleteUserQuery = "delete from umc3.member where member_id = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] deleteUserParams = new Object[]{deleteUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
@@ -158,21 +158,26 @@ public class MemberRepository {
 
     // 이메일로 user id 찾기
     @Transactional
-    public Long findUserIdByEmail(String email) {
-        String findUserQuery = "select member_id from Member where email = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+    public Optional<Long> findUserIdByEmail(String email) {
+        String findUserQuery = "select member_id from umc3.member where email = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         // Object[] deleteUserParams = new Object[]{deleteUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
         // return this.jdbcTemplate.query(findUserQuery, email);
-        return jdbcTemplate.queryForObject(findUserQuery, Long.class, email);
+        // 해당 email의 사용자를 못 찾을 경우 예외 처리
+        try {
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(findUserQuery, Long.class, email));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Transactional
-    public int updatePassword(Long id, String pwd ) {
+    public void updatePassword(Long id, String pwd ) {
 
         String modifyPasswordQuery = "update Member set pw = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] modifyPasswordParams = new Object[]{pwd, id}; // 주입될 값들(nickname, userIdx) 순
 
-        return this.jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
+        jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
 
 }
