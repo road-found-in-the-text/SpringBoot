@@ -52,6 +52,9 @@ public class Script extends BaseEntity {
     @Column
     private boolean deleted;
 
+    // @Column
+    // private String contents;
+
     // paragraph를 list로 추가
     @OneToMany(mappedBy = "scriptId")
     @JsonBackReference
