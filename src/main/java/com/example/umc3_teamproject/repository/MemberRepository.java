@@ -29,12 +29,14 @@ public class MemberRepository {
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into umc3.member (email, pw,  nick_name, tier, image_url, login_type, comments_alarm_permission, voice_permission, event_permission, report_status) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
-        Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, false, false, false, false}; // 동적 쿼리의 ?부분에 주입될 값
+        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
+                "VALUES (?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
+
+
+        Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -74,10 +76,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("comments_alarm_permission"),
-                        rs.getBoolean("voice_permission"),
-                        rs.getBoolean("event_permission"),
-                        rs.getBoolean("report_status"))
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus"))
                 , // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getPwParams
         ); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
@@ -95,10 +95,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("comments_alarm_permission"),
-                        rs.getBoolean("voice_permission"),
-                        rs.getBoolean("event_permission"),
-                        rs.getBoolean("report_status")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                         ),
 
                          // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
@@ -116,10 +114,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("comments_alarm_permission"),
-                        rs.getBoolean("voice_permission"),
-                        rs.getBoolean("event_permission"),
-                        rs.getBoolean("report_status")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                 ))
                         ; // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
          // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
@@ -139,10 +135,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("comments_alarm_permission"),
-                        rs.getBoolean("voice_permission"),
-                        rs.getBoolean("event_permission"),
-                        rs.getBoolean("report_status")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                 ),
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
@@ -150,6 +144,7 @@ public class MemberRepository {
     //USER table tuple 삭제
     @Transactional
     public int deleteUser(DeleteUserReq deleteUserReq) {
+
         String deleteUserQuery = "delete from umc3.member where member_id = ?"; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] deleteUserParams = new Object[]{deleteUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
@@ -180,4 +175,6 @@ public class MemberRepository {
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
 
+
+    }
 }
