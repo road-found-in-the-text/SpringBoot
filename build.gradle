@@ -57,12 +57,17 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation "com.amazonaws:aws-java-sdk-s3"
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
+
 
 
 	implementation 'mysql:mysql-connector-java'
@@ -73,6 +78,8 @@ dependencies {
 
 	// Gradle
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation "com.amazonaws:aws-java-sdk-s3"
 
 
 	//애플 로그인
