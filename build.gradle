@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
@@ -49,6 +50,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 	//implementation 'com.kakao.sdk:usermgmt:1.16.0'
 
+
 	//swagger
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -65,7 +67,6 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
-
 
 	implementation 'mysql:mysql-connector-java'
 

@@ -1,11 +1,13 @@
 package com.example.umc3_teamproject.repository;
 
 
+import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.QForum;
 import com.example.umc3_teamproject.exception.CustomException;
 import com.example.umc3_teamproject.exception.ErrorCode;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,8 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.beans.Expression;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -130,5 +134,14 @@ public class ForumRepository {
                 .fetch();
     }
 
-
+    public List<Forum> SearchSixForumByLikeDesc(ForumRequestDto.searchDate7Days searchDate7Days){
+        QForum qForum = QForum.forum;
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.createdDate.between(searchDate7Days.getSearchStartDate(),searchDate7Days.getSearchEndDate()))
+                .orderBy(qForum.like_num.desc())
+                .offset(0)
+                .limit(6)
+                .fetch();
+    }
 }

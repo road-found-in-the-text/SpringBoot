@@ -129,4 +129,9 @@ public class ForumController {
         return forumService.SearchAllByKeyword(search_keyword);
     }
 
+    @GetMapping("/like")
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
+        return forumService.getSixForumByLikeDesc();
+    }
+
 }
