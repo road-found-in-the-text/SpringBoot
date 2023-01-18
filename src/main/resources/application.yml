@@ -1,13 +1,17 @@
 spring:
+  application: name:umc3_teamproject
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/umc3?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/TEXTROAD?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: 1234
+    password: root
+  driver-class-name: com.mysql.cj.jdbc.Driver
+
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
+
 
 
   #swagger? ?? ???
@@ -15,14 +19,42 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show_sql: true
     format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+
+  profiles:
+    include: oauth
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: d5517e911cbbe70ba473c242d40d0407
+            redirect-uri: "http://localhost:8080/oauth/kakao"
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, account_email #동의 항목
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
 
 logging:
   level:
@@ -36,12 +68,14 @@ logging:
 cloud:
   aws:
     credentials:
-      accessKey:        # AWS IAM AccessKey 적기
-      secretKey:   # AWS IAM SecretKey 적기
+      accessKey: AKIASMZOOGKFOM3N7Y4X       # AWS IAM AccessKey 적기
+      secretKey: RiPqJzkuOqijfDyPckhZzkWdkKPYuD9R+BmtfsEp   # AWS IAM SecretKey 적기
     s3:
-      bucket: umc3-road-found-bucket
+      bucket: com.gleonroad.umcproject
+
     region:
       static: ap-northeast-2
       auto: false
     stack:
       auto: false
+

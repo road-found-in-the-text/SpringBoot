@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class ParagraphService {
 
         Paragraph paragraph=Paragraph.builder()
                 .userId(paragraph1.getUserId())
+                // .scriptId(paragraph1.getScriptId())
                 .scriptId(paragraph1.getScriptId())
                 .contents(paragraph1.getContents())
                 .deleted(false)
@@ -44,7 +46,7 @@ public class ParagraphService {
             Paragraph before_paragraph = optionalProduct.get();
             Paragraph updateParagraph=new Paragraph();
             updateParagraph.setParagraphId(id);
-            updateParagraph.setScriptId(id);
+            updateParagraph.setScriptId(paragraph1.getScriptId());
             updateParagraph.setUserId(before_paragraph.getUserId());
             updateParagraph.setCreatedDate(before_paragraph.getCreatedDate());
             updateParagraph.setContents(paragraph1.getContents());
@@ -60,7 +62,7 @@ public class ParagraphService {
             Paragraph before_paragraph = optionalProduct.get();
             Paragraph deletedParagraph=new Paragraph();
             deletedParagraph.setParagraphId(id);
-            deletedParagraph.setScriptId(id);
+            deletedParagraph.setScriptId(before_paragraph.getScriptId());
             deletedParagraph.setUserId(before_paragraph.getUserId());
             deletedParagraph.setCreatedDate(before_paragraph.getCreatedDate());
             deletedParagraph.setContents(before_paragraph.getContents());

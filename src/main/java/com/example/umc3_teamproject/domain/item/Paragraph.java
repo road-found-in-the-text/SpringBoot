@@ -21,8 +21,10 @@ public class Paragraph extends BaseEntity {
     @Column(name="paragraphId", updatable = false)
     private Long paragraphId;
 
-    @Column(name="scriptId", updatable = false)
-    private Long scriptId;
+    // @Column(name="scriptId", updatable = false)
+    @ManyToOne()
+    @JoinColumn(name="scriptId")
+    private Script scriptId;
 
     @Column(name="userId", updatable = false)
     private Long userId;
@@ -38,8 +40,8 @@ public class Paragraph extends BaseEntity {
         this.deleted = false;
     }
 
+
    // @OneToMany(mappedBy = "paragraph", orphanRemoval = true,cascade = CascadeType.ALL)
     // private List<ParagraphImage> paragraphImages = new ArrayList<>();
-
 
 }
