@@ -10,8 +10,6 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
-
-
   #swagger? ?? ???
   mvc:
     pathmatch:
@@ -37,7 +35,7 @@ custom:
   config:
     oauth:
       social:
-        base_url: http://localhost:8080
+        base_url: http://localhost:8000
 
         kakao:
           client_id: d5517e911cbbe70ba473c242d40d0407

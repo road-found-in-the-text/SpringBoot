@@ -29,9 +29,9 @@ public class MemberRepository {
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long createUser(SignupReq signupReq) {
-        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, memberStatus, blockStatus) " +
+        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
                 "VALUES (?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
         Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
@@ -74,8 +74,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("memberStatus"),
-                        rs.getBoolean("blockStatus"))
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus"))
                 , // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getPwParams
         ); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
@@ -93,8 +93,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("memberStatus"),
-                        rs.getBoolean("blockStatus")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                         ),
 
                          // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
@@ -112,8 +112,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("memberStatus"),
-                        rs.getBoolean("blockStatus")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                 ))
                         ; // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
          // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
@@ -133,8 +133,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getBoolean("memberStatus"),
-                        rs.getBoolean("blockStatus")
+                        rs.getInt("memberStatus"),
+                        rs.getInt("blockStatus")
                 ),
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }

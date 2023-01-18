@@ -18,7 +18,7 @@ import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateSt
 @Service
 public class MemberService {
 
-   // final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass()); // Log 처리부분: Log를 기록하기 위해 필요한 함수입니다.
+    //final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass()); // Log 처리부분: Log를 기록하기 위해 필요한 함수입니다.
 
     // *********************** 동작에 있어 필요한 요소들을 불러옵니다. *************************
     private final MemberRepository memberRepository;
@@ -36,7 +36,7 @@ public class MemberService {
     }
     // ******************************************************************************
     // 회원가입(POST)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public SignupRes createUser(SignupReq signupReq) throws ResponseException {
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
         if (loginService.checkEmail(signupReq.getEmail()) == 1) {

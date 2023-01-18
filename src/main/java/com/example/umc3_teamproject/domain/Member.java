@@ -35,9 +35,9 @@ public class Member extends BaseTimeEntity {
 
     private int loginType; //일반 로그인 또는 소셜로그인
 
-    private boolean memberStatus;
+    private int memberStatus;
 
-    private boolean blockStatus;
+    private int blockStatus;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Script> scripts = new ArrayList<>();
@@ -55,7 +55,7 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, boolean memberStatus, boolean blockStatus){
+    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
         this.pw = pw;

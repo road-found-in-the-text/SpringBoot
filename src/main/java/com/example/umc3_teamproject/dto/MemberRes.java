@@ -18,8 +18,8 @@ public class MemberRes {
     private int loginType;
 
     //허용
-    private boolean memberStatus;
+    private int memberStatus;
 
-    private boolean blockStatus;
+    private int blockStatus;
 
 }
