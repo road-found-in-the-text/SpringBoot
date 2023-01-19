@@ -4,6 +4,7 @@ package com.example.umc3_teamproject.repository;
 import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.domain.item.Forum;
+import com.example.umc3_teamproject.domain.item.QForum;
 import com.example.umc3_teamproject.exception.CustomException;
 import com.example.umc3_teamproject.exception.ErrorCode;
 import com.querydsl.core.types.dsl.Expressions;
@@ -121,7 +122,15 @@ public class ForumRepository {
         return query.getResultList();
     }
 
-
+    public List<Forum> SearchAllByKeyword(String search_keyword){
+        QForum qForum = QForum.forum;
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.title.containsIgnoreCase(search_keyword)
+                        .or(qForum.content.containsIgnoreCase(search_keyword)))
+                .orderBy(qForum.like_num.desc())
+                .fetch();
+    }
 
     public List<Forum> SearchSixForumByLikeDesc(ForumRequestDto.searchDate7Days searchDate7Days){
         QForum qForum = QForum.forum;

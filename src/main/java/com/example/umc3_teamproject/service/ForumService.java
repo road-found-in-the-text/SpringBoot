@@ -1,8 +1,5 @@
 package com.example.umc3_teamproject.service;
 
-
-
-
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.Member;
@@ -39,7 +36,11 @@ public class ForumService {
 
     private final ScriptRepository scriptRepository;
 
+    private final InterviewRepository interviewRepository;
+
     private final ForumScriptRepository forumScriptRepository;
+
+    private final ForumInterviewRepository forumInterviewRepository;
 
     private final MemberService memberService;
 
@@ -83,13 +84,19 @@ public class ForumService {
         if(findMember == null){
             throw new CustomException(ErrorCode.Member_NOT_FOUND);
         }
-        List<ForumRequestDto.ScriptIdsToRequest> scriptIdToRequests = new ArrayList<>();
+
         List<String> postImages = new ArrayList<>();
         forum.createForum(findMember,request.getTitle(), request.getContent());
 
+        List<ForumRequestDto.ScriptIdsToRequest> scriptIdToRequests = new ArrayList<>();
         // script가 있다면 실행
         if(request.getScriptIds() != null && !request.getScriptIds().isEmpty()){
             scriptIdToRequests = uploadScriptToForum(request,forum);
+        }
+
+        List<ForumRequestDto.InterviewIdsToRequest> interviewIdsToRequests = new ArrayList<>();
+        if(request.getInterviewIds() != null && !request.getInterviewIds().isEmpty()){
+            interviewIdsToRequests = uploadInterviewToForum(request,forum);
         }
 
         // 이미지가 있다면 실행
@@ -100,7 +107,7 @@ public class ForumService {
         forumRepository.save(forum);
         return new ResponseTemplate<>(new ForumResponseDto.ForumDataToGetResult(forum.getMember().getId(),forum.getId(),
                 forum.getTitle(),forum.getContent(),forum.getLike_num(),
-                scriptIdToRequests,postImages,forum.getCreatedDate(),forum.getModifiedDate()));
+                scriptIdToRequests,interviewIdsToRequests,postImages,forum.getCreatedDate(),forum.getModifiedDate()));
     }
 
     @Transactional
@@ -145,9 +152,9 @@ public class ForumService {
         List<ForumScript> scripts = request.getScriptIds().stream()
                 .map(ids ->
                         {
-                                return scriptRepository.findById(ids.getScript_id()).orElseThrow(
-                                        () ->  new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
-                                );
+                            return scriptRepository.findById(ids.getScript_id()).orElseThrow(
+                                    () ->  new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
+                            );
                         }
                 )
                 .map(script -> createForumScript(forum,script)).collect(Collectors.toList());
@@ -164,9 +171,46 @@ public class ForumService {
                 .collect(Collectors.toList());
     }
 
+    private List<ForumRequestDto.InterviewIdsToRequest> uploadInterviewToForum(ForumRequestDto.createForumRequest request, Forum forum) {
+        forum.setInterview_status_true();
+        if(request.getInterviewIds().size() >= 2){
+            if(request.getInterviewIds().get(0).getInterview_id() == null && request.getInterviewIds().get(1).getInterview_id() != null){
+                throw new CustomException(ErrorCode.INTERVIEW_NOT_FOUND);
+            }
+        }
+
+        List<ForumInterview> interviews = request.getInterviewIds().stream()
+                .map(ids ->
+                        {
+                            return interviewRepository.findById(ids.getInterview_id()).orElseThrow(
+                                    () ->  new CustomException(ErrorCode.INTERVIEW_NOT_FOUND)
+                            );
+                        }
+                )
+                .map(interview -> createForumInterview(forum,interview)).collect(Collectors.toList());
+
+        return interviews.stream()
+                .map(interview_one -> {
+                    try{
+                        return new ForumRequestDto.InterviewIdsToRequest(interview_one.getInterview().getInterviewId());
+                    }catch (Exception e){
+                        throw new CustomException(ErrorCode.INTERVIEW_NOT_FOUND);
+//
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
     private ForumScript createForumScript(Forum forum, Script script) {
         return forumScriptRepository.save(ForumScript.builder()
                 .script(script)
+                .forum(forum)
+                .build());
+    }
+
+    private ForumInterview createForumInterview(Forum forum, Interview interview) {
+        return forumInterviewRepository.save(ForumInterview.builder()
+                .interview(interview)
                 .forum(forum)
                 .build());
     }
@@ -188,10 +232,15 @@ public class ForumService {
                 ForumScript::getId
         ).collect(Collectors.toList()));
 
+        forumInterviewRepository.deleteAllByIdInQuery(findForum.getForumInterviews().stream().map(
+                ForumInterview::getId
+        ).collect(Collectors.toList()));
+
         ForumRequestDto.createForumRequest createForumRequest = new ForumRequestDto.createForumRequest(
                 request.getTitle(),
                 request.getContent(),
                 request.getScriptIds(),
+                request.getInterviewIds(),
                 request.getImageFiles()
         );
 
@@ -202,6 +251,15 @@ public class ForumService {
             scriptIdToRequests = uploadScriptToForum(createForumRequest,findForum);
         }else{
             findForum.setScript_status_false();
+        }
+
+        // 기존에 있던 interview id들을 전부 delete하고 수정 다 끝나고 최종적으로 남아 있는 interview id들을 모두 받아서 다시 insert 한다.
+        List<ForumRequestDto.InterviewIdsToRequest> interviewIdsToRequests = new ArrayList<>();
+
+        if(request.getInterviewIds() != null && !request.getInterviewIds().isEmpty()){
+            interviewIdsToRequests = uploadInterviewToForum(createForumRequest,findForum);
+        }else{
+            findForum.setInterview_status_false();
         }
 
         // 기존에 게시물에 있던 이미지들 중 삭제 다 하고 남아 있는 이미지 url을 제외한 모든 이미지를 삭제한다.
@@ -223,10 +281,11 @@ public class ForumService {
         ForumResponseDto.ForumDataToGetResult forumDataToGetResult = new ForumResponseDto.ForumDataToGetResult(findForum.getMember().getId(),
                 findForum.getId(),findForum.getTitle(),findForum.getContent(),findForum.getLike_num(),
                 request.getScriptIds(),
+                request.getInterviewIds(),
                 findForum.getForumImages().stream().map(
                         ForumImage::getImageUrl
                 ).collect(Collectors.toList())
-        ,findForum.getCreatedDate(),findForum.getModifiedDate());
+                ,findForum.getCreatedDate(),findForum.getModifiedDate());
         return new ResponseTemplate<>(forumDataToGetResult);
 //        return findForum;
     }
@@ -251,6 +310,8 @@ public class ForumService {
         findForum.changeDeleted(true);
         findForum.getForumScripts()
                 .forEach(ForumScript::deleteScript);
+        findForum.getForumInterviews()
+                .forEach(ForumInterview::deleteInterview);
         findForum.getForumImages()
                 .forEach(ForumImage::deleteImage);
         commentRepository.deleteAllByForumId(forum_id);
@@ -260,10 +321,10 @@ public class ForumService {
     private void deleteImages(Forum forum) {
         forum.getForumImages().stream().
                 forEach( forumimage -> {
-                    forumImageRepository.deleteByIdInQuery(forumimage.getId());
-                    s3Uploader.deleteFile(forumimage.getStoreFilename());
-                }
-        );
+                            forumImageRepository.deleteByIdInQuery(forumimage.getId());
+                            s3Uploader.deleteFile(forumimage.getStoreFilename());
+                        }
+                );
     }
 
     // forum read
@@ -298,6 +359,9 @@ public class ForumService {
                 forum.getLike_num(),
                 forum.getForumScripts().stream().map(
                         i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())
+                ).collect(Collectors.toList()),
+                forum.getForumInterviews().stream().map(
+                        i -> new ForumRequestDto.InterviewIdsToRequest(i.getInterview().getInterviewId())
                 ).collect(Collectors.toList()),
                 forum.getForumImages().stream().map(
                         i -> i.getImageUrl()
@@ -354,16 +418,9 @@ public class ForumService {
         return new ResponseTemplate<>(new ForumResponseDto.LikeResponseDto(findForum.getId(),findForum.getLike_num()));
     }
 
-
-
-    private ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToGetResult(List<Forum> forums) {
-        List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
-                        s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
-                                s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())
-                        , s.getCreatedDate(),s.getModifiedDate()))
-                .collect(Collectors.toList());
-        return new ResponseTemplate<>(forumDataToGetResultRespons);
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByKeyword(String search_keyword){
+        List<Forum> searchedForum= forumRepository.SearchAllByKeyword(search_keyword);
+        return getListFroumDataToGetResult(searchedForum);
     }
 
     public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
@@ -371,5 +428,16 @@ public class ForumService {
 
         List<Forum> searchedForum= forumRepository.SearchSixForumByLikeDesc(search7days);
         return getListFroumDataToGetResult(searchedForum);
+    }
+
+    private ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToGetResult(List<Forum> forums) {
+        List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
+                        s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
+                                s.getForumInterviews().stream().map(i -> new ForumRequestDto.InterviewIdsToRequest(i.getInterview().getInterviewId())).collect(Collectors.toList()),
+                                s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())
+                                , s.getCreatedDate(),s.getModifiedDate()))
+                .collect(Collectors.toList());
+        return new ResponseTemplate<>(forumDataToGetResultRespons);
     }
 }

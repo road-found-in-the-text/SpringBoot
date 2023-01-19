@@ -133,8 +133,8 @@ public class MemberRepository {
                         rs.getString("image_url"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
-                        rs.getInt("memberStatus"),
-                        rs.getInt("blockStatus")
+                        rs.getInt("member_status"),
+                        rs.getInt("block_status")
                 ),
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }

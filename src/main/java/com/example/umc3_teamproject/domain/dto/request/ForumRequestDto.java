@@ -22,6 +22,7 @@ public class ForumRequestDto {
         private String title;
         private String content;
         private List<ScriptIdsToRequest> scriptIds;
+        private List<InterviewIdsToRequest> interviewIds;
 
         @ApiModelProperty(value = "이미지 파일", required = false)
         private List<MultipartFile> imageFiles = new ArrayList<>();
@@ -37,10 +38,19 @@ public class ForumRequestDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class InterviewIdsToRequest {
+        private Long interview_id;
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class updateForumRequest {
         private String title;
         private String content;
         private List<ScriptIdsToRequest> scriptIds;
+        private List<InterviewIdsToRequest> interviewIds;
 
         @ApiModelProperty(value = "삭제한 이미지 경로를 제외한 남아있는 게시글 이미지 경로")
         private List<String> saveImageUrls = new ArrayList<>();

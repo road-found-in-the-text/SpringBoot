@@ -2,6 +2,7 @@ package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.domain.dto.request.MailRequestDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

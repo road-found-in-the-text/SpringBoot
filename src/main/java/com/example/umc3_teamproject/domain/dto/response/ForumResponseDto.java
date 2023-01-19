@@ -34,6 +34,9 @@ public class ForumResponseDto {
         @ApiParam(value = "해당 forum에 저장된 script의 id (복수 가능)", required = false, example = "")
         private List<ForumRequestDto.ScriptIdsToRequest> scriptIdToRequests;
 
+        @ApiParam(value = "해당 forum에 저장된 interview의 id (복수 가능)", required = false, example = "")
+        private List<ForumRequestDto.InterviewIdsToRequest> interviewIdsToRequests;
+
         @ApiParam(value = "해당 froum에 저장된 이미지 또는 비디오 url (복수 가능)", required = false, example = "1")
         private List<String> forumImage_url;
 

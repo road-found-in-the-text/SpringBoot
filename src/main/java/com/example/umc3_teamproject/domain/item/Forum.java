@@ -43,7 +43,8 @@ public class Forum extends BaseEntity {
     @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ForumScript> forumScripts = new ArrayList<>();
 
-//    private List<Interview> interviews = new ArrayList<>();
+    @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<ForumInterview> forumInterviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>(); // 댓글
@@ -62,6 +63,7 @@ public class Forum extends BaseEntity {
         this.script_status = false;
         this.report_status = false;
         this.image_video_status = false;
+        this.interview_status = false;
         this.deleted_status = false;
         this.setCreatedDate(LocalDateTime.now());
         this.setModifiedDate(LocalDateTime.now());
@@ -88,6 +90,12 @@ public class Forum extends BaseEntity {
     }
 
     public void setScript_status_false(){this.script_status = false;}
+
+    public void setInterview_status_true(){
+        this.interview_status = true;
+    }
+
+    public void setInterview_status_false(){this.interview_status = false;}
 
     public void setImage_video_status_true(){this.image_video_status = true;}
     public void setImage_video_status_false(){this.image_video_status = false;}
