@@ -41,28 +41,28 @@ import java.util.stream.Collectors;
 @Component
 public class AppleOAuth implements SocialOAuth {
 
-    @Value("${umc3_teamproject.config.oauth.social.base_url}")
+    @Value("${custom.config.oauth.social.base_url}")
     private String baseUrl;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.client_id}")
+    @Value("${custom.config.oauth.social.apple.client_id}")
     private String clientId;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.team_id}")
+    @Value("${custom.config.oauth.social.apple.team_id}")
     private String teamId;
 
     // 직접 생성
     private String clientSecret;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.callback_path}")
+    @Value("${custom.config.oauth.social.apple.callback_path}")
     private String callbackPath;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.authorization_uri}")
+    @Value("${custom.config.oauth.social.apple.authorization_uri}")
     private String authorizationUri;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.token_uri}")
+    @Value("${custom.config.oauth.social.apple.token_uri}")
     private String tokenUri;
 
-    @Value("${umc3_teamproject.config.oauth.social.apple.public_key}")
+    @Value("${custom.config.oauth.social.apple.public_key}")
     private String publicKey;
 
 
