@@ -23,7 +23,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -66,15 +66,16 @@ custom:
           token_uri: https://kauth.kakao.com/oauth/token
           user_info_uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
-  #          apple:
-  #            cient-id: [CLIENT ID (org.example.apple)]
-  #            team-id: [TEAM ID]
-  #            #private key는 직접 생성
-  #            callback_path : /oauth/apple/callback
-  #
-  #            authorization_uri: https://appleid.apple.com/auth/authorize
-  #            token_uri: https://appleid.apple.com/auth/token
-  #            public_key: https://appleid.apple.com/auth/keys
+
+          apple:
+              cient-id: com.example.umc
+              team-id: 8UH8NT52W2
+              #private key는 직접 생성
+              callback_path : /oauth/apple/callback
+
+              authorization_uri: https://appleid.apple.com/auth/authorize
+              token_uri: https://appleid.apple.com/auth/token
+              public_key: https://appleid.apple.com/auth/keys
 
 
 
