@@ -13,6 +13,8 @@ spring:
       max-request-size: 50MB
 
 
+
+
   #swagger? ?? ???
 
   mvc:
@@ -36,6 +38,16 @@ spring:
   profiles:
     include: oauth
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    # username: road.found.in.the.text@gmail.com
+    username: road.found.in.the.text@gmail.com
+    password: text1234!!
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 custom:
   config:
     oauth:
@@ -54,25 +66,18 @@ custom:
           token_uri: https://kauth.kakao.com/oauth/token
           user_info_uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
-#          apple:
-#            cient-id: [CLIENT ID (org.example.apple)]
-#            team-id: [TEAM ID]
-#            #private key는 직접 생성
-#            callback_path : /oauth/apple/callback
-#
-#            authorization_uri: https://appleid.apple.com/auth/authorize
-#            token_uri: https://appleid.apple.com/auth/token
-#            public_key: https://appleid.apple.com/auth/keys
+  #          apple:
+  #            cient-id: [CLIENT ID (org.example.apple)]
+  #            team-id: [TEAM ID]
+  #            #private key는 직접 생성
+  #            callback_path : /oauth/apple/callback
+  #
+  #            authorization_uri: https://appleid.apple.com/auth/authorize
+  #            token_uri: https://appleid.apple.com/auth/token
+  #            public_key: https://appleid.apple.com/auth/keys
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-      # username: road.found.in.the.text@gmail.com
-    username: road.found.in.the.text@gmail.com
-    password: text1234!!
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
+
+
 
 logging:
   level:
@@ -96,4 +101,3 @@ cloud:
       auto: false
     stack:
       auto: false
-
