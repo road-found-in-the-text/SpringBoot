@@ -32,7 +32,7 @@ public class MemberRepository {
     @Transactional(rollbackFor = Exception.class)
     public Long createUser(SignupReq signupReq) {
 
-        String createUserQuery = "insert into Member (email, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
+        String createUserQuery = "insert into umc3.member (email, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
                 "VALUES (?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
 
@@ -49,14 +49,14 @@ public class MemberRepository {
 
     // 이메일 확인
     public Long checkEmail(String email) {
-        String checkEmailQuery = "select exists(select email from Member where email = ?)"; // User Table에 해당 email 값을 갖는 유저 정보가 존재하는가?
+        String checkEmailQuery = "select exists(select email from umc3.member where email = ?)"; // User Table에 해당 email 값을 갖는 유저 정보가 존재하는가?
         String checkEmailParams = email; // 해당(확인할) 이메일 값
         return this.jdbcTemplate.queryForObject(checkEmailQuery, Long.class, checkEmailParams); // checkEmailQuery, checkEmailParams를 통해 가져온 값(intgud)을 반환한다. -> 쿼리문의 결과(존재하지 않음(False,0),존재함(True, 1))를 int형(0,1)으로 반환됩니다.
     }
 
     // 회원정보 변경
     public int modifyUserName(UpdateNickNameReq updateNickNameReq) {
-        String modifyUserNameQuery = "update Member set nick_name = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        String modifyUserNameQuery = "update umc3.member set nick_name = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] modifyUserNameParams = new Object[]{updateNickNameReq.getNickName(), updateNickNameReq.getMemberId()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
@@ -65,7 +65,7 @@ public class MemberRepository {
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
     public Member getPw(LoginReq loginReq) {
-        String getPwQuery = "select *  from Member where email = ?"; // 해당 email을 만족하는 User의 정보들을 조회한다.
+        String getPwQuery = "select *  from umc3.member where email = ?"; // 해당 email을 만족하는 User의 정보들을 조회한다.
         String getPwParams = loginReq.getEmail(); // 주입될 email값을 클라이언트의 요청에서 주어진 정보를 통해 가져온다.
         return this.jdbcTemplate.queryForObject(getPwQuery,
                 (rs, rowNum) -> new Member(
@@ -86,7 +86,7 @@ public class MemberRepository {
     // 해당 nickname을 갖는 유저들의 정보 조회
     @Transactional(readOnly = true)
     public List<MemberRes> getUsersByNickName(String name) {
-        String getUsersByNickNameQuery = "select * from Member where nickName =?"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
+        String getUsersByNickNameQuery = "select * from umc3.member where nickName =?"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
         String getUsersByNickNameParams = name;
         return this.jdbcTemplate.query(getUsersByNickNameQuery,
                 (rs, rowNum) -> new MemberRes(
@@ -177,4 +177,4 @@ public class MemberRepository {
 
 
     }
-}
+
