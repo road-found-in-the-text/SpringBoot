@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.domain.dto.request;
 
+import com.example.umc3_teamproject.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.NotNull;
@@ -11,13 +12,13 @@ public class ScriptRequestDto {
     public static class Register {
 
         @NotNull(message = "user id는 필수 입력값입니다.")
-        private Long userId;
+        private Member userId;
 
         @NotNull(message = "title은 필수 입력값입니다.")
         private String title;
 
         // @NotNull(message = "type은 필수 입력값입니다.")
-        private String type;
+        // private String type;
 
     }
 
@@ -29,7 +30,7 @@ public class ScriptRequestDto {
         private String title;
 
         // @NotNull(message = "type은 필수 입력값입니다.")
-        private String type;
+        // private String type;
 
     }
 

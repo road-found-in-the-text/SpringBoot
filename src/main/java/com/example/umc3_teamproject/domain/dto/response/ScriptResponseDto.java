@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.domain.dto.response;
 
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.item.Paragraph;
 import com.example.umc3_teamproject.domain.item.Script;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long userId;
+        private Member userId;
         private Long scriptId;
 
         private String title;
@@ -35,15 +36,23 @@ public class ScriptResponseDto {
 
         List<Paragraph> paragraphList = new ArrayList<>();
         paragraphList=script.getParagraphList();
-        Paragraph firstP= paragraphList.get(0);
+
+        String firestScriptContent;
+
+        if (paragraphList.size()!=0) {
+            Paragraph firstP= paragraphList.get(0);
+            firestScriptContent=firstP.getContents();
+        } else {
+            firestScriptContent="";
+        }
 
         Body body = Body.builder()
                 .result("success")
                 .userId(script.getUserId())
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
-                .contents(firstP.getContents())
-                .type(script.getType())
+                .contents(firestScriptContent)
+                //.type(script.getType())
                 .createdDate(script.getCreatedDate())
                 .modifiedDate(script.getModifiedDate())
                 .build();

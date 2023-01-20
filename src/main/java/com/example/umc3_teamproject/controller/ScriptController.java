@@ -34,9 +34,6 @@ public class ScriptController {
 
     @PostMapping("/new")
     public ResponseEntity<?> writeScript(@Validated ScriptRequestDto.Register write){
-        // List<ScriptDto> result = productRepository.search(condition);
-        // System.out.println(result);
-        // return new ResponseEntity<List<ScriptDto>>(result, HttpStatus.OK);
 
         return scriptService.writeScript(write);
     }
@@ -48,11 +45,8 @@ public class ScriptController {
         Optional<Script> optionalProduct=scriptRepository.findById(id);
         if (optionalProduct.isPresent()) {
             Script script1 = optionalProduct.get();
-            log.info("gather test success");
             return scriptResponseDto.success(script1);
         }
-
-        log.info("gather test fail");
         return null;
     }
 
@@ -99,7 +93,7 @@ public class ScriptController {
             log.info("gather test success");
 
             before_script.setTitle(script_new.getTitle());
-            before_script.setType(script_new.getType());
+            //before_script.setType(script_new.getType());
 
             return scriptResponseDto.success(before_script);
         }
@@ -109,16 +103,6 @@ public class ScriptController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteScript(@PathVariable Long id) {
-
-        // Script script= scriptRepository.findById(id);
-        // String result=scriptService.remove(id);
-        // script.deleteScript();
-
         return scriptService.remove(id);
-        /*
-        if (script==null) {
-            throw new ScriptNotFoundException(String.format("ID[%s] not found", id));
-        }
-         */
     }
 }

@@ -32,7 +32,7 @@ public class ScriptService {
         Script script=Script.builder()
                 .userId(script1.getUserId())
                 .title(script1.getTitle())
-                .type(script1.getType())
+                // .type(script1.getType())
                 .deleted(false)
                 .build();
         scriptRepository.save(script);
@@ -52,33 +52,13 @@ public class ScriptService {
             updatedScript.setUserId(before_script.getUserId());
             updatedScript.setCreatedDate(before_script.getCreatedDate());
             updatedScript.setTitle(script1.getTitle());
-            updatedScript.setType(script1.getType());
+            // updatedScript.setType(script1.getType());
             scriptRepository.save(updatedScript);
 
             return updatedScript;
 
         }
-
         return null;
-
-        /*
-        Optional<Script> optionalProduct=scriptRepository.findById(id);
-
-        if (optionalProduct.isPresent()) {
-            Script update_script = optionalProduct.get();
-
-            update_script.setTitle(script1.getTitle());
-            update_script.setType(script1.getType());
-
-            // 새로운 것은 persist, 수정은 merge
-            // entityManager.merge(update_script);
-
-            return update_script;
-        }
-
-         */
-
-        // return null;
     }
 
     public String remove(Long id){
@@ -92,104 +72,13 @@ public class ScriptService {
             deletedScript.setUserId(before_script.getUserId());
             deletedScript.setCreatedDate(before_script.getCreatedDate());
             deletedScript.setTitle(before_script.getTitle());
-            deletedScript.setType(before_script.getType());
+            // deletedScript.setType(before_script.getType());
             deletedScript.setDeleted(true);
             scriptRepository.save(deletedScript);
 
             return id+" deleted success";
-
         }
-
         return null;
     }
 
-    /*
-    public Script deleteScriptById(Long id) {
-
-        Optional<Script> optionalProduct=scriptRepository.findById(id);
-        // Script delete_script = optionalProduct.get();
-        optionalProduct.delete();
-        return optionalProduct.orElse(null);
-
-        Iterator<Script> iterator = scripts.iterator();
-        while(iterator.hasNext()) {
-            Script script = iterator.next();
-            if(Objects.equals(script.getScriptId(), id)) {
-                iterator.remove();
-                return script;
-            }
-        }
-
-    }
-    */
-
-
-
-
-
-
-    /* search */
-    /*
-    @Transactional
-    public List<Script> search(String keyword) {
-        List<Script> scriptList = scriptRepository.findByTitleContaining(keyword);
-        return scriptList;
-    }
-     */
-
-    @Transactional
-    public void saveItem(Script script) {
-        scriptRepository.save(script);
-    }
-
-
-    /*
-    @Transactional
-    public List<Script> findUserScript(Long userId) {
-        return scriptRepository.findByUserId(userId);
-    }
-     */
-
-    /*
-    @Transactional
-    public List<Script> findScriptOfUser(Long userId, Long id) {
-        return scriptRepository.findByScriptId(userId, id);
-    }
-     */
-    /*
-    @Transactional(readOnly = true)
-    public Script getUserById(Long userId) {
-        return scriptRepository.findByUserId(userId)
-                .orElseThrow(()-> new IllegalArgumentException("User id를 확인해주세요."));
-    }
-
-    @Transactional(readOnly = true)
-    public Script getScriptById(Long userId, Long id) {
-        return scriptRepository.findByScriptId(userId, id)
-                .orElseThrow(()-> new IllegalArgumentException("Script id를 확인해주세요."));
-    }
-     */
-
-    // 변경 감지에 의해 data를 변경
-    /*
-    @Transactional
-    public void updateItem(Long scriptId, Script scriptItem) {
-
-        Script findItem= scriptRepository.findOne(scriptId);
-        findItem.setTitle(scriptItem.getTitle());
-        findItem.setType(scriptItem.getType());
-    }
-    */
-
-    /*
-    public List<Script> findScripts() {
-        return scriptRepository.findAll();
-    }
-     */
-
-    /*
-    public Script findOne(Long scriptId) {
-        return scriptRepository.findOne(scriptId);
-    }
-     */
 }
