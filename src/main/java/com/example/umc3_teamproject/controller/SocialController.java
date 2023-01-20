@@ -33,7 +33,7 @@ public class SocialController {
     @GetMapping("/{socialLoginType}/userInfo")
     public Object getUserInfo(@PathVariable(name = "socialLoginType") LoginType socialLoginType,
                               @RequestParam(name = "access_token") String accessToken) {
-        log.info("--------------------------------------");
+        log.info("-----------------",socialLoginType.name(),"---------------------");
         log.info("AccessToken: " + accessToken);
         return socialLoginService.getUserInfo(socialLoginType, accessToken);
     }
