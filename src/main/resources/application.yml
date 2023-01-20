@@ -56,13 +56,13 @@ custom:
 
         kakao:
           client_id: d5517e911cbbe70ba473c242d40d0407
-          callback_path: "/oauth/kakao"
+          callback_path: "http://localhost:8080/oauth/kakao"
           client-authentication-method: POST
           authorization-grant-type: authorization_code
           scope: profile_nickname, account_email #동의 항목
           client-name: Kakao
 
-          authorization_uri: https://kauth.kakao.com/oauth/authorize
+          authorization_uri: https://kauth.kakao.com/oauth/authorize?client_id=d5517e911cbbe70ba473c242d40d0407&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code
           token_uri: https://kauth.kakao.com/oauth/token
           user_info_uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
@@ -70,10 +70,10 @@ custom:
         apple:
             client_id: com.example.umc
             team_id: 8UH8NT52W2
-            #private key는 직접 생성
-            callback_path : /oauth/apple/callback
+          #private key는 직접 생성
+            callback_path : https://youngseo-computerblog.tistory.com/
 
-            authorization_uri: https://appleid.apple.com/auth/authorize
+            authorization_uri: https://appleid.apple.com/auth/authorize?response_type=code&redirect_uri=https://youngseo-computerblog.tistory.com&client_id=com.example.umc
             token_uri: https://appleid.apple.com/auth/token
             public_key: https://appleid.apple.com/auth/keys
 

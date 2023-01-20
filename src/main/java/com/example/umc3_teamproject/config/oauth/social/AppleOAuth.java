@@ -127,7 +127,9 @@ public class AppleOAuth implements SocialOAuth {
 
     private String createClientSecret() {
         try {
-            ClassPathResource resource = new ClassPathResource("key/AuthKey_12345678.p8");
+
+
+            ClassPathResource resource = new ClassPathResource("authkey/AuthKey_AF7CPL85LA.p8");
 
             byte[] bdata = FileCopyUtils.copyToByteArray(resource.getInputStream());
             String privateKey = new String(bdata, StandardCharsets.UTF_8);
@@ -139,7 +141,7 @@ public class AppleOAuth implements SocialOAuth {
 
             Date expirationDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
             String clientSecret = Jwts.builder()
-                    .setHeaderParam("kid", "12345678")
+                    .setHeaderParam("kid", "AF7CPL85LA")
                     .setHeaderParam("alg", "ES256")
                     .setIssuer(teamId)
                     .setIssuedAt(new Date(System.currentTimeMillis()))
