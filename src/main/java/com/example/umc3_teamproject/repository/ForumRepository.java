@@ -7,9 +7,13 @@ import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.QForum;
 import com.example.umc3_teamproject.exception.CustomException;
 import com.example.umc3_teamproject.exception.ErrorCode;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -17,7 +21,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.beans.Expression;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,6 +32,7 @@ public class ForumRepository {
 
     private final EntityManager em;
     private final JPAQueryFactory jpaQueryFactory;
+    QForum qForum = QForum.forum;
 
     // forum 저장
     public Forum save(Forum forum){
@@ -54,9 +61,14 @@ public class ForumRepository {
     }
 
     // 모든 forum 검색
-    public List<Forum> findAll(){
-        return em.createQuery("select f from Forum f",Forum.class)
-                .getResultList();
+    public List<Forum> findAll(Pageable pageable){
+
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .orderBy(qForum.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
     }
 
     // script가 포함된 forum 찾기
@@ -75,34 +87,57 @@ public class ForumRepository {
 //        return em.createQuery(jpql).getResultList();
 //    }
 
-    public List<Forum> findAllByScript(){
-        String jpql = "select f From Forum f ";
-        jpql += " where f.script_status = :script_status";
-
-        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
-        query = query.setParameter("script_status",true);
-        return query.getResultList();
+    public List<Forum> findAllByScript(Pageable pageable){
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.script_status.isTrue())
+                .orderBy(qForum.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+//        String jpql = "select f From Forum f ";
+//        jpql += " where f.script_status = :script_status order by created_date desc";
+//
+//        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
+//        query = query.setParameter("script_status",true);
+////        query = query.setParameter("offset",pageable.getOffset());
+//        return query.getResultList();
     }
 
     // interview가 포함된 forum 찾기
-    public List<Forum> findAllByInterview(){
-        String jpql = "select f From Forum f ";
-        jpql += " where f.interview_status = :interview_status";
-
-        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
-        query = query.setParameter("interview_status",true);
-        return query.getResultList();
+    public List<Forum> findAllByInterview(Pageable pageable){
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.interview_status.isTrue())
+                .orderBy(qForum.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+//        String jpql = "select f From Forum f ";
+//        jpql += " where f.interview_status = :interview_status order by created_date desc";
+//
+//        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
+//        query = query.setParameter("interview_status",true);
+//        return query.getResultList();
     }
 
     //script와 interview가 없는 forum 찾기
-    public List<Forum> findAllByFree(){
-        String jpql = "select f From Forum f ";
-        jpql += " where f.script_status = :script_status";
-        jpql += " and f.interview_status = :interview_status";
-        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
-        query = query.setParameter("script_status",false);
-        query = query.setParameter("interview_status",false);
-        return query.getResultList();
+    public List<Forum> findAllByFree(Pageable pageable){
+        return jpaQueryFactory
+                .selectFrom(qForum)
+                .where(qForum.script_status.isFalse().and(qForum.interview_status.isFalse()))
+                .orderBy(qForum.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+//        String jpql = "select f From Forum f ";
+//        jpql += " where f.script_status = :script_status";
+//        jpql += " and f.interview_status = :interview_status";
+//        jpql += " order by created_date desc";
+//        TypedQuery<Forum> query = em.createQuery(jpql, Forum.class) .setMaxResults(100); //최대 1000건
+//        query = query.setParameter("script_status",false);
+//        query = query.setParameter("interview_status",false);
+//        return query.getResultList();
     }
 
     // 해당 유저의 모든 forum 찾기
@@ -122,14 +157,26 @@ public class ForumRepository {
         return query.getResultList();
     }
 
-    public List<Forum> SearchAllByKeyword(String search_keyword){
-        QForum qForum = QForum.forum;
-        return jpaQueryFactory
+    public List<Forum> SearchAllByKeyword(String[] keywordArray,Pageable pageable){
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        for (String keyword : keywordArray) {
+            builder.or(searchKeywordQuery(keyword));
+        }
+
+         return jpaQueryFactory
                 .selectFrom(qForum)
-                .where(qForum.title.containsIgnoreCase(search_keyword)
-                        .or(qForum.content.containsIgnoreCase(search_keyword)))
-                .orderBy(qForum.like_num.desc())
+                 .where(builder)
+                .orderBy(qForum.createdDate.desc())
+                 .offset(pageable.getOffset())
+                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    private BooleanExpression searchKeywordQuery(String keyword) {
+        return qForum.title.containsIgnoreCase(keyword)
+                .or(qForum.content.containsIgnoreCase(keyword));
     }
 
     public List<Forum> SearchSixForumByLikeDesc(ForumRequestDto.searchDate7Days searchDate7Days){
@@ -141,5 +188,46 @@ public class ForumRepository {
                 .offset(0)
                 .limit(6)
                 .fetch();
+    }
+
+    public JPAQuery<Long> findTotalResult(){
+        return jpaQueryFactory
+                .select(qForum.count())
+                .from(qForum);
+    }
+
+    public JPAQuery<Long> findTotalResultToScript(){
+        return jpaQueryFactory
+                .select(qForum.count())
+                .where(qForum.script_status.isTrue())
+                .from(qForum);
+    }
+
+    public JPAQuery<Long> findTotalResultToInterview(){
+        return jpaQueryFactory
+                .select(qForum.count())
+                .where(qForum.interview_status.isTrue())
+                .from(qForum);
+    }
+
+    public JPAQuery<Long> findTotalResultToFree(){
+        return jpaQueryFactory
+                .select(qForum.count())
+                .where(qForum.script_status.isTrue().and(qForum.interview_status.isFalse()))
+                .from(qForum);
+    }
+
+    public JPAQuery<Long> findTotalResultToSearch(String[] keywordArray){
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        for (String keyword : keywordArray) {
+            builder.or(searchKeywordQuery(keyword));
+        }
+
+        return jpaQueryFactory
+                .select(qForum.count())
+                .from(qForum)
+                .where(builder);
     }
 }

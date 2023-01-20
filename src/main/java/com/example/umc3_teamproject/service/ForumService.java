@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
+import com.example.umc3_teamproject.config.resTemplate.ResponsePageTemplate;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
@@ -9,16 +10,22 @@ import com.example.umc3_teamproject.domain.item.*;
 import com.example.umc3_teamproject.exception.CustomException;
 import com.example.umc3_teamproject.exception.ErrorCode;
 import com.example.umc3_teamproject.repository.*;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -67,8 +74,8 @@ public class ForumService {
     }
 
     //모든 forum 조회
-    public List<Forum> findAll(){
-        return forumRepository.findAll();
+    public List<Forum> findAll(Pageable pageable){
+        return forumRepository.findAll(pageable);
     }
 
     // 유저로 조회
@@ -330,9 +337,12 @@ public class ForumService {
     // forum read
 
     // forum 모두 조회
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumAll(){
-        List<Forum> forums= findAll();
-        return getListFroumDataToGetResult(forums);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumAll(Pageable pageable){
+        List<Forum> forums= findAll(pageable);
+        JPAQuery<Long> totalResult = forumRepository.findTotalResult();
+        Long total_result = totalResult.fetchOne();
+
+        return getListFroumDataToPage(forums,pageable,total_result);
     }
 
     // user_id로 조회
@@ -382,21 +392,27 @@ public class ForumService {
 //    }
 
     // sciprt가 들어있는 forum 조회
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByScript(){
-        List<Forum> forums= forumRepository.findAllByScript();
-        return getListFroumDataToGetResult(forums);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByScript(Pageable pageable){
+        List<Forum> forums= forumRepository.findAllByScript(pageable);
+        JPAQuery<Long> totalResult = forumRepository.findTotalResultToScript();
+        Long total_result = totalResult.fetchOne();
+        return getListFroumDataToPage(forums,pageable,total_result);
     }
 
     // interview가 있는 forum 조회
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByInterview(){
-        List<Forum> forums= forumRepository.findAllByInterview();
-        return getListFroumDataToGetResult(forums);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByInterview(Pageable pageable){
+        List<Forum> forums= forumRepository.findAllByInterview(pageable);
+        JPAQuery<Long> totalResult = forumRepository.findTotalResultToInterview();
+        Long total_result = totalResult.fetchOne();
+        return getListFroumDataToPage(forums,pageable,total_result);
     }
 
     // script와 interview가 없는 forum 조회
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForum_No_script_No_interview(){
-        List<Forum> forums= forumRepository.findAllByFree();
-        return getListFroumDataToGetResult(forums);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForum_No_script_No_interview(Pageable pageable){
+        List<Forum> forums= forumRepository.findAllByFree(pageable);
+        JPAQuery<Long> totalResult = forumRepository.findTotalResultToFree();
+        Long total_result = totalResult.fetchOne();
+        return getListFroumDataToPage(forums,pageable,total_result);
     }
 
     @Transactional
@@ -418,9 +434,13 @@ public class ForumService {
         return new ResponseTemplate<>(new ForumResponseDto.LikeResponseDto(findForum.getId(),findForum.getLike_num()));
     }
 
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByKeyword(String search_keyword){
-        List<Forum> searchedForum= forumRepository.SearchAllByKeyword(search_keyword);
-        return getListFroumDataToGetResult(searchedForum);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByKeyword(String search_keyword,Pageable pageable){
+        String[] keywordArray = search_keyword.split(" ");
+        List<Forum> searchedForum= forumRepository.SearchAllByKeyword(keywordArray,pageable);
+
+        JPAQuery<Long> totalResult = forumRepository.findTotalResultToSearch(keywordArray);
+        Long total_result = totalResult.fetchOne();
+        return getListFroumDataToPage(searchedForum,pageable,total_result);
     }
 
     public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
@@ -439,5 +459,17 @@ public class ForumService {
                                 , s.getCreatedDate(),s.getModifiedDate()))
                 .collect(Collectors.toList());
         return new ResponseTemplate<>(forumDataToGetResultRespons);
+    }
+
+    private ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToPage(List<Forum> forums,Pageable pageable,Long total_page) {
+        List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
+                        s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
+                                s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
+                                s.getForumInterviews().stream().map(i -> new ForumRequestDto.InterviewIdsToRequest(i.getInterview().getInterviewId())).collect(Collectors.toList()),
+                                s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())
+                                , s.getCreatedDate(),s.getModifiedDate()))
+                .collect(Collectors.toList());
+        int totalPage = (int)Math.ceil( (double)total_page / pageable.getPageSize() );
+        return new ResponsePageTemplate<>(forumDataToGetResultRespons,totalPage,pageable.getPageNumber()+1);
     }
 }

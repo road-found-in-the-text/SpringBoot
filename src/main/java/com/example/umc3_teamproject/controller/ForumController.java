@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.controller;
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
+import com.example.umc3_teamproject.config.resTemplate.ResponsePageTemplate;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
@@ -9,6 +10,9 @@ import com.example.umc3_teamproject.service.ForumService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +34,7 @@ public class ForumController {
     @ApiOperation(value = "forum 생성", notes = "게시글을 create한다.")
     @PostMapping("/new/{user-id}")
     public ResponseTemplate<ForumResponseDto.ForumDataToGetResult> createForum(@PathVariable("user-id") Long user_id
-            , @ModelAttribute ForumRequestDto.createForumRequest request) throws IOException, ResponseException {
+            , @ModelAttribute ForumRequestDto.createForumRequest request) throws IOException {
         return forumService.createForum(user_id,request);
     }
 
@@ -55,8 +59,10 @@ public class ForumController {
     @ApiOperation(value = "전체 forum 조회", notes = "<big>전체 forum</big>을 반환한다.")
     @ResponseBody
     @GetMapping("")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumAll(){
-        return forumService.getForumAll();
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumAll(
+            @PageableDefault(size=10, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable
+    ){
+        return forumService.getForumAll(pageable);
     }
 
     // user_id로 조회
@@ -85,24 +91,28 @@ public class ForumController {
     @ApiOperation(value = "script가 포함된 모든 forum 조회")
     @ResponseBody
     @GetMapping("/script")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByScript(){
-        return forumService.getForumByScript();
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByScript(
+            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+        return forumService.getForumByScript(pageable);
     }
 
     // interview가 포함된 forum 모두 가져오기
     @ApiOperation(value = "interview가 포함된 모든 forum 조회")
     @ResponseBody
     @GetMapping("/interview")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByInterview(){
-        return forumService.getForumByInterview();
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByInterview(
+            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable
+    ){
+        return forumService.getForumByInterview(pageable);
     }
 
     // script, interview가 없는 forum 글 모두 가져오기
     @ApiOperation(value = "script와 interview가 없는 모든 forum 조회")
     @ResponseBody
     @GetMapping("/free")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForum_No_script_No_interview(){
-        return forumService.getForum_No_script_No_interview();
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForum_No_script_No_interview(
+            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+        return forumService.getForum_No_script_No_interview(pageable);
     }
 
     // /forum/search?title = "sldkjf"
@@ -125,8 +135,9 @@ public class ForumController {
     }
 
     @GetMapping("/search")
-    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword){
-        return forumService.SearchAllByKeyword(search_keyword);
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword
+    ,@PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+        return forumService.SearchAllByKeyword(search_keyword,pageable);
     }
 
     @GetMapping("/like")
