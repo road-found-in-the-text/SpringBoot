@@ -75,9 +75,9 @@ public class AppleOAuth implements SocialOAuth {
 
         Map<String, Object> params = new HashMap<>();
         params.put("client_id", clientId);
-        params.put("redirect_uri", baseUrl + callbackPath);
+        params.put("redirect_uri", callbackPath);
         params.put("response_type", "code%20id_token");
-        params.put("response_mode", "fragment");
+        params.put("response_mode", "form_post");
         params.put("state", "test");
         params.put("nonce", "20B20D-0S8-1K8");
 
@@ -108,7 +108,7 @@ public class AppleOAuth implements SocialOAuth {
             params.add("code", authorizationCode);
             params.add("client_id", clientId);
             params.add("client_secret", clientSecret);
-            params.add("redirect_uri", baseUrl + callbackPath);
+            params.add("redirect_uri", callbackPath);
             params.add("grant_type", "authorization_code");
 
             // Set http entity
@@ -125,10 +125,10 @@ public class AppleOAuth implements SocialOAuth {
         return null;
     }
 
+
+    //Client Key 생성하는 코드
     private String createClientSecret() {
         try {
-
-
             ClassPathResource resource = new ClassPathResource("authkey/AuthKey_AF7CPL85LA.p8");
 
             byte[] bdata = FileCopyUtils.copyToByteArray(resource.getInputStream());

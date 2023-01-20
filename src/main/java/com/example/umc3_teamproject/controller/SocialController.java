@@ -15,6 +15,8 @@ public class SocialController {
 
     private final SocialLoginService socialLoginService;
 
+
+    //어떻게 socialLoginurl을 가져오는가
     @GetMapping("/{socialLoginType}")
     public void getRedirectUri(@PathVariable(name = "socialLoginType") LoginType socialLoginType) {
         log.info("--------------------------------------");

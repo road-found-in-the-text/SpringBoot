@@ -16,6 +16,7 @@ public class AppleUserInfoRes {
    private String id;
     private String iss; //issuer 토큰 발급자
     private String sub; //subject 토큰 주제
+    //sub으로 회원 구별 가능!!
     private String aud; //audience 토큰 수신자
     private String nbf; //not before 정의된 시간 이후 토큰 활성화
     private String exp; //expiration 만료시간
