@@ -11,9 +11,9 @@ public interface SocialOAuth {
     Object getUserInfo(String accessToken);
 
     default LoginType type() {
-//        if (this instanceof AppleOAuth) {
-//            return LoginType.APPLE;
-//        } else
+        if (this instanceof AppleOAuth) {
+            return LoginType.APPLE;
+        } else
         if (this instanceof KakaoOAuth) {
             return LoginType.KAKAO;
         } else {

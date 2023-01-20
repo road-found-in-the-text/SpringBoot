@@ -17,4 +17,5 @@ public class KakaoUserInfoRes {
     private static class Properties {
         private String nickname;
     }
+
 }

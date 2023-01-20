@@ -21,4 +21,5 @@ public class AppleUserInfoRes {
     private String exp; //expiration 만료시간
     private String iat; //issued at 토큰 발급 시간
     private String jti; //jwt id 토큰 식별자
+
 }
