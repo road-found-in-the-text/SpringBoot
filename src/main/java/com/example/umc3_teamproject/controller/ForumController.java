@@ -92,7 +92,7 @@ public class ForumController {
     @ResponseBody
     @GetMapping("/script")
     public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByScript(
-            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+            @PageableDefault(size=10, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
         return forumService.getForumByScript(pageable);
     }
 
@@ -101,7 +101,7 @@ public class ForumController {
     @ResponseBody
     @GetMapping("/interview")
     public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForumByInterview(
-            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size=10, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable
     ){
         return forumService.getForumByInterview(pageable);
     }
@@ -111,7 +111,7 @@ public class ForumController {
     @ResponseBody
     @GetMapping("/free")
     public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getForum_No_script_No_interview(
-            @PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+            @PageableDefault(size=10, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
         return forumService.getForum_No_script_No_interview(pageable);
     }
 

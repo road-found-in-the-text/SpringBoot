@@ -24,7 +24,7 @@ public class NestedComment extends BaseEntity{
     @Column(name = "NESTED_COMMENT_ID")
     private Long id;
 
-    @ManyToOne(fetch = LAZY,cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
 

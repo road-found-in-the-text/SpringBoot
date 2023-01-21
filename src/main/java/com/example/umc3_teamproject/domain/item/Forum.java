@@ -40,16 +40,16 @@ public class Forum extends BaseEntity {
     @JoinColumn(name = "user_id")
     private Member member;                          // User 테이블과 양방향 관계
 
-    @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumScript> forumScripts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumInterview> forumInterviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>(); // 댓글
     //
-    @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumImage> forumImages = new ArrayList<>();
 
     //== 생성 메서드 ==//
@@ -70,7 +70,6 @@ public class Forum extends BaseEntity {
     }
 
     public void updateForum(String title, String content) {
-        this.writer = member.getNickName();
         this.title = title;
         this.content = content;
         this.setModifiedDate(LocalDateTime.now());

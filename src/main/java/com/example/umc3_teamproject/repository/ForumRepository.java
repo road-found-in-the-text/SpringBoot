@@ -213,7 +213,7 @@ public class ForumRepository {
     public JPAQuery<Long> findTotalResultToFree(){
         return jpaQueryFactory
                 .select(qForum.count())
-                .where(qForum.script_status.isTrue().and(qForum.interview_status.isFalse()))
+                .where(qForum.script_status.isFalse().and(qForum.interview_status.isFalse()))
                 .from(qForum);
     }
 
