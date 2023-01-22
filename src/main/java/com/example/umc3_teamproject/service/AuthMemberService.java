@@ -37,10 +37,10 @@ public class AuthMemberService {
 
     public AuthRes signUpOrLogIn(AuthReq authRequest) throws NoSuchAlgorithmException {
         Member member;
-        if (authRequest.getLoginType() == LoginType.KAKAO) {
-            member = getKakaoProfile(authRequest.getAccessToken());
-        } else {
+        if (authRequest.getLoginType() == LoginType.APPLE) {
             member = getAppleProfile(authRequest.getAccessToken());
+        } else {
+            member = getKakaoProfile(authRequest.getAccessToken());
         }
 
         Token token = tokenService.generateToken(member.getSocialId(), "USER");
@@ -48,11 +48,14 @@ public class AuthMemberService {
         boolean isNewMember = false;
         boolean isUserSettingDone = false;
 
+        System.out.println(member.getSocialId());
+
         //최초 회원가입 시
         if (socialMemberRepository.findBySocialId(member.getSocialId()).equals(Optional.empty())) {
 
             //member.setPoint(20);  따로 설정해줄 사항
-
+            System.out.println(member.getId());
+            System.out.println(member.getSocialId());
 
             socialMemberRepository.save(member);
 
