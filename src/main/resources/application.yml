@@ -10,7 +10,10 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-
+  security:
+      user:
+        name: user
+        password: 1234
 
 
 
@@ -75,8 +78,6 @@ custom:
             authorization_uri: https://appleid.apple.com/auth/authorize #?response_type=code&redirect_uri=https://youngseo-computerblog.tistory.com&client_id=com.example.umc
             token_uri: https://appleid.apple.com/auth/token
             public_key: https://appleid.apple.com/auth/keys
-
-
 
 
 logging:

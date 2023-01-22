@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain;
+package com.example.umc3_teamproject.domain.item;
 
 
 public enum Tier {

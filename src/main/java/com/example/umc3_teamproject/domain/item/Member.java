@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain;
+package com.example.umc3_teamproject.domain.item;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;
@@ -19,6 +19,9 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
     @Column(name="memberId")
     private Long id;
+
+    @Column()
+    private String socialId;
     @Column(nullable = false) //unique true
     private String email;
     @Column(nullable = false)
@@ -52,9 +55,10 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
+    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
+        this.socialId = socialId;
         this.pw = pw;
         this.nickName = nickName;
         this.imageUrl = imageUrl;

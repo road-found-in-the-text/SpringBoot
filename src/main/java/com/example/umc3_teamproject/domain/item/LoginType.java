@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain;
+package com.example.umc3_teamproject.domain.item;
 
 public enum LoginType {
     DEFAULT(0), APPLE(1), KAKAO(2);
