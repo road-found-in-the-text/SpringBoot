@@ -115,6 +115,12 @@ public class ForumController {
         return forumService.getForum_No_script_No_interview(pageable);
     }
 
+    @GetMapping("/search")
+    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword
+            ,@PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+        return forumService.SearchAllByKeyword(search_keyword,pageable);
+    }
+
     // /forum/search?title = "sldkjf"
     @ApiOperation(value = "해당 forum-id인 forum 좋아요 수 하나 증가")
     @PutMapping("/{forum-id}/like/plus")
@@ -134,13 +140,7 @@ public class ForumController {
         return forumService.getLike(forum_id);
     }
 
-    @GetMapping("/search")
-    public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword
-    ,@PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
-        return forumService.SearchAllByKeyword(search_keyword,pageable);
-    }
-
-    @GetMapping("/like")
+    @GetMapping("/bestForum")
     public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
         return forumService.getSixForumByLikeDesc();
     }

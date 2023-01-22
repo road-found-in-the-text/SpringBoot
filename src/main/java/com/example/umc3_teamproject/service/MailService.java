@@ -35,7 +35,6 @@ public class MailService {
             message.setSubject(mailDto.getTitle());
             message.setText(mailDto.getMessage());
             javaMailSender.send(message);
-            System.out.println("메세지 전송을 성공하였습니다.");
             return "이메일 성공";
         }catch (MailException e){
             e.printStackTrace();

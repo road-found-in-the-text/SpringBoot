@@ -59,4 +59,14 @@ public class NestedComment extends BaseEntity{
     public void setComment(Comment comment) {
         this.comment = comment;
     }
+
+    public void likePlus(){this.like_num++;}
+
+    public void likeMinus(){
+        if(this.like_num == 0){
+            like_num = 0;
+        }else{
+            like_num--;
+        }
+    }
 }

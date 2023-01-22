@@ -1,10 +1,12 @@
 package com.example.umc3_teamproject.service;
 
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
+import com.example.umc3_teamproject.domain.dto.response.CommentResponseDto;
 import com.example.umc3_teamproject.domain.dto.response.NestedCommentResponseDto;
 import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.NestedComment;
@@ -105,5 +107,24 @@ public class NestedCommentService {
                         s -> new NestedCommentResponseDto.Body(s))
                 .collect(Collectors.toList());
         return new ResponseTemplate<>(nestedCommentDataToGetResults);
+    }
+
+    @Transactional
+    public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likePlus(Long comment_id) throws ResponseException {
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        findNestedComment.likePlus();
+        return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num())) ;
+    }
+
+    public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> getLike(Long comment_id) throws ResponseException {
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num()));
+    }
+
+    @Transactional
+    public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likeMinus(Long comment_id) throws ResponseException {
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        findNestedComment.likeMinus();
+        return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num()));
     }
 }

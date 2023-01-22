@@ -124,4 +124,23 @@ public class CommentService {
         return new ResponsePageTemplate<>(commentDataToGetResults,totalPage,pageable.getPageNumber()+1);
     }
 
+    @Transactional
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> likePlus(Long comment_id) throws ResponseException {
+        Comment findComment = commentRepository.findById(comment_id).get();
+        findComment.likePlus();
+        return new ResponseTemplate<>(new CommentResponseDto.LikeResponseDto(findComment.getId(),findComment.getLike_num())) ;
+    }
+
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> getLike(Long comment_id) throws ResponseException {
+        Comment findComment = commentRepository.findById(comment_id).get();
+        return new ResponseTemplate<>(new CommentResponseDto.LikeResponseDto(findComment.getId(),findComment.getLike_num()));
+    }
+
+    @Transactional
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> likeMinus(Long comment_id) throws ResponseException {
+        Comment findComment = commentRepository.findById(comment_id).get();
+        findComment.likeMinus();
+        return new ResponseTemplate<>(new CommentResponseDto.LikeResponseDto(findComment.getId(),findComment.getLike_num()));
+    }
+
 }

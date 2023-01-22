@@ -19,6 +19,9 @@ public class ForumResponseDto {
         @ApiParam(value = "forum 작성자 id", required = true, example = "1")
         private Long userId;
 
+        @ApiParam(value = "forum 작성자 nickName", required = true, example = "김현재")
+        private String writer;
+
         @ApiParam(value = "해당 forum id", required = true, example = "1")
         private Long forumId;
 

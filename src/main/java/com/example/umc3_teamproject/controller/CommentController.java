@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.config.resTemplate.ResponsePageTemplate;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
 import com.example.umc3_teamproject.domain.dto.request.CommentRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.CommentResponseDto;
+import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,5 +62,23 @@ public class CommentController {
     public ResponsePageTemplate<List<CommentResponseDto.Body>> getAllCommentByForumId(@PathVariable("forum-id") Long forum_id,
                                                                                       @PageableDefault(size=1, sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable) throws ResponseException {
         return commentService.getAllByForumId(forum_id,pageable);
+    }
+
+    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 하나 증가")
+    @PutMapping("/{comment-id}/like/plus")
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> likePlus(@PathVariable("comment-id") Long comment_id) throws ResponseException {
+        return commentService.likePlus(comment_id);
+    }
+
+    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 하나 감소")
+    @PutMapping("/{comment-id}/like/minus")
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> likeMinus(@PathVariable("comment-id") Long comment_id) throws ResponseException {
+        return commentService.likeMinus(comment_id);
+    }
+
+    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 조회")
+    @GetMapping("/{comment-id}/like")
+    public ResponseTemplate<CommentResponseDto.LikeResponseDto> getCommentLike(@PathVariable("comment-id") Long comment_id) throws ResponseException {
+        return commentService.getLike(comment_id);
     }
 }
