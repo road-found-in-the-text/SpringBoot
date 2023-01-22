@@ -1,7 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
 
-import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -104,6 +103,8 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
+                        rs.getString("email"),
+                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("memberStatus"),
@@ -125,6 +126,8 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
+                        rs.getString("email"),
+                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("memberStatus"),
