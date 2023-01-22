@@ -1,16 +1,5 @@
 package com.example.umc3_teamproject.domain.item;
 
-import com.example.umc3_teamproject.domain.Member;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
-import org.hibernate.annotations.Where;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.Where;

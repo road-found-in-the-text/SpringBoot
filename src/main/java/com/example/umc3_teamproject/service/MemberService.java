@@ -3,15 +3,12 @@ package com.example.umc3_teamproject.service;
 import com.example.umc3_teamproject.config.AES128;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
-import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.example.umc3_teamproject.repository.MemberRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.logging.Logger;
 
 import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
 

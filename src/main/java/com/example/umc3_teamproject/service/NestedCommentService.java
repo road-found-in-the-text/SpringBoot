@@ -2,8 +2,7 @@ package com.example.umc3_teamproject.service;
 
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
-import com.example.umc3_teamproject.domain.Member;
-import com.example.umc3_teamproject.domain.dto.GetResult;
+import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.NestedCommentResponseDto;
 import com.example.umc3_teamproject.domain.item.Comment;
@@ -15,12 +14,10 @@ import com.example.umc3_teamproject.exception.*;
 import com.example.umc3_teamproject.repository.CommentRepository;
 import com.example.umc3_teamproject.repository.NestedCommentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

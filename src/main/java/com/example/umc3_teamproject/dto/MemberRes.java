@@ -1,7 +1,5 @@
 package com.example.umc3_teamproject.dto;
 
-import com.example.umc3_teamproject.domain.LoginType;
-import com.example.umc3_teamproject.domain.Tier;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
