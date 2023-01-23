@@ -25,8 +25,7 @@ public class Member extends BaseTimeEntity {
     private String socialId;
     @Column(nullable = false) //unique true
     private String email;
-    @Column(nullable = false)
-    @ColumnDefault("00!aaaAA") //나중에 수정
+    @Column() //nullable = false
     private String pw;
     @Column(nullable = false, length=30)
     private String nickName;
