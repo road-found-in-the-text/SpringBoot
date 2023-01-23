@@ -34,7 +34,6 @@ public class KakaoService implements ProxyRepository {
 
         System.out.println(kakaoRes.getId());
 
-
         return Member.builder()
                 .memberStatus(1)
                 .nickName(kakaoRes.getKakaoAccount().getEmail())
@@ -43,5 +42,4 @@ public class KakaoService implements ProxyRepository {
                 .loginType(1) //LoginType.KAKAO
                 .build();
     }
-
 }

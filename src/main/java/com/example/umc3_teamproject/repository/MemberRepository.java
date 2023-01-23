@@ -42,10 +42,10 @@ public class MemberRepository {
     public Long createUser(SignupReq signupReq) {
 
         String createUserQuery = "insert into umc3.member (email, social_id, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
-                "VALUES (?,0,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
+                "VALUES (?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
 
-        Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
+        Object[] createUserParams = new Object[]{signupReq.getEmail(),0,signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -101,10 +101,10 @@ public class MemberRepository {
         return this.jdbcTemplate.query(getUsersByNickNameQuery,
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
+                        rs.getString("social_id"),
+                        rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getString("email"),
-                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("member_status"),
@@ -124,10 +124,10 @@ public class MemberRepository {
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
+                        rs.getString("social_id"),
+                        rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getString("email"),
-                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("member_status"),
