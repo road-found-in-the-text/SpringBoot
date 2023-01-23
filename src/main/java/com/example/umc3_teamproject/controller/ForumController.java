@@ -117,7 +117,7 @@ public class ForumController {
 
     @GetMapping("/search")
     public ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> SearchAllByTitle(@RequestParam("q") String search_keyword
-            ,@PageableDefault(size=2, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
+            ,@PageableDefault(size=10, sort="created_date", direction = Sort.Direction.DESC) Pageable pageable){
         return forumService.SearchAllByKeyword(search_keyword,pageable);
     }
 

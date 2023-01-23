@@ -111,19 +111,25 @@ public class NestedCommentService {
 
     @Transactional
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likePlus(Long comment_id) throws ResponseException {
-        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).orElseThrow(
+                () -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND)
+        );
         findNestedComment.likePlus();
         return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num())) ;
     }
 
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> getLike(Long comment_id) throws ResponseException {
-        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).orElseThrow(
+                () -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND)
+        );
         return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num()));
     }
 
     @Transactional
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likeMinus(Long comment_id) throws ResponseException {
-        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).get();
+        NestedComment findNestedComment = nestedCommentRepository.findById(comment_id).orElseThrow(
+                () -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND)
+        );
         findNestedComment.likeMinus();
         return new ResponseTemplate<>(new NestedCommentResponseDto.LikeResponseDto(findNestedComment.getId(),findNestedComment.getLike_num()));
     }
