@@ -87,14 +87,14 @@ public class AppleService implements ProxyRepository {
         userInfoObject = new Gson().fromJson(new Gson().toJson(claims),JsonObject.class);
 
         JsonElement appleAlg = userInfoObject.get("sub");
+        JsonElement appleEmail = userInfoObject.get("email");
         appleSocialId = appleAlg.getAsString();
         System.out.println("this is " + appleSocialId);
 
         return Member.builder()
+                .email(String.valueOf(appleEmail))
                 .socialId(String.valueOf(appleSocialId))
                 .loginType(2) //LoginType.APPLE
                 .build();
     }
-
-
 }

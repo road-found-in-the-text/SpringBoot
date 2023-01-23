@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Script;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,12 +26,14 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false) //unique true
     private String email;
     @Column(nullable = false)
+    @ColumnDefault("00!aaaAA") //나중에 수정
     private String pw;
     @Column(nullable = false, length=30)
     private String nickName;
     @Column(nullable = true)
     private String imageUrl;
     @Column(nullable = false)
+    @ColumnDefault("0")
     private int tier ;
 
     private int loginType; //일반 로그인 또는 소셜로그인
