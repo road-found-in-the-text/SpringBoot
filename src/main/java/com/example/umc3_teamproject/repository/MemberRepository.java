@@ -1,8 +1,10 @@
 package com.example.umc3_teamproject.repository;
 
 
-import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.*;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;;
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +21,14 @@ import java.util.Optional;
 //데이터베이스 관련 작업을 전담.
 //데이터베이스에 연결하여 입력/수정/삭제/조회 등 작업 수행
 
-@Repository
+@Repository @RequiredArgsConstructor
 public class MemberRepository {
+
+
+    private final EntityManager em;
+    private final JPAQueryFactory jpaQueryFactory;
+
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -32,8 +41,8 @@ public class MemberRepository {
     @Transactional(rollbackFor = Exception.class)
     public Long createUser(SignupReq signupReq) {
 
-        String createUserQuery = "insert into umc3.member (email, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
-                "VALUES (?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
+        String createUserQuery = "insert into umc3.member (email, social_id, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
+                "VALUES (?,0,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
 
 
         Object[] createUserParams = new Object[]{signupReq.getEmail(),signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
@@ -70,6 +79,7 @@ public class MemberRepository {
         return this.jdbcTemplate.queryForObject(getPwQuery,
                 (rs, rowNum) -> new Member(
                         rs.getLong("member_id"),
+                        rs.getString("social_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
                         rs.getString("nick_name"),
@@ -93,6 +103,8 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
+                        rs.getString("email"),
+                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("memberStatus"),
@@ -104,6 +116,8 @@ public class MemberRepository {
     }
 
 
+
+
     @Transactional(readOnly = true)
     public List<MemberRes> getUsers() {
         String getUsersQuery = "select * from umc3.member"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
@@ -112,6 +126,8 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
+                        rs.getString("email"),
+                        rs.getString("social_id"),
                         rs.getInt("tier"),
                         rs.getInt("login_type"),
                         rs.getInt("memberStatus"),
@@ -131,6 +147,7 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
+                        rs.getString("social_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
                         rs.getInt("tier"),
@@ -174,7 +191,5 @@ public class MemberRepository {
 
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
-
-
-    }
+}
 

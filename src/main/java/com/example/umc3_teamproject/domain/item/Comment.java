@@ -1,9 +1,6 @@
 package com.example.umc3_teamproject.domain.item;
 
 
-import com.example.umc3_teamproject.domain.Member;
-import com.example.umc3_teamproject.domain.item.BaseEntity;
-import com.example.umc3_teamproject.dto.MemberRes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
