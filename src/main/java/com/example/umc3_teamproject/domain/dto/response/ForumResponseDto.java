@@ -34,6 +34,15 @@ public class ForumResponseDto {
         @ApiParam(value = "해당 forum의 좋아요 수", required = false, example = "100")
         private int like_num;
 
+        @ApiParam(value = "해당 forum의 script 수", required = false, example = "100")
+        private int script_num;
+
+        @ApiParam(value = "해당 forum의 interview 수", required = false, example = "100")
+        private int interview_num;
+
+        @ApiParam(value = "해당 forum의 이미지나 비디오 수", required = false, example = "100")
+        private int image_video_num;
+
         @ApiParam(value = "해당 forum에 저장된 script의 id (복수 가능)", required = false, example = "")
         private List<ForumRequestDto.ScriptIdsToRequest> scriptIdToRequests;
 
