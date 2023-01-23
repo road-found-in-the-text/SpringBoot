@@ -5,9 +5,6 @@ import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.item.LoginType;
 import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.*;
-import com.example.umc3_teamproject.exception.CustomException;
-import com.example.umc3_teamproject.exception.ErrorCode;
-import com.example.umc3_teamproject.repository.MemberRepository;
 import com.example.umc3_teamproject.repository.RefreshTokenRepository;
 import com.example.umc3_teamproject.repository.SocialMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +22,6 @@ import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateSt
 @RequiredArgsConstructor
 @Slf4j
 public class AuthMemberService {
-
-    private final MemberRepository memberRepository;
-
     private final SocialMemberRepository socialMemberRepository;
     private final TokenService tokenService;
     private final KakaoService clientKakao;

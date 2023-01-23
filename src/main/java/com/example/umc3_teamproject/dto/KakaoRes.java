@@ -12,7 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaoRes {
+
     private Long id;
-    private String email;
+    private KakaoAccount kakaoAccount;
+
+    @Getter @NoArgsConstructor @AllArgsConstructor
+    public static class KakaoAccount {
+        private String email;
+        private String nickName;
+    }
 
 }

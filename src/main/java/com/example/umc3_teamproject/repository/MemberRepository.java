@@ -191,8 +191,5 @@ public class MemberRepository {
 
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
-
-
-
 }
 
