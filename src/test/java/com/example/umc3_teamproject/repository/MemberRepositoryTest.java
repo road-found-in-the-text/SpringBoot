@@ -30,8 +30,8 @@ public class MemberRepositoryTest {
 
         String user_main="test@gmail.com";
 
-        Long id= memberRepository.findUserIdByEmail(user_main);
-        System.out.println(id);
+
+
 
     }
 }

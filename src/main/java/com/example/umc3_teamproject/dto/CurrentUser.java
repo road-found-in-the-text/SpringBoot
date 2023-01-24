@@ -10,5 +10,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : user")
+@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : member")
 public @interface CurrentUser {}

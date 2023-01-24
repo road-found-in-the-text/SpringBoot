@@ -4,6 +4,7 @@ import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.AuthReq;
 import com.example.umc3_teamproject.dto.AuthRes;
+import com.example.umc3_teamproject.dto.CurrentUser;
 import com.example.umc3_teamproject.dto.TokenReissue;
 import com.example.umc3_teamproject.service.AuthMemberService;
 import io.swagger.annotations.Api;
@@ -46,14 +47,14 @@ public class AuthController {
 
     @ApiOperation(value = "로그아웃")
     @PatchMapping("/logout")
-    public ResponseEntity<Void> logOut ( Member member) throws ResponseException {
+    public ResponseEntity<Void> logOut (@ApiIgnore @CurrentUser Member member) throws ResponseException {
         authMemberService.logout(member);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "회원탈퇴")
     @PatchMapping("/withdrawl")
-    public ResponseEntity<Void> withdrawl ( Member member) {
+    public ResponseEntity<Void> withdrawl (@ApiIgnore @CurrentUser Member member) {
         authMemberService.withdrawl(member);
         return ResponseEntity.ok().build();
     }

@@ -1,12 +1,16 @@
 package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.domain.item.Member;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@RequiredArgsConstructor
+@Getter
 public class CurrentUserDetails implements UserDetails {
 
 
@@ -14,10 +18,6 @@ public class CurrentUserDetails implements UserDetails {
     private final Member member;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CurrentUserDetails(Member member, Collection<? extends GrantedAuthority> authorities) {
-        this.member = member;
-        this.authorities = authorities;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

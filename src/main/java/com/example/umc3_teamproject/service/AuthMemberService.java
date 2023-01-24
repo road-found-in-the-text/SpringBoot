@@ -94,7 +94,7 @@ public class AuthMemberService {
         return kakaoUser;
     }
 
-    public Member getAppleProfile(String oauthToken) throws NoSuchAlgorithmException {
+    public Member getAppleProfile(String oauthToken) {
         Member appleUser = clientApple.getMemberData(oauthToken);
         System.out.println("getApple");
         return appleUser;
@@ -141,7 +141,8 @@ public class AuthMemberService {
 //        return kakaoUser;
 //    }
 
-    public void logout(Member member) throws ResponseException {
+    public void logout(Member member) throws NullPointerException, ResponseException {
+
         RefreshToken refreshToken = refreshTokenRepository
                 .findById(member.getSocialId()).orElseThrow(()-> new ResponseException(USER_NOT_FOUND));
 
@@ -151,6 +152,7 @@ public class AuthMemberService {
 
     @Transactional
     public void withdrawl(Member member){
+
         refreshTokenRepository.deleteById(member.getSocialId());
         member.setSocialId(null);
         socialMemberRepository.save(member);
