@@ -93,8 +93,17 @@ public class LoginService {
     // 해당 userIdx를 갖는 User의 정보 조회
     public Member getUser(Long userIdx) throws ResponseException {
         try {
-            Member getUserRes = memberRepository.getUser(userIdx);
-            return getUserRes;
+            Member member = memberRepository.getUser(userIdx);
+            if(member.getComments().size()<3 )//member.getForums().size()+member.getInterviews().size()
+                member.setTier(0);
+            else if(member.getComments().size() <10 )
+                member.setTier(1);
+            else if(member.getComments().size() <20)
+                member.setTier(2);
+            else if( member.getComments().size()<50)
+                member.setTier(3);
+            else member.setTier(4);
+            return member;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
         }
