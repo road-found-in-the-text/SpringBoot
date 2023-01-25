@@ -10,9 +10,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.umc3_teamproject.domain.Tier.BRONZE;
-
-
 @Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Table(name="Member")
