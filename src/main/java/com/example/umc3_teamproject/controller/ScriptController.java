@@ -33,9 +33,9 @@ public class ScriptController {
     private final ScriptResponseDto scriptResponseDto;
 
     @PostMapping("/new")
-    public ResponseEntity<?> writeScript(@Validated ScriptRequestDto.Register write){
+    public ResponseEntity<?> writeScript(@RequestBody ScriptRequestDto.Register script ){
 
-        return scriptService.writeScript(write);
+        return scriptService.writeScript(script);
     }
 
     @GetMapping("/{id}")
@@ -50,16 +50,17 @@ public class ScriptController {
         return null;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<?> readScriptByUser(@PathVariable("memberId") Long memberId) {
         // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Script> scriptList=null;
 
-        if (userId==null) {
+        if (memberId==null) {
             return null;
+
         } else {
-            scriptList=scriptRepository.findByUserId(userId);
+            scriptList=scriptRepository.findByMemberId(memberId);
 
             Map<String, Object> result=new HashMap<>();
             result.put("scripts", scriptList);
@@ -83,22 +84,10 @@ public class ScriptController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid ScriptRequestDto.Update script1) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ScriptRequestDto.Update script1) {
 
-        Script script_new= scriptService.updateScript(id, script1);
-
-        Optional<Script> optionalProduct=scriptRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            Script before_script = optionalProduct.get();
-            log.info("gather test success");
-
-            before_script.setTitle(script_new.getTitle());
-            //before_script.setType(script_new.getType());
-
-            return scriptResponseDto.success(before_script);
-        }
-
-        return null;
+        Script script_new= scriptService.updateScript(id, script1.getTitle());
+        return scriptResponseDto.success(script_new);
     }
 
     @DeleteMapping("/delete/{id}")

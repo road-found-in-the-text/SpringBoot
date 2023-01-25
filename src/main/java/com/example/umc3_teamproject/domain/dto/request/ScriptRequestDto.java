@@ -12,7 +12,7 @@ public class ScriptRequestDto {
     public static class Register {
 
         @NotNull(message = "user id는 필수 입력값입니다.")
-        private Member userId;
+        private Long memberId;
 
         @NotNull(message = "title은 필수 입력값입니다.")
         private String title;
