@@ -30,8 +30,8 @@ public class Script extends BaseEntity {
     // private Long userId;
 
      @ManyToOne(fetch = LAZY)
-     @JoinColumn(name = "userId")
-     private Member userId;
+     @JoinColumn(name = "member_id")
+     private Member memberId;
 
 
     @Column
@@ -49,5 +49,11 @@ public class Script extends BaseEntity {
     @JsonBackReference
     private List<Paragraph> paragraphList = new ArrayList<>();
 
+    public void addParagraph(Paragraph paragraph) {
+        paragraphList.add(paragraph);
+    }
 
+    public void deleteParagraph(Paragraph paragraph) {
+        paragraphList.remove(paragraph);
+    }
 }
