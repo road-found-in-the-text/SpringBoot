@@ -17,7 +17,7 @@ public interface ScriptRepository extends JpaRepository<Script, Long> , CrudRepo
 
     // Optional<Script> findByUserId(Long id);
 
-    List<Script> findByUserId(Long id);
+    List<Script> findByMemberId(Long id);
 
     // @SQLDelete(sql = "UPDATE script SET deleted = true WHERE scriptId = ?")
     // Optional<Script> deleteScriptById(Long id);

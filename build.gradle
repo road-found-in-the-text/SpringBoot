@@ -86,9 +86,9 @@ dependencies {
 
 
 	// mail
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-
+	// implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.0'
+	compile "com.example.umc3_teamproject:javax.mail"
 
 	//애플 로그인
 	compileOnly 'com.mashape.unirest:unirest-java:1.3.27'

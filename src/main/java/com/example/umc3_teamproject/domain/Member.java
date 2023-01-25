@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity {
 
     private int blockStatus;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     private List<Script> scripts = new ArrayList<>();
     //
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
