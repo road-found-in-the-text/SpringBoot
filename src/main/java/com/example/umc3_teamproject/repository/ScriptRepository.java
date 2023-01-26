@@ -11,14 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-// @RequiredArgsConstructor   // @AllArgsConstructor 대신 사용
-public interface ScriptRepository extends JpaRepository<Script, Long> , CrudRepository<Script, Long> {
+public interface ScriptRepository extends JpaRepository<Script, Long>  {
     Optional<Script> findById(Long id);
 
-    // Optional<Script> findByUserId(Long id);
-
-    List<Script> findByUserId(Long id);
-
-    // @SQLDelete(sql = "UPDATE script SET deleted = true WHERE scriptId = ?")
-    // Optional<Script> deleteScriptById(Long id);
 }

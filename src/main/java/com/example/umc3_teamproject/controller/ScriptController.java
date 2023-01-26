@@ -33,11 +33,7 @@ public class ScriptController {
     private final ScriptResponseDto scriptResponseDto;
 
     @PostMapping("/new")
-    public ResponseEntity<?> writeScript(@Validated ScriptRequestDto.Register write){
-        // List<ScriptDto> result = productRepository.search(condition);
-        // System.out.println(result);
-        // return new ResponseEntity<List<ScriptDto>>(result, HttpStatus.OK);
-
+    public ResponseEntity<?> writeScript(@RequestBody ScriptRequestDto.Register write){
         return scriptService.writeScript(write);
     }
 
@@ -48,31 +44,22 @@ public class ScriptController {
         Optional<Script> optionalProduct=scriptRepository.findById(id);
         if (optionalProduct.isPresent()) {
             Script script1 = optionalProduct.get();
-            log.info("gather test success");
             return scriptResponseDto.success(script1);
         }
-
-        log.info("gather test fail");
         return null;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<?> readScriptByUser(@PathVariable("memberId") Long memberId) {
         // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<Script> scriptList=null;
+        List<Script> scriptList=scriptService.findByMemberId(memberId);
 
-        if (userId==null) {
-            return null;
-        } else {
-            scriptList=scriptRepository.findByUserId(userId);
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", scriptList);
+        result.put("count", scriptList.size());
 
-            Map<String, Object> result=new HashMap<>();
-            result.put("scripts", scriptList);
-            result.put("count", scriptList.size());
-
-            return ResponseEntity.ok().body(result);
-        }
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/all")
@@ -89,36 +76,14 @@ public class ScriptController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid ScriptRequestDto.Update script1) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ScriptRequestDto.Update script1) {
 
-        Script script_new= scriptService.updateScript(id, script1);
-
-        Optional<Script> optionalProduct=scriptRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            Script before_script = optionalProduct.get();
-            log.info("gather test success");
-
-            before_script.setTitle(script_new.getTitle());
-            before_script.setType(script_new.getType());
-
-            return scriptResponseDto.success(before_script);
-        }
-
-        return null;
+        Script script_new= scriptService.updateScript(id, script1.getTitle());
+        return scriptResponseDto.success(script_new);
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteScript(@PathVariable Long id) {
-
-        // Script script= scriptRepository.findById(id);
-        // String result=scriptService.remove(id);
-        // script.deleteScript();
-
         return scriptService.remove(id);
-        /*
-        if (script==null) {
-            throw new ScriptNotFoundException(String.format("ID[%s] not found", id));
-        }
-         */
     }
 }
