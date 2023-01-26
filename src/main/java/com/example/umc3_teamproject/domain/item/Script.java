@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.domain.item;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
@@ -26,28 +27,31 @@ public class Script extends BaseEntity {
     @Column(name="userId", updatable = false)
     private Long userId;
 
-
-//     @ManyToOne(fetch = LAZY)
-//     @JoinColumn(name = "user_id")
-//     private Member user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @JsonManagedReference
+    private Member memberId;
 
 
     @Column
     private String title;
 
     @Column
-    private String type;
-
-    @Column
     private boolean deleted;
 
-    // @Column
-    // private String contents;
 
-    // paragraph를 list로 추가
-    @OneToMany(mappedBy = "scriptId")
+    @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Paragraph> paragraphList = new ArrayList<>();
+    // private List<Paragraph> paragraphList = new ArrayList<>();
+    private List<Paragraph> paragraphList;
+
+    public void addParagraph(Paragraph paragraph) {
+        paragraphList.add(paragraph);
+    }
+
+    public void deleteParagraph(Paragraph paragraph) {
+        paragraphList.remove(paragraph);
+    }
 
 
 }

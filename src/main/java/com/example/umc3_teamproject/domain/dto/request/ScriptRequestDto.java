@@ -17,7 +17,7 @@ public class ScriptRequestDto {
         private String title;
 
         // @NotNull(message = "type은 필수 입력값입니다.")
-        private String type;
+        // private String type;
 
     }
 
@@ -29,7 +29,7 @@ public class ScriptRequestDto {
         private String title;
 
         // @NotNull(message = "type은 필수 입력값입니다.")
-        private String type;
+        // private String type;
 
     }
 
