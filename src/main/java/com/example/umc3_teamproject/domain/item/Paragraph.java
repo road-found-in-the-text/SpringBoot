@@ -1,4 +1,6 @@
 package com.example.umc3_teamproject.domain.item;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.util.List;
 @Where(clause = "deleted = false")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityReference(alwaysAsId = true)
 public class Paragraph extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,11 +25,13 @@ public class Paragraph extends BaseEntity {
     private Long paragraphId;
 
     // @Column(name="scriptId", updatable = false)
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="scriptId")
+    @JsonManagedReference
     private Script scriptId;
 
     @Column(name="userId", updatable = false)
+    @JsonManagedReference
     private Long userId;
 
     @Column
