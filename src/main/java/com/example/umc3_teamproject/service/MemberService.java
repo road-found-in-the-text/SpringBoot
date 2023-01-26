@@ -47,7 +47,7 @@ public class MemberService {
             throw new ResponseException(INVALID_JWT);
         }
         try {
-            Long userIdx = memberRepository.createUser(signupReq);
+            Long userIdx = memberRepository.createMember(signupReq);
 //            return new PostUserRes(userIdx);
             String jwt = jwtService.createJwt(userIdx);
             return new SignupRes(userIdx, jwt);

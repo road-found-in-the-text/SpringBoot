@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.repository;
 
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.item.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,6 +17,8 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.USER_NOT_FOUND;
 
 
 //데이터베이스 관련 작업을 전담.
@@ -39,22 +42,21 @@ public class MemberRepository {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public Long createUser(SignupReq signupReq) {
-
-        String createUserQuery = "insert into umc3.member (email, social_id, pw,  nick_name, tier, image_url, login_type, member_status, block_status) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)"; // 실행될 동적 쿼리문
-
-
-        Object[] createUserParams = new Object[]{signupReq.getEmail(),0,signupReq.getPw(),signupReq.getNickName(), signupReq.getTier(), signupReq.getImageUrl(), 0, 1, 0}; // 동적 쿼리의 ?부분에 주입될 값
-
-        this.jdbcTemplate.update(createUserQuery, createUserParams);
-
-        // email -> postUserReq.getEmail(), password -> postUserReq.getPassword(), nickname -> postUserReq.getNickname() 로 매핑(대응)시킨다음 쿼리문을 실행한다.
-        // 즉 DB의 User Table에 (email, password, nickname)값을 가지는 유저 데이터를 삽입(생성)한다.
-
-        String lastInserIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
+    public Long createMember(SignupReq signupReq) {
+        Member member = new Member();
+        member.createMember(signupReq.getEmail(),signupReq.getPw(), signupReq.getNickName(), signupReq.getImageUrl());
+        if (member.getId() == null){
+            em.persist(member);
+        }
+        else {
+            em.merge(member);
+        }
+        String lastInserIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값을 가져온다.
         return this.jdbcTemplate.queryForObject(lastInserIdQuery, Long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
+
+
+
 
     // 이메일 확인
     public Long checkEmail(String email) {
@@ -77,24 +79,29 @@ public class MemberRepository {
 
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
-    public Member getPw(LoginReq loginReq) {
+    public Member getPw(LoginReq loginReq) throws ResponseException {
         String getPwQuery = "select *  from umc3.member where email = ?"; // 해당 email을 만족하는 User의 정보들을 조회한다.
         String getPwParams = loginReq.getEmail(); // 주입될 email값을 클라이언트의 요청에서 주어진 정보를 통해 가져온다.
-        return this.jdbcTemplate.queryForObject(getPwQuery,
-                (rs, rowNum) -> new Member(
-                        rs.getLong("member_id"),
-                        rs.getString("social_id"),
-                        rs.getString("email"),
-                        rs.getString("pw"),
-                        rs.getString("nick_name"),
-                        rs.getString("image_url"),
-                        rs.getInt("tier"),
-                        rs.getInt("login_type"),
-                        rs.getInt("member_status"),
-                        rs.getInt("block_status"))
-                , // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
-                getPwParams
-        ); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+        try {
+            return this.jdbcTemplate.queryForObject(getPwQuery,
+                    (rs, rowNum) -> new Member(
+                            rs.getLong("member_id"),
+                            rs.getString("social_id"),
+                            rs.getString("email"),
+                            rs.getString("pw"),
+                            rs.getString("nick_name"),
+                            rs.getString("image_url"),
+                            rs.getInt("tier"),
+                            rs.getInt("login_type"),
+                            rs.getInt("member_status"),
+                            rs.getInt("block_status"))
+                    , // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                    getPwParams
+            );} catch(EmptyResultDataAccessException e){
+            throw new ResponseException(USER_NOT_FOUND);
+
+        // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+        }
     }
 
     // 해당 nickname을 갖는 유저들의 정보 조회
