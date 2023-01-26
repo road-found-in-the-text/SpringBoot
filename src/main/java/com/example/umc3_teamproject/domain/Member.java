@@ -4,6 +4,9 @@ import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Script;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +16,7 @@ import java.util.List;
 @Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Table(name="Member")
+@JsonIdentityReference(alwaysAsId = true)
 public class Member extends BaseTimeEntity {
 
     @Id //Primary Key
@@ -22,10 +26,13 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false) //unique true
     private String email;
     @Column(nullable = false)
+    @JsonIgnore
     private String pw;
     @Column(nullable = false, length=30)
+    @JsonIgnore
     private String nickName;
     @Column(nullable = true)
+    @JsonIgnore
     private String imageUrl;
     @Column(nullable = false)
     private int tier ;
@@ -36,16 +43,20 @@ public class Member extends BaseTimeEntity {
 
     private int blockStatus;
 
-    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-    private List<Script> scripts = new ArrayList<>();
+    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Script> scripts;
+    // private List<Script> scripts = new ArrayList<>();
     //
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<Interview> interviews = new ArrayList<>();
 //
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Forum> forums = new ArrayList<>();
 
 

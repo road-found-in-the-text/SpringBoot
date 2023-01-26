@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
@@ -51,9 +53,33 @@ public class ScriptController {
     }
 
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<?> readScriptByUser(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<?> findScriptByUser(@PathVariable("memberId") Long memberId) {
         // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
+        List<Script> scriptList=scriptService.findByMemberId(memberId);
+        //model.addAttribute("scriptList", scriptList);
+
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", scriptList);
+        result.put("count", scriptList.size());
+
+        return ResponseEntity.ok().body(result);
+
+        /*
+        List<Script> scriptList=scriptRepository.findAll()
+                .stream()
+                .filter(user -> user.getMemberId().equals(memberId))
+                .collect(Collectors.toList());
+
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", scriptList);
+        result.put("count", scriptList.size());
+
+        return ResponseEntity.ok().body(result);
+
+         */
+
+        /*
         List<Script> scriptList=null;
 
         if (memberId==null) {
@@ -68,6 +94,8 @@ public class ScriptController {
 
             return ResponseEntity.ok().body(result);
         }
+
+         */
     }
 
     @GetMapping("/all")

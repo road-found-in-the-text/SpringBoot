@@ -15,19 +15,12 @@ public class MailController {
     @Autowired
     SendEmailService sendEmailService;
 
-    @Autowired
-    EmailService emailService;
-
-    // MimeMessageTest sendEmailService;
 
     //등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
     @PostMapping("/check/findPw/sendEmail")
     public String sendEmail(@RequestBody EmailRequestDto.Register emailRequestDto) throws ResponseException {
         MailDto sentMail= sendEmailService.createMailAndChangePassword(emailRequestDto.getEmail());
-        // MailDto dto = sendEmailService.createMailAndChangePassword(userEmail, userName);
-        // System.out.println("dto: "+dto.getAddress());
-        // return "email sent to ["+dto.getAddress()+"] done";
-        // emailService.sendSimpleMessage(mailDto);
+
         return "done";
 
     }

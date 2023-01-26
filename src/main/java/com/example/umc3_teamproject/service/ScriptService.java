@@ -51,6 +51,20 @@ public class ScriptService {
         return toChangeScript;
     }
 
+    /*
+    @Transactional
+    public List<Script> search(Long memberId) {
+        return scriptRepository.findByMemberId(memberId);
+    }
+
+     */
+
+    public List<Script> findByMemberId(Long memberId){
+        return  em.createQuery("select s from Script s where s.memberId.id= :id", Script.class)
+                .setParameter("id", memberId)
+                .getResultList();
+    };
+
     @Transactional
     public Script addParagraph(Long id, Long[] paragraphIdList){
         Script addParagraphScript=em.find(Script.class, id);

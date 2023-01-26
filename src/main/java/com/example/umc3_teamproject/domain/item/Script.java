@@ -1,7 +1,7 @@
 package com.example.umc3_teamproject.domain.item;
 
 import com.example.umc3_teamproject.domain.Member;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
@@ -17,6 +17,8 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 // @SQLDelete(sql = "UPDATE umc3.script SET deleted = true WHERE script_id = ?")   // JPA Soft Delete
 @Where(clause = "deleted = false")
+@JsonIdentityReference(alwaysAsId = true)
+// @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Script extends BaseEntity {
@@ -26,28 +28,22 @@ public class Script extends BaseEntity {
     @Column(name="scriptId", updatable = false)
     private Long scriptId;
 
-    // @Column(name="userId", updatable = false)
-    // private Long userId;
-
-     @ManyToOne(fetch = LAZY)
-     @JoinColumn(name = "member_id")
-     private Member memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @JsonManagedReference
+    private Member memberId;
 
 
     @Column
     private String title;
 
-    // @Column
-    // private String type;
-
     @Column
     private boolean deleted;
 
-
-    // paragraph를 list로 추가
-    @OneToMany(mappedBy = "scriptId")
+    @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Paragraph> paragraphList = new ArrayList<>();
+    // private List<Paragraph> paragraphList = new ArrayList<>();
+    private List<Paragraph> paragraphList;
 
     public void addParagraph(Paragraph paragraph) {
         paragraphList.add(paragraph);
