@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.service;
 
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.KakaoRes;
 import com.example.umc3_teamproject.exception.TokenValidFailedException;
 import com.example.umc3_teamproject.repository.ProxyRepository;

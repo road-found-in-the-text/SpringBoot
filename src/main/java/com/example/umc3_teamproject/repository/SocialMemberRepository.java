@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.repository;
 
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

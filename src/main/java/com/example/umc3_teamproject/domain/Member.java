@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain.item;
+package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;

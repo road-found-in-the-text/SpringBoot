@@ -2,8 +2,8 @@ package com.example.umc3_teamproject.service;
 
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
-import com.example.umc3_teamproject.domain.item.LoginType;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.LoginType;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.example.umc3_teamproject.repository.RefreshTokenRepository;
 import com.example.umc3_teamproject.repository.SocialMemberRepository;

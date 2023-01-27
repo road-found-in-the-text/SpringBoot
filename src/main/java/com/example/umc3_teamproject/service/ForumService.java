@@ -5,7 +5,7 @@ package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.domain.item.*;

@@ -2,7 +2,7 @@ package com.example.umc3_teamproject.repository;
 
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;;
 import java.util.List;
 import java.util.Optional;
-
-import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.USER_NOT_FOUND;
 
 
 //데이터베이스 관련 작업을 전담.
@@ -80,29 +79,12 @@ public class MemberRepository {
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
     public Member getPw(LoginReq loginReq) throws ResponseException {
-        String getPwQuery = "select *  from umc3.member where email = ?"; // 해당 email을 만족하는 User의 정보들을 조회한다.
-        String getPwParams = loginReq.getEmail(); // 주입될 email값을 클라이언트의 요청에서 주어진 정보를 통해 가져온다.
-        try {
-            return this.jdbcTemplate.queryForObject(getPwQuery,
-                    (rs, rowNum) -> new Member(
-                            rs.getLong("member_id"),
-                            rs.getString("social_id"),
-                            rs.getString("email"),
-                            rs.getString("pw"),
-                            rs.getString("nick_name"),
-                            rs.getString("image_url"),
-                            rs.getInt("tier"),
-                            rs.getInt("login_type"),
-                            rs.getInt("member_status"),
-                            rs.getInt("block_status"))
-                    , // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
-                    getPwParams
-            );} catch(EmptyResultDataAccessException e){
-            throw new ResponseException(USER_NOT_FOUND);
-
-        // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
-        }
+        TypedQuery<Member> getPwQuery = em.createQuery("select m from Member m where email = :email", Member.class); // 해당 email을 만족하는 User의 정보들을 조회한다.
+        getPwQuery.setParameter("email",loginReq.getEmail());
+        Member member = getPwQuery.getSingleResult();
+        return member;
     }
+
 
     // 해당 nickname을 갖는 유저들의 정보 조회
     @Transactional(readOnly = true)

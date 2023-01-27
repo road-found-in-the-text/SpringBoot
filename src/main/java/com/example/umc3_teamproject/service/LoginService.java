@@ -3,7 +3,7 @@ package com.example.umc3_teamproject.service;
 import com.example.umc3_teamproject.config.AES128;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.LoginReq;
 import com.example.umc3_teamproject.dto.LoginRes;
 import com.example.umc3_teamproject.dto.MemberRes;
