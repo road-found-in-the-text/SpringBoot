@@ -105,8 +105,6 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1';
 
 
-
-
 }
 
 tasks.named('test') {
@@ -131,6 +129,10 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl.doFirst {
+	if(file(querydslDir).exists() )
+		delete(file(querydslDir))
 }
 
 
