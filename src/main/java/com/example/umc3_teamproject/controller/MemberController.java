@@ -3,7 +3,7 @@ package com.example.umc3_teamproject.controller;
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.example.umc3_teamproject.service.JwtService;
 import com.example.umc3_teamproject.service.LoginService;

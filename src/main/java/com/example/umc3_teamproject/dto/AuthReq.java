@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.dto;
 
-import com.example.umc3_teamproject.domain.item.LoginType;
+import com.example.umc3_teamproject.domain.LoginType;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

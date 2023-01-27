@@ -1,4 +1,4 @@
-package com.example.umc3_teamproject.domain.item;
+package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;
@@ -35,10 +35,13 @@ public class Member extends BaseTimeEntity {
     @ColumnDefault("0")
     private int tier ;
 
+    @Column
     private int loginType; //일반 로그인 또는 소셜로그인
 
+    @Column
     private int memberStatus;
 
+    @Column
     private int blockStatus;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
@@ -69,8 +72,21 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.tier = tier;
         this.loginType = loginType;
-
         this.memberStatus = memberStatus;
         this.blockStatus = blockStatus;
     }
+
+    public void createMember(String email,String pw, String nickName, String imageUrl ){
+        this.email = email;
+        this.pw = pw;
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        this.socialId = "0";
+        this.memberStatus=1;
+        this.tier=0;
+        this.loginType = 0;
+        this.blockStatus=0;
+
+    }
+
 }

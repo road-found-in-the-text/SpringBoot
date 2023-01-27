@@ -2,7 +2,7 @@ package com.example.umc3_teamproject.service;
 
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.NestedCommentResponseDto;
 import com.example.umc3_teamproject.domain.item.Comment;

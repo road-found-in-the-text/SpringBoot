@@ -1,6 +1,6 @@
 package com.example.umc3_teamproject.service;
 
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;

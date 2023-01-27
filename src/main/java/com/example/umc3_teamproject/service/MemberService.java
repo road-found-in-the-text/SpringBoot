@@ -3,7 +3,7 @@ package com.example.umc3_teamproject.service;
 import com.example.umc3_teamproject.config.AES128;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
-import com.example.umc3_teamproject.domain.item.Member;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class MemberService {
             throw new ResponseException(INVALID_JWT);
         }
         try {
-            Long userIdx = memberRepository.createUser(signupReq);
+            Long userIdx = memberRepository.createMember(signupReq);
 //            return new PostUserRes(userIdx);
             String jwt = jwtService.createJwt(userIdx);
             return new SignupRes(userIdx, jwt);
