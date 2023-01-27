@@ -56,6 +56,10 @@ public class ScriptService {
     public List<Script> search(Long memberId) {
         return scriptRepository.findByMemberId(memberId);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
      */
 
     public List<Script> findByMemberId(Long memberId){

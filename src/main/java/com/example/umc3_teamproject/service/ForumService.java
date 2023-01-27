@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
-
 @Slf4j
 @Service
 @Transactional(readOnly = true)

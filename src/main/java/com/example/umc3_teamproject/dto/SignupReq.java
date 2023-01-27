@@ -1,8 +1,6 @@
 package com.example.umc3_teamproject.dto;
 
 
-import com.example.umc3_teamproject.domain.Tier;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
