@@ -1,5 +1,3 @@
-
-
 package com.example.umc3_teamproject.domain.item;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -53,17 +51,9 @@ public class Interview extends BaseEntity {
     @JsonBackReference
     private List<Paragraph> paragraphList = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "interview",orphanRemoval = true)
     private List<InterviewParagraph> interviewParagraphs = new ArrayList<>();
 
     @OneToMany(mappedBy = "interview",orphanRemoval = true)
     private List<InterviewParagraphResult> interviewParagraphResults = new ArrayList<>();
-
-////     paragraph를 list로 추가
-//     @OneToMany(mappedBy = "scriptId")
-//     @JsonBackReference
-//     private List<Paragraph> paragraphList = new ArrayList<>();
-
-
 }
