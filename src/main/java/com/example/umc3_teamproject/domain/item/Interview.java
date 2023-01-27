@@ -1,3 +1,5 @@
+
+
 package com.example.umc3_teamproject.domain.item;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Builder
 @Entity
@@ -28,9 +32,9 @@ public class Interview extends BaseEntity {
     @Column(name="userId", updatable = false)
     private Long userId;
 
-    // @ManyToOne(fetch = LAZY)
-    // @JoinColumn(name = "user_id")
-    // private User user_id;
+//    @ManyToOne(fetch = LAZY)
+//    @JoinColumn(name = "user_id")
+//    private Member member;
 
     @Column
     private String title;
@@ -43,6 +47,12 @@ public class Interview extends BaseEntity {
 
     @Column
     private LocalDate interviewDate;
+
+    //paragraph를 list로 추가
+    @OneToMany(mappedBy = "scriptId")
+    @JsonBackReference
+    private List<Paragraph> paragraphList = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "interview",orphanRemoval = true)
     private List<InterviewParagraph> interviewParagraphs = new ArrayList<>();
