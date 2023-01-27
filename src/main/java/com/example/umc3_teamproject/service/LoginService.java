@@ -8,12 +8,10 @@ import com.example.umc3_teamproject.dto.LoginReq;
 import com.example.umc3_teamproject.dto.LoginRes;
 import com.example.umc3_teamproject.dto.MemberRes;
 import com.example.umc3_teamproject.repository.MemberRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
 
@@ -95,8 +93,17 @@ public class LoginService {
     // 해당 userIdx를 갖는 User의 정보 조회
     public Member getUser(Long userIdx) throws ResponseException {
         try {
-            Member getUserRes = memberRepository.getUser(userIdx);
-            return getUserRes;
+            Member member = memberRepository.getUser(userIdx);
+            if(member.getComments().size()<3 )//member.getForums().size()+member.getInterviews().size()
+                member.setTier(0);
+            else if(member.getComments().size() <10 )
+                member.setTier(1);
+            else if(member.getComments().size() <20)
+                member.setTier(2);
+            else if( member.getComments().size()<50)
+                member.setTier(3);
+            else member.setTier(4);
+            return member;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
         }

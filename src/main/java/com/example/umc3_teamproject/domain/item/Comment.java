@@ -2,8 +2,6 @@ package com.example.umc3_teamproject.domain.item;
 
 
 import com.example.umc3_teamproject.domain.Member;
-import com.example.umc3_teamproject.domain.item.BaseEntity;
-import com.example.umc3_teamproject.dto.MemberRes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +30,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "forum_id")
     private Forum forum;
 
-    @ManyToOne(fetch = LAZY,cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
 
