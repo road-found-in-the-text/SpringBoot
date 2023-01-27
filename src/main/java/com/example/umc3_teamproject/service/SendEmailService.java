@@ -1,7 +1,6 @@
 package com.example.umc3_teamproject.service;
 
 import com.example.umc3_teamproject.config.AES128;
-import com.example.umc3_teamproject.config.EncryptionUtils;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.dto.MailDto;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -18,25 +18,38 @@ import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateSt
 
 @Service
 @AllArgsConstructor
+// @Component
 public class SendEmailService {
 
     @Autowired
     MemberRepository userRepository;
-
+    @Autowired
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "road.found.in.the.text@gmail.com";
 
+    private JavaMailSender emailSender;
+
+    public void sendSimpleMessage(MailDto mailDto) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("road.found.in.the.text@gmail.com");
+        message.setTo(mailDto.getAddress());
+        message.setSubject(mailDto.getTitle());
+        message.setText(mailDto.getContent());
+        emailSender.send(message);
+    }
 
 
-    public MailDto createMailAndChangePassword(String userEmail, String userName) throws ResponseException {
+
+    //@Bean
+    public MailDto createMailAndChangePassword(String userEmail) throws ResponseException {
         String str = getTempPassword();
         MailDto dto = new MailDto();
         dto.setAddress(userEmail);
-        dto.setTitle(userName+"님의 HOTTHINK 임시비밀번호 안내 이메일 입니다.");
-        dto.setMessage("안녕하세요. HOTTHINK 임시비밀번호 안내 관련 이메일 입니다." + "[" + userName + "]" +"님의 임시 비밀번호는 "
-                + str + " 입니다.");
+        dto.setTitle(userEmail+"님의 임시비밀번호 안내 이메일 입니다.");
+        dto.setContent("안녕하세요. 임시비밀번호 안내 관련 이메일 입니다." + "[" + userEmail + "]" +"님의 임시 비밀번호는 "+ str + " 입니다.");
         updatePassword(str,userEmail);
-        mailSend(dto);
+
+        sendSimpleMessage(dto);
         return dto;
     }
 
@@ -71,14 +84,4 @@ public class SendEmailService {
         return str;
     }
 
-    public void mailSend(MailDto mailDto){
-        System.out.println("이멜 전송 완료!");
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(mailDto.getAddress());
-        message.setFrom(SendEmailService.FROM_ADDRESS);
-        message.setSubject(mailDto.getTitle());
-        message.setText(mailDto.getMessage());
-
-        mailSender.send(message);
-    }
 }

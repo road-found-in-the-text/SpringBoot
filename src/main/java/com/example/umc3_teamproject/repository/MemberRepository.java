@@ -3,11 +3,14 @@ package com.example.umc3_teamproject.repository;
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 //데이터베이스 관련 작업을 전담.
 //데이터베이스에 연결하여 입력/수정/삭제/조회 등 작업 수행
+
 
 @Repository @RequiredArgsConstructor
 public class MemberRepository {
@@ -38,6 +42,8 @@ public class MemberRepository {
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
+
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -151,6 +157,7 @@ public class MemberRepository {
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
+
     //USER table tuple 삭제
     @Transactional
     public int deleteUser(DeleteUserReq deleteUserReq) {
@@ -185,3 +192,5 @@ public class MemberRepository {
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
 }
+
+
