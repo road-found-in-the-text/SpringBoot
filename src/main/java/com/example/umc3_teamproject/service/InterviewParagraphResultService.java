@@ -43,13 +43,11 @@ public class InterviewParagraphResultService {
     private final S3Uploader s3Uploader;
     @Transactional
     public ResponseTemplate<String> createInterviewResult(Long interviewParagraph_id,
-                                                                                   InterviewResultRequestLocalDateTimeDto.createInterviewResult request) throws IOException {
+                                                          InterviewResultRequestDto.createInterviewResult request) throws IOException {
 
         InterviewParagraph findInterviewParagraph = interviewParagraphRepository.findById(interviewParagraph_id).orElseThrow(() ->
                 new CustomException(ErrorCode.INTERVIEW_NOT_FOUND));
 
-        String paragraph_title = findInterviewParagraph.getTitle();
-        String paragraph_content = findInterviewParagraph.getContent();
         LocalDateTime startTime = request.getStartTime();
         LocalDateTime endTime = request.getEndTime();
         String voiceUrl = uploadImageToInterviewParagraphResult(request.getVoiceFile());

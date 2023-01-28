@@ -17,7 +17,7 @@ public enum ErrorCode {
 
     SCRIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 script를 찾을 수 없습니다."),
 
-    INTERVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 script를 찾을 수 없습니다."),
+    INTERVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 interview를 찾을 수 없습니다."),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 댓글이 찾을 수 없습니다."),
     NESTED_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 대댓글을 찾을 수 없습니다."),
 
