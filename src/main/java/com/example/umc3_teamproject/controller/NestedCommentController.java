@@ -6,6 +6,7 @@ import com.example.umc3_teamproject.domain.dto.GetResult;
 import com.example.umc3_teamproject.domain.dto.request.NestedCommentRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.CommentResponseDto;
 import com.example.umc3_teamproject.domain.dto.response.NestedCommentResponseDto;
+import com.example.umc3_teamproject.service.JwtService;
 import com.example.umc3_teamproject.service.NestedCommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,13 +23,15 @@ import java.util.List;
 @RequestMapping("/comment/{comment-id}/nested-comment")
 public class NestedCommentController {
     private final NestedCommentService nestedCommentService;
+    private final JwtService jwtService;
 
     @ApiOperation(value = "해당 comment-id인 댓글에 대한 대댓글 create")
     @ResponseBody
     @PostMapping("/new")
     public ResponseTemplate<NestedCommentResponseDto.Body> createNestedComment(@PathVariable("comment-id") Long comment_id,
-                                                   @RequestBody @Validated NestedCommentRequestDto.createNestedCommentRequest request){
-        return nestedCommentService.createNestedComment(comment_id,request);
+                                                   @RequestBody @Validated NestedCommentRequestDto.createNestedCommentRequest request) throws ResponseException {
+        Long writer_id = jwtService.getmemberId();
+        return nestedCommentService.createNestedComment(comment_id,writer_id,request);
     }
     @ApiOperation(value = "해당 nested-comment-id인 대댓글 update")
     @ResponseBody

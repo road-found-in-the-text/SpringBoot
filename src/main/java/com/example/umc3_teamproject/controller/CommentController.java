@@ -7,6 +7,7 @@ import com.example.umc3_teamproject.domain.dto.request.CommentRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.CommentResponseDto;
 import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
 import com.example.umc3_teamproject.service.CommentService;
+import com.example.umc3_teamproject.service.JwtService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,15 @@ import java.util.List;
 @RequestMapping("/forum/{forum-id}/comment")
 public class CommentController {
     private final CommentService commentService;
+    private final JwtService jwtService;
 
     @ApiOperation(value = "댓글 create")
     @ResponseBody
     @PostMapping("/new")
     public ResponseTemplate<CommentResponseDto.Body> createComment(@PathVariable("forum-id") Long forum_id,
                                              @RequestBody @Validated CommentRequestDto.createCommentRequest request) throws ResponseException {
-        return commentService.createComment(forum_id,request);
+        Long writer_id = jwtService.getmemberId();
+        return commentService.createComment(forum_id,writer_id,request);
     }
     @ApiOperation(value = "해당 comment-id인 댓글 update")
     @ResponseBody

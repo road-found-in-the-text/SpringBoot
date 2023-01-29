@@ -57,9 +57,9 @@ public class CommentService {
     public List<Comment> findAllByForumId(Long forum_id){return commentRepository.findByForumId(forum_id);}
 
     @Transactional
-    public ResponseTemplate<CommentResponseDto.Body> createComment (Long forum_id, CommentRequestDto.createCommentRequest request) throws ResponseException {
+    public ResponseTemplate<CommentResponseDto.Body> createComment (Long forum_id, Long writer_id,CommentRequestDto.createCommentRequest request) throws ResponseException {
         Forum findForum = forumService.findOne(forum_id);
-        Member writer = memberService.findById(request.getUser_id());
+        Member writer = memberService.findById(writer_id);
         if(writer == null){
             throw new CustomException(ErrorCode.Member_NOT_FOUND);
         }

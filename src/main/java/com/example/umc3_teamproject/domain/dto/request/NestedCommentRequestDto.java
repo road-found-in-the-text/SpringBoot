@@ -13,8 +13,6 @@ public class NestedCommentRequestDto {
     @NoArgsConstructor
     public static class createNestedCommentRequest {
         // comment로 조회하는데 comment는 path parameter로 가져올 것이다.
-        @NotNull(message = "대댓글 작성자의 user id를 넣어주세요. 비어있으면 안됩니다.")
-        private Long user_id;
         @NotNull(message = "대댓글의 내용을 넣어주세요 비어있으면 안됩니다.")
         String content;
     }

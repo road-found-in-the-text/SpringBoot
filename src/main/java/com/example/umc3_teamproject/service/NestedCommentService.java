@@ -51,12 +51,12 @@ public class NestedCommentService {
     public List<NestedComment> findAllByCommentId(Long comment_id){return nestedCommentRepository.findByCommentId(comment_id);}
 
     @Transactional
-    public ResponseTemplate<NestedCommentResponseDto.Body> createNestedComment (Long comment_id, NestedCommentRequestDto.createNestedCommentRequest request){
+    public ResponseTemplate<NestedCommentResponseDto.Body> createNestedComment (Long comment_id, Long writer_id,NestedCommentRequestDto.createNestedCommentRequest request){
         Comment findComment = commentRepository.findById(comment_id).orElseThrow(
                 () -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)
         );
 
-        Member writer = memberService.findById(request.getUser_id());
+        Member writer = memberService.findById(writer_id);
         if(writer == null){
             throw new CustomException(ErrorCode.Member_NOT_FOUND);
         }
