@@ -1,7 +1,6 @@
 package com.example.umc3_teamproject.service;
 
 
-import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
