@@ -56,7 +56,10 @@ public class ScriptService {
     public List<Script> search(Long memberId) {
         return scriptRepository.findByMemberId(memberId);
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
      */
 
     public List<Script> findByMemberId(Long memberId){
@@ -113,7 +116,6 @@ public class ScriptService {
             updatedScript.setTitle(title);
             updatedScript.setParagraphList(before_script.getParagraphList());
             scriptRepository.save(updatedScript);
-
             return updatedScript;
         }
         return null;

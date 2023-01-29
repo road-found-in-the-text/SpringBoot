@@ -44,13 +44,7 @@ public class S3Uploader {
     }
 
     private String upload(File uploadFile, String dirName) {
-
-        String fileName = dirName + "/" + uploadFile.getName();
-
-        // s3에 저장되는 파일이름을 바꾸고 싶으면 여기를 수정하면 됩니다.
-        // 기존 main
-        // String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
-
+        String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -58,11 +52,7 @@ public class S3Uploader {
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-
-        String s = amazonS3Client.getUrl(bucket, fileName).toString();
-        String filename = s.substring(s.lastIndexOf(".amazonaws.com/")+15);
-        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+filename;
-
+        String url = "https://s3." + region + ".amazonaws.com/" + bucket + "/"+fileName;
         return url;
     }
 

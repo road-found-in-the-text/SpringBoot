@@ -37,15 +37,16 @@ public class Forum extends BaseEntity {
     @JoinColumn(name = "user_id")
     private Member member;                          // User 테이블과 양방향 관계
 
-    @OneToMany(mappedBy = "forum",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumScript> forumScripts = new ArrayList<>();
 
-//    private List<Interview> interviews = new ArrayList<>();
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
+    private List<ForumInterview> forumInterviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>(); // 댓글
     //
-    @OneToMany(mappedBy = "forum",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "forum",orphanRemoval = true)
     private List<ForumImage> forumImages = new ArrayList<>();
 
     //== 생성 메서드 ==//
@@ -59,13 +60,13 @@ public class Forum extends BaseEntity {
         this.script_status = false;
         this.report_status = false;
         this.image_video_status = false;
+        this.interview_status = false;
         this.deleted_status = false;
         this.setCreatedDate(LocalDateTime.now());
         this.setModifiedDate(LocalDateTime.now());
     }
 
     public void updateForum(String title, String content) {
-        this.writer = member.getNickName();
         this.title = title;
         this.content = content;
         this.setModifiedDate(LocalDateTime.now());
@@ -85,6 +86,12 @@ public class Forum extends BaseEntity {
     }
 
     public void setScript_status_false(){this.script_status = false;}
+
+    public void setInterview_status_true(){
+        this.interview_status = true;
+    }
+
+    public void setInterview_status_false(){this.interview_status = false;}
 
     public void setImage_video_status_true(){this.image_video_status = true;}
     public void setImage_video_status_false(){this.image_video_status = false;}

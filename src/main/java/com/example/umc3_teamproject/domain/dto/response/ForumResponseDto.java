@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Api
@@ -17,6 +18,9 @@ public class ForumResponseDto {
     public static class ForumDataToGetResult {
         @ApiParam(value = "forum 작성자 id", required = true, example = "1")
         private Long userId;
+
+        @ApiParam(value = "forum 작성자 nickName", required = true, example = "김현재")
+        private String writer;
 
         @ApiParam(value = "해당 forum id", required = true, example = "1")
         private Long forumId;
@@ -30,11 +34,32 @@ public class ForumResponseDto {
         @ApiParam(value = "해당 forum의 좋아요 수", required = false, example = "100")
         private int like_num;
 
+        @ApiParam(value = "해당 forum의 script 수", required = false, example = "100")
+        private int script_num;
+
+        @ApiParam(value = "해당 forum의 interview 수", required = false, example = "100")
+        private int interview_num;
+
+        @ApiParam(value = "해당 forum의 이미지나 비디오 수", required = false, example = "100")
+        private int image_video_num;
+
         @ApiParam(value = "해당 forum에 저장된 script의 id (복수 가능)", required = false, example = "")
         private List<ForumRequestDto.ScriptIdsToRequest> scriptIdToRequests;
 
+        @ApiParam(value = "해당 forum에 저장된 interview의 id (복수 가능)", required = false, example = "")
+        private List<ForumRequestDto.InterviewIdsToRequest> interviewIdsToRequests;
+
         @ApiParam(value = "해당 froum에 저장된 이미지 또는 비디오 url (복수 가능)", required = false, example = "1")
         private List<String> forumImage_url;
+
+        @ApiParam(value = "forum 생성일", required = false, example = "")
+        private LocalDateTime createDate;
+
+        @ApiParam(value = "forum 수정일", required = false, example = "1")
+        private LocalDateTime updateDate;
+
+
+
     }
 
     @Getter
