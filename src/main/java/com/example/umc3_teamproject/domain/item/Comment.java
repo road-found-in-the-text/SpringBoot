@@ -66,5 +66,14 @@ public class Comment extends BaseEntity {
         this.deleted_status = true;
     }
 
+    public void likePlus(){this.like_num++;}
+
+    public void likeMinus(){
+        if(this.like_num == 0){
+            like_num = 0;
+        }else{
+            like_num--;
+        }
+    }
 
 }

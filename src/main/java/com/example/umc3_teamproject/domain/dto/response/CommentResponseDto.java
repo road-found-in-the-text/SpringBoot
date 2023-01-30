@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.domain.dto.response;
 
 import com.example.umc3_teamproject.domain.item.Comment;
+import io.swagger.annotations.ApiParam;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,17 @@ public class CommentResponseDto {
             this.likeNum = comment.getLike_num();
             this.nestedCommentDatas = nestedCommentDatas;
         }
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LikeResponseDto {
+        @ApiParam(value = "해당 댓글 id", required = true, example = "1")
+        private Long comment_id;
+
+        @ApiParam(value = "해당 댓글 좋아요 수", required = true, example = "100")
+        private int like_num;
     }
 
 }
