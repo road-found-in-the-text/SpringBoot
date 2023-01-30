@@ -33,6 +33,11 @@ public class LoginService {
 
     // 로그인(password 검사)
     public LoginRes logIn(LoginReq loginReq) throws ResponseException {
+
+
+        if (checkEmail(loginReq.getEmail()) == 0) {
+            throw new ResponseException(USER_NOT_FOUND);
+        }
         Member member = memberRepository.getPw(loginReq);
         String password;
         if (loginReq.getPw()==null || loginReq.getPw().length()==0){
@@ -94,13 +99,13 @@ public class LoginService {
     public Member getUser(Long userIdx) throws ResponseException {
         try {
             Member member = memberRepository.getUser(userIdx);
-            if(member.getComments().size()<3 )//member.getForums().size()+member.getInterviews().size()
+            if(member.getForums().size()<3 )//member.getForums().size()+member.getInterviews().size()
                 member.setTier(0);
-            else if(member.getComments().size() <10 )
+            else if(member.getForums().size() <10 )
                 member.setTier(1);
-            else if(member.getComments().size() <20)
+            else if(member.getForums().size() <20)
                 member.setTier(2);
-            else if( member.getComments().size()<50)
+            else if(member.getForums().size()<50)
                 member.setTier(3);
             else member.setTier(4);
             return member;
