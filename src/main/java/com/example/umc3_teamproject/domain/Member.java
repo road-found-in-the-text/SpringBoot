@@ -3,6 +3,7 @@ package com.example.umc3_teamproject.domain;
 import com.example.umc3_teamproject.config.BaseTimeEntity;
 import com.example.umc3_teamproject.domain.item.Comment;
 import com.example.umc3_teamproject.domain.item.Forum;
+import com.example.umc3_teamproject.domain.item.RecordScript;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -67,6 +68,11 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Forum> forums = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<RecordScript> record_script;
 
     @Builder
     public Member(String socialId) {
