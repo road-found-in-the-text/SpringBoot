@@ -20,11 +20,11 @@ public class Memo {
     private Long id;
 
     @OneToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="script_id")
+    @JoinColumn(name="script_id",unique = true)
     private Script script;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "interview_id")
+    @JoinColumn(name = "interview_id",unique = true)
     private Interview interview;
 
     private String memo;
