@@ -79,6 +79,14 @@ public class ForumController {
         return forumService.getForumByUserId(user_id);
     }
 
+    @ApiOperation(value = "현재 사용중인 사용자가 만든 모든 forum 조회", notes = "user-id의 사용자가 만든 모든 forum 조회")
+    @ResponseBody
+    @GetMapping("/user/me")
+    public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getMyForums() throws ResponseException {
+        Long user_id = jwtService.getmemberId();
+        return forumService.getForumByUserId(user_id);
+    }
+
     // forum_id로 조회
     @ApiOperation(value = "해당 forum-id인 forum 하나 조회",notes = "해당 forum-id인 forum 하나 조회")
     @ResponseBody
