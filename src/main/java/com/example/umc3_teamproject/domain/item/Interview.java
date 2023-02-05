@@ -57,4 +57,9 @@ public class Interview extends BaseEntity {
 
     @OneToMany(mappedBy = "interview",orphanRemoval = true)
     private List<InterviewParagraphResult> interviewParagraphResults = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "interviewId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<RecordInterview> record_interview;
 }

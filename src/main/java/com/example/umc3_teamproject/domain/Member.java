@@ -1,10 +1,7 @@
 package com.example.umc3_teamproject.domain;
 
 import com.example.umc3_teamproject.config.BaseTimeEntity;
-import com.example.umc3_teamproject.domain.item.Comment;
-import com.example.umc3_teamproject.domain.item.Forum;
-import com.example.umc3_teamproject.domain.item.RecordScript;
-import com.example.umc3_teamproject.domain.item.Script;
+import com.example.umc3_teamproject.domain.item.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -73,6 +70,11 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<RecordScript> record_script;
+
+    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<RecordInterview> record_interview;
+
 
     @Builder
     public Member(String socialId) {
