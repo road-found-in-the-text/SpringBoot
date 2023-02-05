@@ -111,9 +111,7 @@ dependencies {
 
 	// m1 mac os에서 dsn server 문제 해결
 	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
-
-
-
+	testImplementation('org.junit.jupiter:junit-jupiter:5.9.1')
 
 }
 

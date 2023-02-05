@@ -47,10 +47,11 @@ public class Interview extends BaseEntity {
     private LocalDate interviewDate;
 
 
-     //paragraph를 list로 추가
-     @OneToMany(mappedBy = "scriptId")
-     @JsonBackReference
-     private List<Paragraph> paragraphList = new ArrayList<>();
+    // interiview paragraph는 InterviewParagraph로 새로 Entity 만들었어요!
+//     //paragraph를 list로 추가
+//     @OneToMany(mappedBy = "scriptId")
+//     @JsonBackReference
+//     private List<Paragraph> paragraphList = new ArrayList<>();
 
     @OneToMany(mappedBy = "interview",orphanRemoval = true)
     private List<InterviewParagraph> interviewParagraphs = new ArrayList<>();

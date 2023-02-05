@@ -30,7 +30,7 @@ public enum ErrorCode {
     FIREBASE_INITIAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "firebase 초기화에 실패하였습니다."),
 
     REPORT_TYPE_ERROR(HttpStatus.NO_CONTENT, "Report 타입은 Forum, Comment, NestedComment 세개 입니다."),
-
+    MEMO_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 memo는 존재하지 않습니다.")
     ;
 
 
