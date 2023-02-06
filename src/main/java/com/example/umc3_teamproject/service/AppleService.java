@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.service;
 
+import com.example.umc3_teamproject.domain.LoginType;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.ApplePublicKeyRes;
 import com.example.umc3_teamproject.repository.ProxyRepository;
@@ -97,7 +98,7 @@ public class AppleService implements ProxyRepository {
                 .email(String.valueOf(appleEmail))
                 .nickName(String.valueOf(appleEmail))
                 .socialId(String.valueOf(appleSocialId))
-                .loginType(2) //LoginType.APPLE
+                .loginType(LoginType.APPLE) //LoginType.APPLE
                 .build();
     }
 }

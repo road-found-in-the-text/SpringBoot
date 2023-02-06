@@ -1,16 +1,16 @@
 package com.example.umc3_teamproject.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public enum Tier {
-    BRONZE(0),
-    SILVER(1),
-    GOLD(2),
-    PLATINUM(3),
-    DIAMOND(4);
+    BRONZE("BRONZE"),
+    SILVER("SILVER"),
+    GOLD("GOLD"),
+    PLATINUM("PLATINUM"),
+    DIAMOND("DIAMOND");
 
-    public final int value;
-
-    Tier(final int value){
-        this.value = value;
-    }
+    private String type;
 }
