@@ -121,7 +121,7 @@ public class ForumService {
         return postRequest.getImageFiles().stream()
                 .map(image -> {
                     try {
-                        return s3Uploader.upload(image, "forumImage");
+                        return s3Uploader.upload(image, "image_video_record");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

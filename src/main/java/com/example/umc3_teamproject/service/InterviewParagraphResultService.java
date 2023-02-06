@@ -103,7 +103,7 @@ public class InterviewParagraphResultService {
 
     @Transactional
     public String uploadImageToInterviewParagraphResult(MultipartFile voiceFile) throws IOException {
-        String voice_url = s3Uploader.upload(voiceFile, "forumImage");
+        String voice_url = s3Uploader.upload(voiceFile, "image_video_record");
         return voice_url;
     }
 

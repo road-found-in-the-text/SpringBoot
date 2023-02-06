@@ -38,6 +38,7 @@ public class S3Uploader {
     private String region;
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+        System.out.println(multipartFile.getName());
         File converted_to_File = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
         return upload(converted_to_File, dirName);
@@ -78,7 +79,7 @@ public class S3Uploader {
 
     public void deleteFile(final String deleteFileName) {
         // 나중에 s3 주소가 변경될 시에 bucket 이름을 바꿔줘야 하니 여기를 바꿔주면 됩니다.
-        String fileName = "forumImage/" + deleteFileName;
+        String fileName = "image_video_record/" + deleteFileName;
         System.out.println(bucket);
         System.out.println(fileName);
         amazonS3Client.deleteObject(bucket,fileName);
