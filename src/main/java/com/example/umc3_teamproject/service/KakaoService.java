@@ -35,12 +35,12 @@ public class KakaoService implements ProxyRepository {
 
         System.out.println(kakaoRes.getId());
 
-        return Member.builder()
-                .memberStatus(1)
-                .nickName(kakaoRes.getKakaoAccount().getEmail())
-                .email(kakaoRes.getKakaoAccount().getEmail())
-                .socialId(String.valueOf(kakaoRes.getId()))
-                .loginType(LoginType.KAKAO) //LoginType.KAKAO
-                .build();
+        Member member = new Member();
+        member.setEmail(kakaoRes.getKakaoAccount().getEmail());
+        member.setSocialId(String.valueOf(kakaoRes.getId()));
+        member.setMemberStatus(1);
+        member.setLoginType(LoginType.KAKAO);
+
+        return member;
     }
 }

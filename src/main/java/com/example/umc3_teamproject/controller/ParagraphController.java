@@ -4,6 +4,7 @@ import com.example.umc3_teamproject.domain.dto.response.ParagraphResponseDto;
 import com.example.umc3_teamproject.domain.item.Paragraph;
 import com.example.umc3_teamproject.repository.ParagraphRepository;
 import com.example.umc3_teamproject.service.ParagraphService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/script/paragraph")
 @RequiredArgsConstructor
-
-
+@Api(tags = {"Paragraph Api"})
 public class ParagraphController {
 
     private final ParagraphService paragraphService;

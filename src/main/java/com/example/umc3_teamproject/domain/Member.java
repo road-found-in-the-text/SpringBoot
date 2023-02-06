@@ -12,6 +12,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.umc3_teamproject.domain.Tier.BRONZE;
+
 @Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Table(name="Member")
@@ -23,21 +25,20 @@ public class Member extends BaseTimeEntity {
     @Column(name="memberId")
     private Long id;
 
-    @Column()
+    @Column
     private String socialId;
-    @Column(nullable = false) //unique true
+    @Column //unique true
     private String email;
-    @Column(nullable = false)
+    @Column
     @JsonIgnore
     private String pw;
-    @Column(nullable = false, length=30)
+    @Column(length=30)
     @JsonIgnore
     private String nickName;
     @Column(nullable = true)
     @JsonIgnore
     private String imageUrl;
-    @Column(nullable = false)
-    @ColumnDefault("BRONZE")
+    @Column
     private Tier tier ;
 
     @Column
@@ -50,10 +51,9 @@ public class Member extends BaseTimeEntity {
     private int blockStatus;
 
 
-    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Script> scripts;
-    // private List<Script> scripts = new ArrayList<>();
+    private List<Script> scripts = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<Interview> interviews = new ArrayList<>();
@@ -82,16 +82,17 @@ public class Member extends BaseTimeEntity {
     }
 
 
+
     @Builder
-    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
+    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
         this.socialId = socialId;
         this.pw = pw;
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-        this.tier = Tier.BRONZE;
-        this.loginType = LoginType.DEFAULT;
+        this.tier = tier;
+        this.loginType = loginType;
         this.memberStatus = memberStatus;
         this.blockStatus = blockStatus;
     }
@@ -99,14 +100,12 @@ public class Member extends BaseTimeEntity {
     public void createMember(String email,String pw, String nickName, String imageUrl ){
         this.email = email;
         this.pw = pw;
-        this.nickName = nickName;
+        this.nickName=nickName;
         this.imageUrl = imageUrl;
         this.socialId = "0";
         this.memberStatus=1;
-        this.tier=Tier.BRONZE;
+        this.tier= BRONZE;
         this.loginType = LoginType.DEFAULT;
         this.blockStatus=0;
-
     }
-
 }

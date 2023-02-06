@@ -93,12 +93,13 @@ public class AppleService implements ProxyRepository {
         appleSocialId = appleAlg.getAsString();
         System.out.println("this is " + appleSocialId);
 
-        return Member.builder()
-                .memberStatus(1)
-                .email(String.valueOf(appleEmail))
-                .nickName(String.valueOf(appleEmail))
-                .socialId(String.valueOf(appleSocialId))
-                .loginType(LoginType.APPLE) //LoginType.APPLE
-                .build();
+        Member member = new Member();
+        member.setEmail(String.valueOf(appleEmail));
+        member.setSocialId(String.valueOf(appleSocialId));
+        member.setMemberStatus(1);
+        member.setLoginType(LoginType.APPLE);
+
+        return member;
+
     }
 }

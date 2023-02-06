@@ -9,6 +9,7 @@ import com.example.umc3_teamproject.service.JwtService;
 import com.example.umc3_teamproject.service.LoginService;
 
 import com.example.umc3_teamproject.service.MemberService;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
 import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
 
 @RestController
+@Api(tags = {"Member Api"})
 @RequestMapping("/members")
 public class MemberController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
