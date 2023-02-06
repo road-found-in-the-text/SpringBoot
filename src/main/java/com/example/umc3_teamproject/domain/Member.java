@@ -25,14 +25,14 @@ public class Member extends BaseTimeEntity {
     @Column(name="memberId")
     private Long id;
 
-    @Column()
+    @Column
     private String socialId;
-    @Column(nullable = false) //unique true
+    @Column //unique true
     private String email;
-    @Column(nullable = false)
+    @Column
     @JsonIgnore
     private String pw;
-    @Column(nullable = false, length=30)
+    @Column(length=30)
     @JsonIgnore
     private String nickName;
     @Column(nullable = true)
@@ -82,6 +82,7 @@ public class Member extends BaseTimeEntity {
     }
 
 
+
     @Builder
     public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
         this.id = id;
@@ -99,14 +100,12 @@ public class Member extends BaseTimeEntity {
     public void createMember(String email,String pw, String nickName, String imageUrl ){
         this.email = email;
         this.pw = pw;
-        this.nickName = nickName;
+        this.nickName=nickName;
         this.imageUrl = imageUrl;
         this.socialId = "0";
         this.memberStatus=1;
         this.tier= BRONZE;
         this.loginType = LoginType.DEFAULT;
         this.blockStatus=0;
-
     }
-
 }

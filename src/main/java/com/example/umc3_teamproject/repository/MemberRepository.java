@@ -106,8 +106,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        Tier.valueOf(rs.getString("tier")),
-                        LoginType.valueOf(rs.getString("login_type")),
+                        rs.getString("tier"),
+                        rs.getString("login_type"),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                         ),
@@ -129,8 +129,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        Tier.valueOf(rs.getString("tier")),
-                        LoginType.valueOf(rs.getString("login_type")),
+                        rs.getString("tier"),
+                        rs.getString("login_type"),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                 ))
@@ -194,5 +194,3 @@ public class MemberRepository {
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
 }
-
-
