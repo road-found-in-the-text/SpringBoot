@@ -37,11 +37,11 @@ public class Member extends BaseTimeEntity {
     @JsonIgnore
     private String imageUrl;
     @Column(nullable = false)
-    @ColumnDefault("0")
-    private int tier ;
+    @ColumnDefault("BRONZE")
+    private Tier tier ;
 
     @Column
-    private int loginType; //일반 로그인 또는 소셜로그인
+    private LoginType loginType; //일반 로그인 또는 소셜로그인
 
     @Column
     private int memberStatus;
@@ -90,8 +90,8 @@ public class Member extends BaseTimeEntity {
         this.pw = pw;
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-        this.tier = tier;
-        this.loginType = loginType;
+        this.tier = Tier.BRONZE;
+        this.loginType = LoginType.DEFAULT;
         this.memberStatus = memberStatus;
         this.blockStatus = blockStatus;
     }
@@ -103,8 +103,8 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.socialId = "0";
         this.memberStatus=1;
-        this.tier=0;
-        this.loginType = 0;
+        this.tier=Tier.BRONZE;
+        this.loginType = LoginType.DEFAULT;
         this.blockStatus=0;
 
     }

@@ -1,5 +1,6 @@
 package com.example.umc3_teamproject.service;
 
+import com.example.umc3_teamproject.domain.LoginType;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.KakaoRes;
 import com.example.umc3_teamproject.exception.TokenValidFailedException;
@@ -39,7 +40,7 @@ public class KakaoService implements ProxyRepository {
                 .nickName(kakaoRes.getKakaoAccount().getEmail())
                 .email(kakaoRes.getKakaoAccount().getEmail())
                 .socialId(String.valueOf(kakaoRes.getId()))
-                .loginType(1) //LoginType.KAKAO
+                .loginType(LoginType.KAKAO) //LoginType.KAKAO
                 .build();
     }
 }
