@@ -2,7 +2,9 @@ package com.example.umc3_teamproject.repository;
 
 
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
+import com.example.umc3_teamproject.domain.LoginType;
 import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.Tier;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -104,8 +106,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getInt("tier"),
-                        rs.getInt("login_type"),
+                        Tier.valueOf(rs.getString("tier")),
+                        LoginType.valueOf(rs.getString("login_type")),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                         ),
@@ -127,8 +129,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getInt("tier"),
-                        rs.getInt("login_type"),
+                        Tier.valueOf(rs.getString("tier")),
+                        LoginType.valueOf(rs.getString("login_type")),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                 ))
@@ -149,8 +151,8 @@ public class MemberRepository {
                         rs.getString("social_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getInt("tier"),
-                        rs.getInt("login_type"),
+                        Tier.valueOf(rs.getString("tier")),
+                        LoginType.valueOf(rs.getString("login_type")),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                 ),

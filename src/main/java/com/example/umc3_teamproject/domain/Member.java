@@ -83,15 +83,15 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, int tier, int loginType, int memberStatus, int blockStatus){
+    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
         this.socialId = socialId;
         this.pw = pw;
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-        this.tier = Tier.BRONZE;
-        this.loginType = LoginType.DEFAULT;
+        this.tier = tier;
+        this.loginType = loginType;
         this.memberStatus = memberStatus;
         this.blockStatus = blockStatus;
     }

@@ -1,5 +1,7 @@
 package com.example.umc3_teamproject.dto;
 
+import com.example.umc3_teamproject.domain.LoginType;
+import com.example.umc3_teamproject.domain.Tier;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,8 @@ public class MemberRes {
     private String email;
     private String nickName;
     private String imageUrl;
-    private int tier;
-    private int loginType;
+    private Tier tier;
+    private LoginType loginType;
 
     //허용
     private int memberStatus;
