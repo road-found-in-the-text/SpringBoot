@@ -16,7 +16,7 @@ public class AppleRedirectController {
 
     @RequestMapping("/oauth2/idpresponse")
     public String index() {
-        return "index";
+        return "/";
     }
 
 }
