@@ -6,6 +6,7 @@ import com.example.umc3_teamproject.domain.item.Interview;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.InterviewRepository;
 import com.example.umc3_teamproject.service.InterviewService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @Slf4j
 @RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
 @RequestMapping("/interview")
+@Api(tags = {"Interview Api"})
 @RequiredArgsConstructor
 public class InterviewController {
 

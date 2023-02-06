@@ -4,6 +4,7 @@ import com.example.umc3_teamproject.config.AES128;
 import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.Member;
+import com.example.umc3_teamproject.domain.Tier;
 import com.example.umc3_teamproject.dto.LoginReq;
 import com.example.umc3_teamproject.dto.LoginRes;
 import com.example.umc3_teamproject.dto.MemberRes;
@@ -100,14 +101,14 @@ public class LoginService {
         try {
             Member member = memberRepository.getUser(userIdx);
             if(member.getForums().size()<3 )//member.getForums().size()+member.getInterviews().size()
-                member.setTier(0);
+                member.setTier(Tier.BRONZE);
             else if(member.getForums().size() <10 )
-                member.setTier(1);
+                member.setTier(Tier.SILVER);
             else if(member.getForums().size() <20)
-                member.setTier(2);
+                member.setTier(Tier.GOLD);
             else if(member.getForums().size()<50)
-                member.setTier(3);
-            else member.setTier(4);
+                member.setTier(Tier.PLATINUM);
+            else member.setTier(Tier.DIAMOND);
             return member;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);

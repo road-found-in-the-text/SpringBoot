@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.domain.dto.response.ScriptResponseDto;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.ScriptRepository;
 import com.example.umc3_teamproject.service.ScriptService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
 @RequestMapping("/script")
 @RequiredArgsConstructor
+@Api(tags = {"Script Api"})
 public class ScriptController {
 
     private final ScriptService scriptService;

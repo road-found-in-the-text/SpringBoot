@@ -9,6 +9,7 @@ import com.example.umc3_teamproject.repository.RecordRespository;
 import com.example.umc3_teamproject.repository.ScriptRepository;
 import com.example.umc3_teamproject.service.RecordScriptService;
 import com.example.umc3_teamproject.service.ScriptService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
 @RequestMapping("/script")
 @RequiredArgsConstructor
-
+@Api(tags = {"Record Api"})
 public class RecordController {
 
     private final RecordScriptService recordscriptService;
