@@ -12,6 +12,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.umc3_teamproject.domain.Tier.BRONZE;
+
 @Getter @Setter @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Table(name="Member")
@@ -36,8 +38,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = true)
     @JsonIgnore
     private String imageUrl;
-    @Column(nullable = false)
-    @ColumnDefault("BRONZE")
+    @Column
     private Tier tier ;
 
     @Column
@@ -50,10 +51,9 @@ public class Member extends BaseTimeEntity {
     private int blockStatus;
 
 
-    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Script> scripts;
-    // private List<Script> scripts = new ArrayList<>();
+    private List<Script> scripts = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<Interview> interviews = new ArrayList<>();
@@ -103,7 +103,7 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.socialId = "0";
         this.memberStatus=1;
-        this.tier=Tier.BRONZE;
+        this.tier= BRONZE;
         this.loginType = LoginType.DEFAULT;
         this.blockStatus=0;
 

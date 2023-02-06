@@ -58,8 +58,8 @@ public class MemberRepository {
         else {
             em.merge(member);
         }
-        String lastInserIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값을 가져온다.
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery, Long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
+        String lastInsertIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값을 가져온다.
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
 
 
@@ -87,7 +87,7 @@ public class MemberRepository {
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
     public Member getPw(LoginReq loginReq) throws ResponseException {
-        TypedQuery<Member> getPwQuery = em.createQuery("select m from Member m where email = :email", Member.class); // 해당 email을 만족하는 User의 정보들을 조회한다.
+        TypedQuery<Member> getPwQuery = em.createQuery("select m from umc3.member m where email = :email", Member.class); // 해당 email을 만족하는 User의 정보들을 조회한다.
         getPwQuery.setParameter("email",loginReq.getEmail());
         Member member = getPwQuery.getSingleResult();
         return member;
