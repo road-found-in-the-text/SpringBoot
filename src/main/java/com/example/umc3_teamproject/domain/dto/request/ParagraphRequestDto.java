@@ -37,8 +37,9 @@ public class ParagraphRequestDto {
     @Getter
     @Setter
     public static class Update {
-        @NotNull(message = "title은 필수 입력값입니다.")
+        @NotNull(message = "필수 입력값입니다.")
         private String title;
+        private String contents;
 
 
     }
