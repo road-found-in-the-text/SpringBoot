@@ -14,15 +14,21 @@ import java.util.List;
 public class ParagraphRequestDto {
     @Getter
     @Setter
-    @NoArgsConstructor
     public static class Register {
 
         @NotNull(message = "user id는 필수 입력값입니다.")
-        private Long userId;
-        @NotNull(message = "script id는 필수 입력값입니다.")
-        private Script scriptId;
+        private Long memberId;
+
+       @NotNull(message = "script id는 필수 입력값입니다.")
+       private Long scriptId;
+
+       @NotNull(message = "contents는 필수 입력값입니다.")
+       private String contents;
+
         @NotNull(message = "title은 필수 입력값입니다.")
-        private String contents;
+        private String title;
+
+
         //이미지 파일은 List로 여러 개의 파일을 받는다.
         //@ApiModelProperty(value = "이미지 파일", required = false)
         //private List<MultipartFile> imageFiles = new ArrayList<>();
@@ -32,15 +38,8 @@ public class ParagraphRequestDto {
     @Setter
     public static class Update {
         @NotNull(message = "title은 필수 입력값입니다.")
-
-        private String contents;
-     
-        //private List<String> saveImageUrl = new ArrayList<>();
-        //private List<MultipartFile> imageFiles = new ArrayList<>();
-
         private String title;
-        private String type;
-        private Script scriptId;
+
 
     }
 }

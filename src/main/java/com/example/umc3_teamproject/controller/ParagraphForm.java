@@ -10,8 +10,7 @@ import java.util.List;
 
 public class ParagraphForm {
     private String contents;
-    private long userId;
-    private long scriptId;
+    private String title;
     //private List<ParagraphImage> paragraphImages = new ArrayList<>();
 
 

@@ -55,6 +55,10 @@ public class Member extends BaseTimeEntity {
     @JsonBackReference
     private List<Script> scripts ;
 
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Paragraph> paragraphs ;
+
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<Interview> interviews = new ArrayList<>();
 
