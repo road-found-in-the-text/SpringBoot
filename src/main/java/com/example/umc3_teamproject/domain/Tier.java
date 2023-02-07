@@ -3,14 +3,21 @@ package com.example.umc3_teamproject.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
-public enum Tier {
-    BRONZE("BRONZE"),
-    SILVER("SILVER"),
-    GOLD("GOLD"),
-    PLATINUM("PLATINUM"),
-    DIAMOND("DIAMOND");
 
-    private String type;
+public enum Tier {
+    BRONZE(0),
+    SILVER(1),
+    GOLD(2),
+    PLATINUM(3),
+    DIAMOND(4);
+
+    private int type;
+
+    Tier(int type) {
+        this.type = type;
+    }
+
+    public int getTier() {
+        return type;
+    }
 }

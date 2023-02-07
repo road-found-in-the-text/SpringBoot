@@ -87,7 +87,7 @@ public class MemberRepository {
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
     public Member getPw(LoginReq loginReq) throws ResponseException {
-        TypedQuery<Member> getPwQuery = em.createQuery("select m from umc3.member m where email = :email", Member.class); // 해당 email을 만족하는 User의 정보들을 조회한다.
+        TypedQuery<Member> getPwQuery = em.createQuery("select m from Member m where m.email = :email", Member.class); // 해당 email을 만족하는 User의 정보들을 조회한다.
         getPwQuery.setParameter("email",loginReq.getEmail());
         Member member = getPwQuery.getSingleResult();
         return member;
@@ -106,8 +106,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getString("tier"),
-                        rs.getString("login_type"),
+                        rs.getInt("tier"),
+                        rs.getInt("login_type"),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                         ),
@@ -129,8 +129,8 @@ public class MemberRepository {
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        rs.getString("tier"),
-                        rs.getString("login_type"),
+                        rs.getInt("tier"),
+                        rs.getInt("login_type"),
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                 ))
@@ -151,8 +151,8 @@ public class MemberRepository {
                         rs.getString("social_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
-                        Tier.valueOf(rs.getString("tier")),
-                        LoginType.valueOf(rs.getString("login_type")),
+                        Tier.values()[rs.getInt("tier")],
+                        LoginType.values()[rs.getInt("login_type")],
                         rs.getInt("member_status"),
                         rs.getInt("block_status")
                 ),

@@ -17,10 +17,9 @@ public class MemberRes {
     private String email;
     private String nickName;
     private String imageUrl;
-    private String tier;
-    private String loginType;
+    private int tier;
+    private int loginType;
 
-    //허용
     private int memberStatus;
 
     private int blockStatus;

@@ -149,10 +149,8 @@ public class MemberController {
      */
     @ResponseBody
     @PatchMapping("/{memberId}")
-    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") Long memberId, @RequestBody Member member) {
+    public ResponseTemplate<String> modifyUserName(@PathVariable("memberId") Long memberId, @RequestBody UpdateNickNameReq updateNickNameReq) {
         try {
-
-            //*********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
             Long userIdxByJwt = jwtService.getmemberId();
             //userIdx와 접근한 유저가 같은지 확인
@@ -161,7 +159,6 @@ public class MemberController {
             }
             //같다면 유저네임 변경
 //  **************************************************************************
-            UpdateNickNameReq updateNickNameReq = new UpdateNickNameReq(memberId, member.getNickName());
             memberService.modifyNickName(updateNickNameReq);
 
             String result = "회원정보가 수정되었습니다.";
