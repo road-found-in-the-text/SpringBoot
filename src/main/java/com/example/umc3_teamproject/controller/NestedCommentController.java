@@ -63,19 +63,19 @@ public class NestedCommentController {
         return nestedCommentService.getAllByCommentId(comment_id);
     }
 
-    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 하나 증가")
+    @ApiOperation(value = "해당 nested-comment-id인 대댓글 좋아요 수 하나 증가")
     @PutMapping("/{nested-comment-id}/like/plus")
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likePlus(@PathVariable("nested-comment-id") Long nested_comment_id) throws ResponseException {
         return nestedCommentService.likePlus(nested_comment_id);
     }
 
-    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 하나 감소")
+    @ApiOperation(value = "해당 nested-comment-id인 대댓글 좋아요 수 하나 감소")
     @PutMapping("/{nested-comment-id}/like/minus")
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> likeMinus(@PathVariable("nested-comment-id") Long nested_comment_id) throws ResponseException {
         return nestedCommentService.likeMinus(nested_comment_id);
     }
 
-    @ApiOperation(value = "해당 comment-id인 comment 좋아요 수 조회")
+    @ApiOperation(value = "해당 nested-comment-id인 대댓글 좋아요 수 조회")
     @GetMapping("/{nested-comment-id}/like")
     public ResponseTemplate<NestedCommentResponseDto.LikeResponseDto> getNestedCommentLike(@PathVariable("nested-comment-id") Long nested_comment_id) throws ResponseException {
         return nestedCommentService.getLike(nested_comment_id);

@@ -25,6 +25,8 @@ public class ScriptService {
     @Autowired
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponse;
+
+    private final MemoService memoService;
     private final EntityManager em;
 
 
@@ -98,7 +100,8 @@ public class ScriptService {
         Script toRemoveScript=em.find(Script.class, id);
         toRemoveScript.setDeleted(true);
         em.merge(toRemoveScript);
-
+        // script가 삭제될 때 memo도 삭제되게 했다.
+        memoService.deleteMemo("script",id);
         return "script id ["+id+"] deleted success";
     }
 

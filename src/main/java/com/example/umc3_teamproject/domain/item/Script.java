@@ -46,6 +46,9 @@ public class Script extends BaseEntity {
     @JsonBackReference
     private List<RecordScript> record_script;
 
+    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
+    private Memo memo;
+
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     // private List<Paragraph> paragraphList = new ArrayList<>();
