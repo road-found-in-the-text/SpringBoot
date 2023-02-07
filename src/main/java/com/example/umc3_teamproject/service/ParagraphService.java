@@ -1,35 +1,44 @@
 package com.example.umc3_teamproject.service;
+import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.dto.request.ParagraphRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ParagraphResponseDto;
 import com.example.umc3_teamproject.domain.item.Paragraph;
+import com.example.umc3_teamproject.domain.item.Script;
+import com.example.umc3_teamproject.repository.MemberRepository;
 import com.example.umc3_teamproject.repository.ParagraphRepository;
+import com.example.umc3_teamproject.repository.ScriptRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 
 public class ParagraphService {
     @Autowired
+    private final MemberRepository memberRepository;
+    @Autowired
+    private final ScriptRepository scriptRepository;
+    @Autowired
     private final ParagraphRepository paragraphRepository;
     private final ParagraphResponseDto paragraphResponse;
+
+    private final EntityManager em;
+
     public ResponseEntity<?> writeParagraph(ParagraphRequestDto.Register paragraph1) {
 
+        Member paragraph_member=memberRepository.getUser(paragraph1.getMemberId());
+        Script paragraph_script = scriptRepository.getById(paragraph1.getScriptId());
+
         Paragraph paragraph=Paragraph.builder()
-                .userId(paragraph1.getUserId())
-                // .scriptId(paragraph1.getScriptId())
-                .scriptId(paragraph1.getScriptId())
+                .memberId(paragraph_member)
+                .title(paragraph1.getTitle())
+                .scriptId(paragraph_script)
                 .contents(paragraph1.getContents())
                 .deleted(false)
                 .build();
@@ -37,41 +46,18 @@ public class ParagraphService {
         return paragraphResponse.success(paragraph);
     }
 
-
-
-
-    public Paragraph updateParagraph(Long id, ParagraphRequestDto.Update paragraph1) {
-        Optional<Paragraph> optionalProduct=paragraphRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            Paragraph before_paragraph = optionalProduct.get();
-            Paragraph updateParagraph=new Paragraph();
-            updateParagraph.setParagraphId(id);
-            updateParagraph.setScriptId(paragraph1.getScriptId());
-            updateParagraph.setUserId(before_paragraph.getUserId());
-            updateParagraph.setCreatedDate(before_paragraph.getCreatedDate());
-            updateParagraph.setContents(paragraph1.getContents());
-            paragraphRepository.save(updateParagraph);
-            return updateParagraph;
-        }
-        return null;
+    @Transactional
+    public Paragraph updateParagraph(Long id, String title) {
+        Paragraph toChangeParagraph=em.find(Paragraph.class, id);
+        toChangeParagraph.setTitle(title);
+        em.merge(toChangeParagraph);
+        return toChangeParagraph;
     }
 
-    public String remove(Long id){
-        Optional<Paragraph> optionalProduct=paragraphRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            Paragraph before_paragraph = optionalProduct.get();
-            Paragraph deletedParagraph=new Paragraph();
-            deletedParagraph.setParagraphId(id);
-            deletedParagraph.setScriptId(before_paragraph.getScriptId());
-            deletedParagraph.setUserId(before_paragraph.getUserId());
-            deletedParagraph.setCreatedDate(before_paragraph.getCreatedDate());
-            deletedParagraph.setContents(before_paragraph.getContents());
-            deletedParagraph.setDeleted(true);
-            paragraphRepository.save(deletedParagraph);
-            return id+" deleted success";
-        }
-        return null;
-    }
+
+
+
+
     @Transactional
     public void saveItem(Paragraph paragraph) {
 

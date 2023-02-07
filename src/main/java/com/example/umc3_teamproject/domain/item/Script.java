@@ -41,6 +41,9 @@ public class Script extends BaseEntity {
     @Column
     private boolean deleted;
 
+    @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Paragraph> paragraphs;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference

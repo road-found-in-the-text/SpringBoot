@@ -1,4 +1,5 @@
 package com.example.umc3_teamproject.domain.item;
+import com.example.umc3_teamproject.domain.Member;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,31 +25,28 @@ import static javax.persistence.FetchType.LAZY;
 public class Paragraph extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
-
     @Column(name="paragraphId", updatable = false)
     private Long paragraphId;
 
-    // @Column(name="scriptId", updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @JsonManagedReference
+    private Member memberId;
+
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="scriptId")
     @JsonManagedReference
     private Script scriptId;
 
-    @Column(name="userId", updatable = false)
-    @JsonManagedReference
-    private Long userId;
+    @Column
+    private String title;
 
     @Column
     private String contents;
 
     @Column
     private boolean deleted;
-
-    @PreRemove
-    public void deleteParagraph(){
-        this.deleted = false;
-    }
 
 
    // @OneToMany(mappedBy = "paragraph", orphanRemoval = true,cascade = CascadeType.ALL)

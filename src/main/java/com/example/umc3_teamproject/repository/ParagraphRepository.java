@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ParagraphRepository extends JpaRepository<Paragraph, Long> , CrudRepository<Paragraph, Long> {
     Optional<Paragraph> findById(Long id);
-    List<Paragraph> findByUserId(Long id);
+    //List<Paragraph> findByUserId(Long id);
 
 
 }
