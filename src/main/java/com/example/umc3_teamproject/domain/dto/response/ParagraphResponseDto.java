@@ -42,7 +42,7 @@ public class ParagraphResponseDto {
                 .scriptId(paragraph.getScriptId().getScriptId())
                 .paragraphId(paragraph.getParagraphId())
                 .title(paragraph.getTitle())
-                .contents("no contents")
+                .contents(paragraph.getContents())
                 .createdDate(paragraph.getCreatedDate())
                 .modifiedDate(paragraph.getModifiedDate())
                 .build();
