@@ -71,16 +71,11 @@ public class ScriptService {
     };
 
     @Transactional
-    public Script addParagraph(Long id, Long[] paragraphIdList){
-        Script addParagraphScript=em.find(Script.class, id);
+    public void addParagraph(Long scriptId, Paragraph new_paragraph){
+        Script addParagraphScript=em.find(Script.class, scriptId);
+        List<Paragraph> paragraphIdList=addParagraphScript.getParagraphList();
+        paragraphIdList.add(new_paragraph);
 
-        for (int i=0; i< paragraphIdList.length ; i++) {
-
-            Paragraph new_paragraph=em.find(Paragraph.class, paragraphIdList[i]);
-            addParagraphScript.addParagraph(new_paragraph);
-        }
-        em.merge(addParagraphScript);
-        return addParagraphScript;
     }
 
     @Transactional

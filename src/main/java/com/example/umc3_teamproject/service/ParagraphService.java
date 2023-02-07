@@ -27,6 +27,7 @@ public class ParagraphService {
     @Autowired
     private final ParagraphRepository paragraphRepository;
     private final ParagraphResponseDto paragraphResponse;
+    private final ScriptService scriptService;
 
     private final EntityManager em;
 
@@ -42,6 +43,8 @@ public class ParagraphService {
                 .contents(paragraph1.getContents())
                 .deleted(false)
                 .build();
+
+        scriptService.addParagraph(paragraph.getScriptId().getScriptId(), paragraph);
         paragraphRepository.save(paragraph);
         return paragraphResponse.success(paragraph);
     }

@@ -49,7 +49,7 @@ public class ScriptController {
         Optional<Script> optionalProduct=scriptRepository.findById(id);
         if (optionalProduct.isPresent()) {
             Script script1 = optionalProduct.get();
-            return scriptResponseDto.success(script1);
+            return scriptResponseDto.successScript(script1);
         }
         return null;
     }
@@ -67,37 +67,6 @@ public class ScriptController {
 
         return ResponseEntity.ok().body(result);
 
-        /*
-        List<Script> scriptList=scriptRepository.findAll()
-                .stream()
-                .filter(user -> user.getMemberId().equals(memberId))
-                .collect(Collectors.toList());
-
-        Map<String, Object> result=new HashMap<>();
-        result.put("scripts", scriptList);
-        result.put("count", scriptList.size());
-
-        return ResponseEntity.ok().body(result);
-
-         */
-
-        /*
-        List<Script> scriptList=null;
-
-        if (memberId==null) {
-            return null;
-
-        } else {
-            scriptList=scriptRepository.findByMemberId(memberId);
-
-            Map<String, Object> result=new HashMap<>();
-            result.put("scripts", scriptList);
-            result.put("count", scriptList.size());
-
-            return ResponseEntity.ok().body(result);
-        }
-
-         */
     }
 
     @GetMapping("/all")

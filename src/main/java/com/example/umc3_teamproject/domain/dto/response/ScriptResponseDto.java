@@ -31,6 +31,7 @@ public class ScriptResponseDto {
         private String title;
         //private String type;
         private String contents;
+        private List<Paragraph> paragraphList;
 
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
@@ -44,6 +45,36 @@ public class ScriptResponseDto {
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
                 .contents("no contents")
+                .createdDate(script.getCreatedDate())
+                .modifiedDate(script.getModifiedDate())
+                .build();
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<?> successScript(Script script) {
+
+        List<Paragraph> paragraphList = new ArrayList<>();
+        paragraphList=script.getParagraphList();
+
+        //Member script_member=memberRepository.getUser(script.getMemberId());
+
+        String firestScriptContent;
+
+        if (paragraphList.size()!=0) {
+            Paragraph firstP= paragraphList.get(0);
+            firestScriptContent=firstP.getContents();
+        } else {
+            firestScriptContent="";
+        }
+
+
+        Body body = Body.builder()
+                .result("success")
+                //.memberId(script.getMemberId().getId())
+                .scriptId(script.getScriptId())
+                .title(script.getTitle())
+                .contents(firestScriptContent)
+                .paragraphList(script.getParagraphList())
                 .createdDate(script.getCreatedDate())
                 .modifiedDate(script.getModifiedDate())
                 .build();
