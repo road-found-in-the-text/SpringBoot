@@ -154,7 +154,7 @@ public class ForumController {
         return forumService.getLike(forum_id);
     }
 
-    @GetMapping("/bestForum")
+    @GetMapping("/bestforum")
     public ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getSixForumByLikeDesc(){
         return forumService.getSixForumByLikeDesc();
     }

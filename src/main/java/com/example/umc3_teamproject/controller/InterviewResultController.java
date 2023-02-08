@@ -27,7 +27,7 @@ public class InterviewResultController {
     private final InterviewParagraphResultService interviewParagraphResultService;
 
     @ApiOperation(value = "interview paragraph result 생성", notes = "질문 후 결과 create한다.")
-    @PostMapping("/interviewParagraph/{paragraph-id}/result/new")
+    @PostMapping("/interviewparagraph/{paragraph-id}/result/new")
     public ResponseTemplate<String> createInterviewResult(@PathVariable("paragraph-id") Long paragraph_id
             , @ModelAttribute InterviewResultRequestDto.createInterviewResult request) throws IOException {
         interviewParagraphResultService.deleteInterviewParagraphResult(paragraph_id);
