@@ -34,7 +34,8 @@ public class Paragraph extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="scriptId")
-    @JsonBackReference
+    // @JsonBackReference
+    @JsonIgnore
     private Script scriptId;
 
     @Column
