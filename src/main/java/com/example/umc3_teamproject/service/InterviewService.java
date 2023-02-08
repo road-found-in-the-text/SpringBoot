@@ -23,6 +23,9 @@ public class InterviewService {
     @Autowired
     private final InterviewResponseDto interviewResponse;
 
+    @Autowired
+    private final MemoService memoService;
+
     public ResponseEntity<?> writeInterview(InterviewRequestDto.Register interview1) {
 
         Interview interview=Interview.builder()
@@ -77,6 +80,9 @@ public class InterviewService {
             deletedInterview.setType(before_interview.getType());
             deletedInterview.setDeleted(true);
             interviewRepository.save(deletedInterview);
+
+            // interview에 속해있는 memo도 같이 삭제해야 하기 때문에 코드 추가했습니다.
+            memoService.deleteMemo("interview",id);
 
             return id+" deleted success";
         }
