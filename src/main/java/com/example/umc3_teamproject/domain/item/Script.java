@@ -31,7 +31,7 @@ public class Script extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Member memberId;
 
 
@@ -42,14 +42,14 @@ public class Script extends BaseEntity {
     private boolean deleted;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Paragraph> paragraphs;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<RecordScript> record_script;
 
-    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
+    @OneToOne(mappedBy = "script", fetch=FetchType.LAZY ,orphanRemoval = true)
     private Memo memo;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)

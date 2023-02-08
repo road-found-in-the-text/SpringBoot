@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.domain.item.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -52,7 +53,7 @@ public class Member extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Script> scripts ;
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)

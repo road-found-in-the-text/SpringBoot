@@ -1,9 +1,6 @@
 package com.example.umc3_teamproject.domain.item;
 import com.example.umc3_teamproject.domain.Member;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
@@ -30,13 +27,14 @@ public class Paragraph extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
+    // @JsonBackReference
+    @JsonIgnore
     private Member memberId;
 
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="scriptId")
-    @JsonManagedReference
+    @JsonBackReference
     private Script scriptId;
 
     @Column
@@ -46,6 +44,7 @@ public class Paragraph extends BaseEntity {
     private String contents;
 
     @Column
+    @JsonIgnore
     private boolean deleted;
 
 

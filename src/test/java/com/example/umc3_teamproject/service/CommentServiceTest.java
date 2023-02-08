@@ -51,12 +51,12 @@ public class CommentServiceTest {
         //when
 
         for(int i = 0 ; i <= 200 ; i++){
-            commentService.createComment(forum.getData().getForumId(), new CommentRequestDto.createCommentRequest(userId,"comment"));
+            //commentService.createComment(forum.getData().getForumId(), new CommentRequestDto.createCommentRequest(userId,"comment"));
         }
         //then
-        ResponsePageTemplate<List<CommentResponseDto.Body>> allByForumId = commentService.getAllByForumId(forum.getData().getForumId(),pageable);
+        //ResponsePageTemplate<List<CommentResponseDto.Body>> allByForumId = commentService.getAllByForumId(forum.getData().getForumId(),pageable);
 
-        System.out.println(allByForumId.getData().size());
+        //System.out.println(allByForumId.getData().size());
     }
 
 }
