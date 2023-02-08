@@ -99,7 +99,9 @@ public class InterviewParagraphService {
         );
         interviewParagraph.deleted_status_true();
         InterviewParagraphResult interviewParagraphResultByInterviewParagraphId = interviewParagraphResultRepository.findInterviewParagraphResultByInterviewParagraphId(paragraph_id);
-        interviewParagraphResultRepository.delete(interviewParagraphResultByInterviewParagraphId);
+        if(interviewParagraphResultByInterviewParagraphId != null){
+            interviewParagraphResultRepository.delete(interviewParagraphResultByInterviewParagraphId);
+        }
         return new ResponseTemplate<>(paragraph_id+" deleted success");
     }
 

@@ -119,8 +119,11 @@ public class CommentService {
                 .collect(Collectors.toList());
 //        commentPage.getPageable().getPageNumber()
         long total_page = commentPage.getTotalPages();
-        int totalPage = (int)Math.ceil( (double)total_page / pageable.getPageSize() );
-        return new ResponsePageTemplate<>(commentDataToGetResults,totalPage,pageable.getPageNumber()+1);
+//        System.out.println(total_page);
+////        int totalPage = (int)Math.ceil( (double)total_page / pageable.getPageSize() );
+//        System.out.println(totalPage);
+//        System.out.println(pageable.getPageSize());
+        return new ResponsePageTemplate<>(commentDataToGetResults,(int)total_page,pageable.getPageNumber()+1);
     }
 
     @Transactional

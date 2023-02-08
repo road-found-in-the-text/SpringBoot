@@ -63,7 +63,7 @@ public class CommentController {
     @ResponseBody
     @GetMapping("")
     public ResponsePageTemplate<List<CommentResponseDto.Body>> getAllCommentByForumId(@PathVariable("forum-id") Long forum_id,
-                                                                                      @PageableDefault(size=1, sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable) throws ResponseException {
+                                                                                      @PageableDefault(size=10, sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable) throws ResponseException {
         return commentService.getAllByForumId(forum_id,pageable);
     }
 
