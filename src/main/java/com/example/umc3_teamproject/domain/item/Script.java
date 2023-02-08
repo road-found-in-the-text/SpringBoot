@@ -31,7 +31,7 @@ public class Script extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Member memberId;
 
 
