@@ -26,6 +26,8 @@ public class InterviewService {
     @Autowired
     private final MemoService memoService;
 
+    private final RecordService recordService;
+
     public ResponseEntity<?> writeInterview(InterviewRequestDto.Register interview1) {
 
         Interview interview=Interview.builder()
@@ -33,6 +35,9 @@ public class InterviewService {
                 .title(interview1.getTitle())
                 .type(interview1.getType())
                 .interviewDate(interview1.getInterviewDate())
+                .result_count(0)
+                .total_elapsed_minute(0)
+                .total_elapsed_second(0)
                 .deleted(false)
                 .build();
         interviewRepository.save(interview);
@@ -56,6 +61,9 @@ public class InterviewService {
             updatedInterview.setInterviewDate(interview1.getInterviewDate());
             updatedInterview.setTitle(interview1.getTitle());
             updatedInterview.setType(interview1.getType());
+            updatedInterview.setResult_count(before_interview.getResult_count());
+            updatedInterview.setTotal_elapsed_minute(before_interview.getTotal_elapsed_minute());
+            updatedInterview.setTotal_elapsed_second(before_interview.getTotal_elapsed_second());
             interviewRepository.save(updatedInterview);
 
             return updatedInterview;
@@ -78,11 +86,15 @@ public class InterviewService {
             deletedInterview.setCreatedDate(before_interview.getCreatedDate());
             deletedInterview.setTitle(before_interview.getTitle());
             deletedInterview.setType(before_interview.getType());
+            deletedInterview.setResult_count(before_interview.getResult_count());
+            deletedInterview.setTotal_elapsed_second(before_interview.getTotal_elapsed_second());
+            deletedInterview.setTotal_elapsed_minute(before_interview.getTotal_elapsed_minute());
             deletedInterview.setDeleted(true);
             interviewRepository.save(deletedInterview);
 
-            // interview에 속해있는 memo도 같이 삭제해야 하기 때문에 코드 추가했습니다.
+            // interview에 속해있는 결과 페이지와 메모도 같이 삭제해야 하기 때문에 코드 추가했습니다.
             memoService.deleteMemo("interview",id);
+            recordService.deleteRecord("interview",id);
 
             return id+" deleted success";
         }

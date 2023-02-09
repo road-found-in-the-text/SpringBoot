@@ -31,22 +31,33 @@ public class MemoService {
     private final InterviewRepository interviewRepository;
 
     @Transactional
-    public ResponseTemplate<MemoResponseDto.createBody> createMemo(Long script_interview_id,MemoRequestDto.createRequest request){
+    public ResponseTemplate<MemoResponseDto.createBody> createMemo(
+            String script_or_interview,long id,MemoRequestDto.createRequest request){
+        int result_count;
+        Script findScript = null;
+        Interview findInterview = null;
+
         Memo memo = new Memo();
-        if(request.getType().equals("script")){
-            Script findScript = scriptRepository.findById(script_interview_id).orElseThrow(
-                    () -> new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
-            );
-            memo.createMemo(findScript,null, request.getMemo());
-        }else if(request.getType().equals("interview")){
-            Interview findInterview = interviewRepository.findById(script_interview_id).orElseThrow(
-                    () -> new CustomException(ErrorCode.INTERVIEW_NOT_FOUND)
-            );
-            memo.createMemo(null,findInterview, request.getMemo());
+        if(script_or_interview.equals("script")){
+            findScript = getScript(id);
+            result_count = findScript.getResult_count();
+        }else{
+            findInterview = getInterview(id);
+            result_count = findInterview.getResult_count();
         }
+        memo.createMemo(script_or_interview,id,result_count,request.getMemo());
         memoRepository.save(memo);
+
         return new ResponseTemplate<>(new MemoResponseDto.createBody(
-                request.getType(),script_interview_id,memo.getId(),memo.getMemo()));
+                memo.getResult_count(),memo.getMemo()));
+    }
+
+    public Script getScript(long id){
+        return scriptRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCRIPT_NOT_FOUND));
+    }
+
+    public Interview getInterview(long id){
+        return interviewRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.INTERVIEW_NOT_FOUND));
     }
 
     @Transactional
@@ -78,5 +89,10 @@ public class MemoService {
 
         return new ResponseTemplate<>(new MemoResponseDto.updateBody(
                 findMemo.getId(),findMemo.getMemo()));
+    }
+
+    public String deleteByMemoId(long memo_id) {
+        memoRepository.deleteById(memo_id);
+        return memo_id + "인 메모 삭제 완료";
     }
 }
