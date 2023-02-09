@@ -41,6 +41,15 @@ public class Interview extends BaseEntity {
     private String type;
 
     @Column
+    private int result_count;
+
+    @Column
+    private int total_elapsed_minute;
+
+    @Column
+    private int total_elapsed_second;
+
+    @Column
     private boolean deleted;
 
     @Column

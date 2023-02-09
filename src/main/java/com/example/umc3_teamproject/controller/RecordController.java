@@ -1,53 +1,46 @@
 package com.example.umc3_teamproject.controller;
-import com.example.umc3_teamproject.domain.dto.request.RecordScriptRequestDto;
-import com.example.umc3_teamproject.domain.dto.request.ScriptRequestDto;
-import com.example.umc3_teamproject.domain.dto.response.RecordScriptResponseDto;
-import com.example.umc3_teamproject.domain.dto.response.ScriptResponseDto;
-import com.example.umc3_teamproject.domain.item.RecordScript;
-import com.example.umc3_teamproject.domain.item.Script;
-import com.example.umc3_teamproject.repository.RecordRespository;
-import com.example.umc3_teamproject.repository.ScriptRepository;
-import com.example.umc3_teamproject.service.RecordScriptService;
-import com.example.umc3_teamproject.service.ScriptService;
+
+import com.example.umc3_teamproject.config.resTemplate.ResponseException;
+import com.example.umc3_teamproject.config.resTemplate.ResponseTemplate;
+import com.example.umc3_teamproject.domain.dto.request.ForumRequestDto;
+import com.example.umc3_teamproject.domain.dto.request.RecordRequestDto;
+import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
+import com.example.umc3_teamproject.domain.dto.response.RecordMemoResponseDto;
+import com.example.umc3_teamproject.domain.dto.response.RecordResponseDto;
+import com.example.umc3_teamproject.service.RecordService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.netty.http.server.HttpServerRequest;
 
-import java.util.Optional;
+import java.io.IOException;
+import java.util.List;
 
-@Slf4j
-@RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
-@RequestMapping("/script")
+@RestController
 @RequiredArgsConstructor
-@Api(tags = {"Record Api"})
+@Api(tags = {"Forum Api"})
+@RequestMapping("/record/{script-or-interview}/{script_id-or-interview_id}")
 public class RecordController {
 
-    private final RecordScriptService recordscriptService;
-    private final RecordRespository recordscriptRepository;
+    private final RecordService recordService;
 
-    private final RecordScriptResponseDto recordscriptResponseDto;
-
-
-    @PostMapping("/addRecord")
-    public ResponseEntity<?> recordScript(@RequestBody RecordScriptRequestDto.Register record_script ){
-
-        return recordscriptService.recordScript(record_script);
+    @ApiOperation(value = "record 저장", notes = "결과를 저장한다.")
+    @PostMapping("/new")
+    public ResponseTemplate<RecordResponseDto.Body> createRecord(
+            @PathVariable("script-or-interview") String script_or_interview,
+            @PathVariable("script_id-or-interview_id") long id,
+            @Validated @RequestBody RecordRequestDto.createRecordRequest request) throws IOException, ResponseException {
+        return recordService.createRecord(script_or_interview,id,request);
     }
 
-
-
-    @GetMapping("/record/{id}")
-    public ResponseEntity<?> readRecordScriptById(@PathVariable("id") Long id) {
-
-
-        Optional<RecordScript> optionalProduct=recordscriptRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            RecordScript record_script1 = optionalProduct.get();
-            return recordscriptResponseDto.success(record_script1);
-        }
-        return null;
+    @ApiOperation(value = "결과 페이지 생성", notes = "결과를 보여준다.")
+    @GetMapping("")
+    public ResponseTemplate<RecordMemoResponseDto.Body> getRecord(
+            @PathVariable("script-or-interview") String script_or_interview,
+            @PathVariable("script_id-or-interview_id") long id) throws IOException, ResponseException {
+        return recordService.getRecord(script_or_interview, id);
     }
 
 }

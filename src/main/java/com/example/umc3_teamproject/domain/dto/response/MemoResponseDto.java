@@ -15,9 +15,7 @@ public class MemoResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class createBody {
-        private String script_interview_type;
-        private Long script_interview_id;
-        private Long memo_id;
+        private int result_count;
         private String memo;
     }
 

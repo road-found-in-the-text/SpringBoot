@@ -19,26 +19,22 @@ public class Memo {
     @Column(name = "record_memo_id")
     private Long id;
 
-    @OneToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="script_id",unique = true)
-    private Script script;
+    private String type;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "interview_id",unique = true)
-    private Interview interview;
+    // 해당 script와 interview의 id
+    private long script_interview_id;
 
+    // 회차 저장
+    private int result_count;
+
+    // 메모 저장
     private String memo;
 
     // 비즈니스 로직
-    public void createMemo(Script script, Interview interview, String memo){
-        if(script != null){
-            this.script = script;
-        }
-
-        if(interview != null){
-            this.interview = interview;
-        }
-
+    public void createMemo(String type,long script_interview_id, int result_count,String memo){
+        this.type = type;
+        this.script_interview_id = script_interview_id;
+        this.result_count = result_count;
         this.memo = memo;
     }
 
