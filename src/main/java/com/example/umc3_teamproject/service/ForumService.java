@@ -111,7 +111,7 @@ public class ForumService {
 
         forumRepository.save(forum);
         return new ResponseTemplate<>(new ForumResponseDto.ForumDataToGetResult(forum.getMember().getId(),forum.getMember().getNickName(),forum.getId(),
-                forum.getTitle(),forum.getContent(),forum.getLike_num(),scriptIdToRequests.size(),interviewIdsToRequests.size(),postImages.size(),
+                forum.getTitle(),forum.getContent(),forum.getLike_num(),scriptIdToRequests.size(),interviewIdsToRequests.size(),0,postImages.size(),
                 scriptIdToRequests,interviewIdsToRequests,postImages,forum.getCreatedDate(),forum.getModifiedDate()));
     }
 
@@ -302,6 +302,7 @@ public class ForumService {
                 findForum.getMember().getNickName(),findForum.getId(),findForum.getTitle(),findForum.getContent(),findForum.getLike_num(),
                 script_num,
                 interview_num,
+                findForum.getComments().size(),
                 findForum.getForumImages().size(),
                 request.getScriptIds(),
                 request.getInterviewIds(),
@@ -386,6 +387,7 @@ public class ForumService {
                 forum.getLike_num(),
                 forum.getForumScripts().size(),
                 forum.getForumInterviews().size(),
+                forum.getComments().size(),
                 forum.getForumImages().size(),
                 forum.getForumScripts().stream().map(
                         i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())
@@ -473,7 +475,7 @@ public class ForumService {
     private ResponseTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToGetResult(List<Forum> forums) {
         List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
                         s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getMember().getNickName(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().size(),s.getForumInterviews().size(),s.getForumImages().size(),
+                                s.getForumScripts().size(),s.getForumInterviews().size(),s.getComments().size(),s.getForumImages().size(),
                                 s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumInterviews().stream().map(i -> new ForumRequestDto.InterviewIdsToRequest(i.getInterview().getInterviewId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())
@@ -485,7 +487,7 @@ public class ForumService {
     private ResponsePageTemplate<List<ForumResponseDto.ForumDataToGetResult>> getListFroumDataToPage(List<Forum> forums,Pageable pageable,Long total_page) {
         List<ForumResponseDto.ForumDataToGetResult> forumDataToGetResultRespons = forums.stream().map(
                         s -> new ForumResponseDto.ForumDataToGetResult(s.getMember().getId(),s.getMember().getNickName(),s.getId(),s.getTitle(),s.getContent(),s.getLike_num(),
-                                s.getForumScripts().size(),s.getForumInterviews().size(),s.getForumImages().size(),
+                                s.getForumScripts().size(),s.getForumInterviews().size(),s.getComments().size(),s.getForumImages().size(),
                                 s.getForumScripts().stream().map(i -> new ForumRequestDto.ScriptIdsToRequest(i.getScript().getScriptId())).collect(Collectors.toList()),
                                 s.getForumInterviews().stream().map(i -> new ForumRequestDto.InterviewIdsToRequest(i.getInterview().getInterviewId())).collect(Collectors.toList()),
                                 s.getForumImages().stream().map(ForumImage::getImageUrl).collect(Collectors.toList())

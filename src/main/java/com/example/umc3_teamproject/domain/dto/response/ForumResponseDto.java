@@ -40,6 +40,9 @@ public class ForumResponseDto {
         @ApiParam(value = "해당 forum의 interview 수", required = false, example = "100")
         private int interview_num;
 
+        @ApiParam(value = "해당 forum의 comment 수", required = false, example = "100")
+        private int comment_num;
+
         @ApiParam(value = "해당 forum의 이미지나 비디오 수", required = false, example = "100")
         private int image_video_num;
 
