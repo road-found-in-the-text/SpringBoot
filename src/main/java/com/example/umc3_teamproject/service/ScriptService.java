@@ -27,6 +27,8 @@ public class ScriptService {
     private final ScriptResponseDto scriptResponse;
 
     private final MemoService memoService;
+
+    private final RecordService recordService;
     private final EntityManager em;
 
 
@@ -38,6 +40,9 @@ public class ScriptService {
                 .memberId(script_member)
                 .title(script1.getTitle())
                 // .type(script1.getType())
+                .result_count(0)
+                .total_elapsed_minute(0)
+                .total_elapsed_second(0)
                 .deleted(false)
                 .build();
         scriptRepository.save(script);
@@ -95,8 +100,11 @@ public class ScriptService {
         Script toRemoveScript=em.find(Script.class, id);
         toRemoveScript.setDeleted(true);
         em.merge(toRemoveScript);
-        // script가 삭제될 때 memo도 삭제되게 했다.
+
+        // script가 삭제될 때 결과들도 같이 삭제되게 했다.
         memoService.deleteMemo("script",id);
+        recordService.deleteRecord("script",id);
+
         return "script id ["+id+"] deleted success";
     }
 

@@ -38,6 +38,15 @@ public class Script extends BaseEntity {
     @Column
     private String title;
 
+    // 결과를 만든 횟수를 저장합니다.
+    @Column
+    private int result_count;
+
+    @Column
+    private int total_elapsed_minute;
+
+    @Column int total_elapsed_second;
+
     @Column
     private boolean deleted;
 
@@ -48,9 +57,9 @@ public class Script extends BaseEntity {
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<RecordScript> record_script;
-
-    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
-    private Memo memo;
+//
+//    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
+//    private Memo memo;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
