@@ -193,4 +193,23 @@ public class MemberRepository {
 
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
+
+    public Integer getScriptsNum(Member member){
+
+            String queryString = "SELECT  COUNT(s.script_id) AS numberOfScripts " +
+                    "FROM member m " +
+                    "LEFT JOIN script s ON m.member_id = s.member_id " +
+                    "GROUP BY m.member_id " +
+                    "HAVING m.member_id = :userId";
+
+            TypedQuery<Integer> query = em.createQuery(queryString, Integer.class);
+
+
+            query.setParameter("userId", member.getId());
+
+            return query.getSingleResult();
+        }
+
 }
+
+
