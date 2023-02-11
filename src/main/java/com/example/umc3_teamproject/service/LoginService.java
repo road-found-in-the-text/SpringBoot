@@ -100,16 +100,16 @@ public class LoginService {
     public Member getUser(Long userIdx) throws ResponseException {
         try {
             Member member = memberRepository.getUser(userIdx);
-            Integer scriptNum = memberRepository.getScriptsNum(member);
+            int scriptnum=memberRepository.getScriptsNum(member.getId());
 
 
-            if(scriptNum<3 )//member.getForums().size()+member.getInterviews().size()
+            if(scriptnum<3 )//member.getForums().size()+member.getInterviews().size()
                 member.setTier(Tier.BRONZE);
-            else if(scriptNum <10 )
+            else if(scriptnum <10 )
                 member.setTier(Tier.SILVER);
-            else if(scriptNum <20)
+            else if(scriptnum <20)
                 member.setTier(Tier.GOLD);
-            else if(scriptNum<50)
+            else if(scriptnum<50)
                 member.setTier(Tier.PLATINUM);
             else member.setTier(Tier.DIAMOND);
             return member;
