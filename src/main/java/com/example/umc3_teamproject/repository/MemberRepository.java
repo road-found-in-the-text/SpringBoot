@@ -5,6 +5,8 @@ import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.LoginType;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.Tier;
+import com.example.umc3_teamproject.domain.dto.response.ForumResponseDto;
+import com.example.umc3_teamproject.domain.item.Forum;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.dto.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,13 +18,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.sql.DataSource;;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.umc3_teamproject.config.resTemplate.ResponseTemplateStatus.*;
 
 
 //데이터베이스 관련 작업을 전담.
@@ -193,4 +199,30 @@ public class MemberRepository {
 
         jdbcTemplate.update(modifyPasswordQuery, modifyPasswordParams);
     }
+
+    public int getScriptsNum(Long userIdx)  {
+        int result=0;
+        String queryString = "SELECT COUNT(*) " +
+                "FROM Member m " +
+                "LEFT JOIN Script s ON m.id=s.memberId ";
+
+
+        if (userIdx!= null) {
+            queryString+= "WHERE m.id= :userIdx" ;
+        }
+        TypedQuery<Long> query = em.createQuery(queryString, Long.class);
+        query.setParameter("userIdx",userIdx);
+
+
+        try {
+            result = query.getSingleResult().intValue();
+        } catch (NoResultException e) {
+            result = 0;
+        }
+        System.out.println(result);
+
+        return result;
+    }
 }
+
+
