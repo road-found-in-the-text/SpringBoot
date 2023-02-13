@@ -109,6 +109,7 @@ public class MemberRepository {
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
                         rs.getString("social_id"),
+                        rs.getString("introduction"),
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
@@ -132,6 +133,7 @@ public class MemberRepository {
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
                         rs.getString("social_id"),
+                        rs.getString("introduction"),
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
@@ -154,6 +156,7 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
+                        rs.getString("introduction"),
                         rs.getString("social_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),

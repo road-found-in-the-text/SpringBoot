@@ -14,6 +14,7 @@ public class MemberRes {
 
     private Long id;
     private String socialId;
+    private String introduction;
     private String email;
     private String nickName;
     private String imageUrl;

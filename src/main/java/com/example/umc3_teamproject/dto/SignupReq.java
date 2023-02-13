@@ -34,5 +34,4 @@ public class SignupReq {
     private String imageUrl;
 
 
-
 }
