@@ -40,7 +40,8 @@ public enum ResponseTemplateStatus {
     PASSWORD_DUPLICATED(false, "비밀번호가 기존 비밀번호와 동일합니다.", 4015),
     EMPTY_WITHDRAWREASON(false, "탈퇴 사유를 입력해주세요.", 4016 ),
     INCORRECT_NICKNAME(false, "닉네임 형식을 다시 한 번 확인해주세요", 4017),
-    FAIL_WITHDRAW(false, "탈퇴에 실패하였습니다.", 4018);
+    FAIL_WITHDRAW(false, "탈퇴에 실패하였습니다.", 4018),
+    MODIFY_FAIL_INTRODUCTION(false, "한줄소개 변경에 실패하였습니다.", 4019);
 
 
     private final boolean isSuccess;

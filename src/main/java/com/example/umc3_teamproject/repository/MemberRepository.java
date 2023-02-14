@@ -109,6 +109,7 @@ public class MemberRepository {
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
                         rs.getString("social_id"),
+                        rs.getString("introduction"),
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
@@ -132,6 +133,7 @@ public class MemberRepository {
                 (rs, rowNum) -> new MemberRes(
                         rs.getLong("member_id"),
                         rs.getString("social_id"),
+                        rs.getString("introduction"),
                         rs.getString("email"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
@@ -154,6 +156,7 @@ public class MemberRepository {
                         rs.getLong("member_id"),
                         rs.getString("email"),
                         rs.getString("pw"),
+                        rs.getString("introduction"),
                         rs.getString("social_id"),
                         rs.getString("nick_name"),
                         rs.getString("image_url"),
@@ -222,6 +225,15 @@ public class MemberRepository {
         System.out.println(result);
 
         return result;
+    }
+
+
+    // 회원 한줄소개 변경
+    public int modifyIntroduction(UpdateIntroReq updateIntroReq) {
+        String modifyUserNameQuery = "update umc3.member set introduction = ? where member_id = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        Object[] modifyUserNameParams = new Object[]{updateIntroReq.getIntroduction(), updateIntroReq.getMemberId()}; // 주입될 값들(nickname, userIdx) 순
+
+        return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
 }
 
