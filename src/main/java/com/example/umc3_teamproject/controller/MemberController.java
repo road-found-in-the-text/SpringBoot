@@ -58,6 +58,9 @@ public class MemberController {
         if (signupReq.getEmail() == null) {
             return new ResponseTemplate<>(EMPTY_EMAIL);
         }
+        if (signupReq.getPw()==null){
+            return new ResponseTemplate<>(EMPTY_PASSWORD);
+        }
         //이메일 정규표현: 입력받은 이메일이 email@domain.xxx와 같은 형식인지 검사합니다. 형식이 올바르지 않다면 에러 메시지를 보냅니다.
         if (!isRegexEmail(signupReq.getEmail())) {
             return new ResponseTemplate<>(INVALID_EMAIL);
@@ -88,24 +91,10 @@ public class MemberController {
     }
 
 
-
-    /**
-     * 모든 회원들의  조회 API
-     * [GET] /members
-     *
-     * 또는
-     *
-     * 해당 닉네임을 같는 유저들의 정보 조회 API
-     * [GET] /members?nickName=
-     */
-
     //Query String
     @ResponseBody   // return되는 자바 객체를 JSON으로 바꿔서 HTTP body에 담는 어노테이션.
     @GetMapping("") // (GET) 127.0.0.1:9000/users
     public ResponseTemplate<List<MemberRes>> getUsers(@RequestParam(required = false) String nickname) {
-        //  @RequestParam은, 1개의 HTTP Request 파라미터를 받을 수 있는 어노테이션(?뒤의 값). default로 RequestParam은 반드시 값이 존재해야 하도록 설정되어 있지만, (전송 안되면 400 Error 유발)
-        //  지금 예시와 같이 required 설정으로 필수 값에서 제외 시킬 수 있음
-        //  defaultValue를 통해, 기본값(파라미터가 없는 경우, 해당 파라미터의 기본값 설정)을 지정할 수 있음
         try {
             if (nickname == null) { // query string인 nickname이 없을 경우, 그냥 전체 유저정보를 불러온다.
                 List<MemberRes> getUsersRes = loginService.getUsers();
@@ -157,8 +146,9 @@ public class MemberController {
             if(memberId != userIdxByJwt){
                 return new ResponseTemplate<>(NO_JWT);
             }
-            //같다면 유저네임 변경
-//  **************************************************************************
+            if (!loginService.getUsersByNickname(updateNickNameReq.getNickName()).isEmpty()){
+                return new ResponseTemplate<>(NICKNAME_DUPLICATED);
+            }
             memberService.modifyNickName(updateNickNameReq);
 
             String result = "회원정보가 수정되었습니다.";
