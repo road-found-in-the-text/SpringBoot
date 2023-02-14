@@ -12,7 +12,8 @@ Amazon RDS를 사용하면 비용 효율적이고 크기 조정 가능한 하드
 - Java Mail Library: SMTP를 사용하여 메일을 전송하는 방법으로 신고 기능과 비밀번호 재발급 기능을 구현했습니다.
 - Amazon S3: 저장 용량이 무한대이고 파일 저장에 최적화되어 있는 S3를 이미지 업로드를 위해 사용했습니다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5310ca7f-2c00-4fa5-b2f2-b02b2d675948/Untitled.png)
+![image](https://user-images.githubusercontent.com/81344634/218734889-8d702a3b-7841-4e77-8358-48710769879c.png)
+
 
 <aside>
 📌 스프링 부트 애플리케이션을 AWS EC2에 도커를 통해 배포
@@ -23,7 +24,7 @@ AWS EC2 인스턴스를 생성하고, 도커를 설치한 후 애플리케이션
 
 EC2의 private IP를 RDS의 인바운드규칙 소스에 추가해 RDS의 MySQL과 연동 상태를 유지합니다
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b6ce36f5-0ca7-4854-83a3-0701d138d7cc/Untitled.png)
+![image](https://user-images.githubusercontent.com/81344634/218735003-5e35d2e9-4eb7-4625-8ff8-fd3389ed47a7.png)
 
 ## swagger 사용
 
