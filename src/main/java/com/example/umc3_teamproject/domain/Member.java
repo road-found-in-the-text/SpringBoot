@@ -107,6 +107,7 @@ public class Member extends BaseTimeEntity {
     public void createMember(String email,String pw, String nickName, String imageUrl ){
         this.email = email;
         this.pw = pw;
+        this.introduction = "안녕하세요.";
         this.nickName=nickName;
         this.imageUrl = imageUrl;
         this.socialId = "0";

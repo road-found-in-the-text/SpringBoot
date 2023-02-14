@@ -133,7 +133,7 @@ public class MemberController {
     }
 
     /**
-     * 유저정보변경 API
+     * 유저 닉네임변경 API
      * [PATCH] /members/:memberId
      */
     @ResponseBody
@@ -157,6 +157,32 @@ public class MemberController {
             return new ResponseTemplate<>((exception.getStatus()));
         }
     }
+
+
+    /**
+     * 유저 한줄소개 변경 API
+     * [PATCH] /members/introduction/{memberId}
+     */
+    @ResponseBody
+    @PatchMapping("/members/introduction/{memberId}")
+    public ResponseTemplate<String> modifyIntroduction(@PathVariable("memberId") Long memberId, @RequestBody UpdateIntroReq updateIntroReq) {
+        try {
+            //jwt에서 idx 추출.
+            Long userIdxByJwt = jwtService.getmemberId();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(memberId != userIdxByJwt){
+                return new ResponseTemplate<>(NO_JWT);
+            }
+
+            memberService.modifyIntroduction(updateIntroReq);
+
+            String result = "회원정보가 수정되었습니다.";
+            return new ResponseTemplate<>(result);
+        } catch (ResponseException exception) {
+            return new ResponseTemplate<>((exception.getStatus()));
+        }
+    }
+
 
     // 이메일 형식 체크
     public static boolean isRegexEmail(String target) {
