@@ -19,6 +19,7 @@ public enum ResponseTemplateStatus {
     //3000: DB 부분 오류
     DATABASE_ERROR(false, "데이버베이스 요청 오류", 3000),
     PATCH_DATABASE_ERROR(false, "닉네임 수정 데이터베이스 요청 오류", 3001),
+    QUERY_ERROR(false,"쿼리 오류", 3002),
     //4000: 유저 부분 오류
     EMPTY_EMAIL(false, "이메일을 입력해주세요",4001),
     EMPTY_UPDATE(false, "변경할 사항이 없습니다.", 4002),
@@ -39,7 +40,9 @@ public enum ResponseTemplateStatus {
     PASSWORD_DUPLICATED(false, "비밀번호가 기존 비밀번호와 동일합니다.", 4015),
     EMPTY_WITHDRAWREASON(false, "탈퇴 사유를 입력해주세요.", 4016 ),
     INCORRECT_NICKNAME(false, "닉네임 형식을 다시 한 번 확인해주세요", 4017),
-    FAIL_WITHDRAW(false, "탈퇴에 실패하였습니다.", 4018);
+    FAIL_WITHDRAW(false, "탈퇴에 실패하였습니다.", 4018),
+    MODIFY_FAIL_INTRODUCTION(false, "한줄소개 변경에 실패하였습니다.", 4019);
+
 
     private final boolean isSuccess;
     private final String message;

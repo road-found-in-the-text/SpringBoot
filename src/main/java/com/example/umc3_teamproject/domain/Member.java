@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.domain.item.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -33,16 +34,17 @@ public class Member extends BaseTimeEntity {
     @JsonIgnore
     private String pw;
     @Column(length=30)
-    @JsonIgnore
     private String nickName;
     @Column(nullable = true)
-    @JsonIgnore
     private String imageUrl;
     @Column
     private Tier tier ;
 
     @Column
     private LoginType loginType; //일반 로그인 또는 소셜로그인
+
+    @Column(nullable = true)
+    private String introduction; //한 줄 소개
 
     @Column
     private int memberStatus;
@@ -52,11 +54,11 @@ public class Member extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Script> scripts ;
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Paragraph> paragraphs ;
 
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -88,10 +90,11 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String socialId,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
+    public Member(Long id,String email, String socialId,String introduction,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
         this.id = id;
         this.email = email;
         this.socialId = socialId;
+        this.introduction = introduction;
         this.pw = pw;
         this.nickName = nickName;
         this.imageUrl = imageUrl;
@@ -104,6 +107,7 @@ public class Member extends BaseTimeEntity {
     public void createMember(String email,String pw, String nickName, String imageUrl ){
         this.email = email;
         this.pw = pw;
+        this.introduction = "안녕하세요.";
         this.nickName=nickName;
         this.imageUrl = imageUrl;
         this.socialId = "0";

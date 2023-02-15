@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.domain.Member;
 import com.fasterxml.jackson.annotation.*;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,12 +32,22 @@ public class Script extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Member memberId;
 
 
     @Column
     private String title;
+
+    // 결과를 만든 횟수를 저장합니다.
+    @ColumnDefault("0")
+    private Integer result_count;
+
+    @ColumnDefault("0")
+    private Integer total_elapsed_minute;
+
+    @ColumnDefault("0")
+    private Integer total_elapsed_second;
 
     @Column
     private boolean deleted;
@@ -48,9 +59,9 @@ public class Script extends BaseEntity {
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<RecordScript> record_script;
-
-    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
-    private Memo memo;
+//
+//    @OneToOne(mappedBy = "script",fetch = LAZY,orphanRemoval = true)
+//    private Memo memo;
 
     @OneToMany(mappedBy = "scriptId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
