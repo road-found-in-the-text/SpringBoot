@@ -7,9 +7,6 @@ on:
 # env:
 #   DOCKER_IMAGE: # 예를 들면, ghcr.io/dolphago/github-follow-unfollow
 #   VERSION: ${{github.sha}}
-  
-permissions:
-  contents: read
 
 jobs:
   build:
@@ -38,13 +35,13 @@ jobs:
             ${{ runner.os }}-gradle-
             
       # main 설정 파일 생성 및 write
-      - name: Set .yml for main
-        run: |
-          # main 설정 파일 디렉토리로 이동
-          cd ./src/main/resources
-          touch ./application-database.yaml
-          echo "${{ secrets.MAIN_DATABASE_YML }}" >> ./application-database.yml
-        shell: bash
+#      - name: Set .yml for main
+#        run: |
+#          # main 설정 파일 디렉토리로 이동
+#          cd ./src/main/resources
+#          touch ./application-database.yaml
+#          echo "${{ secrets.MAIN_DATABASE_YML }}" >> ./application-database.yml
+#        shell: bash
 
       # Gradle build
       - name: Build with Gradle
