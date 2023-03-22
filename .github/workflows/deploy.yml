@@ -55,12 +55,12 @@ jobs:
 #          docker build -t ${{ secrets.DOCKER_USERNAME }}/도커 레파지토리 이름 .
 #          docker push ${{ secrets.DOCKER_USERNAME }}/도커 레파지토리 이름
           
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ AWS_SECRET_KEY }}
-          aws-region: ap-northeast-2 
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ AWS_ACCESS_KEY }}
+#          aws-secret-access-key: ${{ AWS_SECRET_KEY }}
+#          aws-region: ap-northeast-2 
       # 서버에서 Docker 이미지 실행
 #      - name: EC2 Docker Run
 #        uses: appleboy/ssh-action@master
