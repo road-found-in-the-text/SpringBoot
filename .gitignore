@@ -29,7 +29,6 @@ out/
 !**/src/test/**/out/
 
 src/main/java/com/example/umc3_teamproject/config/AppleLoginUtil.java
-src/main/java/com/example/umc3_teamproject/config/SecurityConfig.java
 
 
 
