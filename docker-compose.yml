@@ -3,7 +3,7 @@ services:
 
   spring:
     container_name: spring
-    image: jeonyoungseo/text-in-the-road-server
+    image: jeonyoungseo/text-in-the-road-server:0.1
     expose:
       - 9000
     ports:
