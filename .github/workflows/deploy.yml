@@ -27,6 +27,7 @@ jobs:
           cd ./src/main/java/com/example/umc3_teamproject/config
           touch ./SecurityConfig.java
           echo "${{secrets.SecurityConfig}}" > ./SecurityConfig.java
+        shell: bash
       ## 2) 스프링 프로젝트 jar 파일 빌드
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
