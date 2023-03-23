@@ -28,24 +28,23 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build --no-daemon
-            
       ## 3) Docker Hub에 이미지 push 하기
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
           docker build -t jeonyoungseo/text-in-the-road-server:0.1 . 
           docker push jeonyoungseo/text-in-the-road-server:0.1
-        
+
       ## 4) Docker Hub에 Push한 이미지를 리눅스 서버에 받아와서 run
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.AWS_TEST_X_HOST }}
           username: ${{ secrets.AWS_TEST_X_USERNAME }}
           key: ${{ secrets.AWS_TEST_X_KEY }}
           port: ${{ secrets.AWS_TEST_X_PORT }}          
           
-          envs: GITHUB_SHA
+          env: GITHUB_SHA
           script: |
             docker pull jeonyoungseo/text-in-the-road-server:0.1
             docker stop server
