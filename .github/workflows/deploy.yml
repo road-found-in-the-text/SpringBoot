@@ -43,8 +43,5 @@ jobs:
           username: ${{ secrets.AWS_TEST_X_USERNAME }}
           key: ${{ secrets.AWS_TEST_X_KEY }}
           port: ${{ secrets.AWS_TEST_X_PORT }}          
-          
-          env: GITHUB_SHA
-          script: |
-            PLEASE DONE..
+          script: whoami
             
