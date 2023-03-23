@@ -46,7 +46,5 @@ jobs:
           
           env: GITHUB_SHA
           script: |
-            docker pull jeonyoungseo/text-in-the-road-server:0.1
-            docker stop server
-            docker run -d --rm --name server -p 8080:9000 text-in-the-road-server
+            PLEASE DONE..
             
