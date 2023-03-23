@@ -1,0 +1,10 @@
+version: '3'
+services:
+
+  spring:
+    container_name: spring
+    image: jeonyoungseo/text-in-the-road-server
+    expose:
+      - 9000
+    ports:
+      - 8080:9000
