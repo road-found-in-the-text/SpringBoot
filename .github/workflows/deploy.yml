@@ -32,8 +32,8 @@ jobs:
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-          docker build -t jeonyoungseo/text-in-the-road-server:0.1 . 
-          docker push jeonyoungseo/text-in-the-road-server:0.1
+          docker build -t ${{ secrets.USERNAME }}/text-in-the-road-server:0.1 . 
+          docker push ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
 
       ## 4) Docker Hub에 Push한 이미지를 리눅스 서버에 받아와서 run
       - name: Deploy
@@ -44,6 +44,7 @@ jobs:
           key: ${{ secrets.AWS_TEST_X_KEY }}
           port: ${{ secrets.AWS_TEST_X_PORT }}          
           script: |
+            docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker rm $(docker ps -a -q)
             docker rmi ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
