@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.AWS_TEST_X_KEY }}
           port: ${{ secrets.AWS_TEST_X_PORT }}          
           script: |
-            docker rm -f spring
+            docker rm $(docker ps -a -q)
             docker rmi ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker-compose up -d
