@@ -37,10 +37,10 @@ public class Member extends BaseTimeEntity {
     private String nickName;
     @Column(nullable = true)
     private String imageUrl;
-    @Column
+    @Enumerated(EnumType.STRING)
     private Tier tier ;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private LoginType loginType; //일반 로그인 또는 소셜로그인
 
     @Column(nullable = true)
