@@ -1,9 +1,11 @@
 package com.example.umc3_teamproject.controller;
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.dto.request.ScriptRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ScriptResponseDto;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.ScriptRepository;
+import com.example.umc3_teamproject.service.JwtService;
 import com.example.umc3_teamproject.service.ScriptService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class ScriptController {
     private final ScriptService scriptService;
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponseDto;
-
+    private final JwtService jwtService;
     @PostMapping("/new")
     public ResponseEntity<?> writeScript(@RequestBody ScriptRequestDto.Register script ){
 
@@ -54,10 +56,11 @@ public class ScriptController {
         return null;
     }
 
-    @GetMapping("/member/{memberId}")
-    public ResponseEntity<?> findScriptByUser(@PathVariable("memberId") Long memberId) {
+    @GetMapping("/member/me")
+    public ResponseEntity<?> findScriptByUser() throws ResponseException {
         // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
+        Long memberId = jwtService.getmemberId();
         List<Script> scriptList=scriptService.findByMemberId(memberId);
         //model.addAttribute("scriptList", scriptList);
 
