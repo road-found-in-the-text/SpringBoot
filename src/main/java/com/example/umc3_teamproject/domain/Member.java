@@ -37,10 +37,10 @@ public class Member extends BaseTimeEntity {
     private String nickName;
     @Column(nullable = true)
     private String imageUrl;
-    @Column
+    @Enumerated(EnumType.STRING)
     private Tier tier ;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private LoginType loginType; //일반 로그인 또는 소셜로그인
 
     @Column(nullable = true)
@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
     private int memberStatus;
 
     @Column
-    private int blockStatus;
+    private boolean blockStatus;
 
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
@@ -90,7 +90,7 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long id,String email, String socialId,String introduction,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, int blockStatus){
+    public Member(Long id,String email, String socialId,String introduction,String pw, String nickName, String imageUrl, Tier tier, LoginType loginType, int memberStatus, boolean blockStatus){
         this.id = id;
         this.email = email;
         this.socialId = socialId;
@@ -114,6 +114,6 @@ public class Member extends BaseTimeEntity {
         this.memberStatus=1;
         this.tier= BRONZE;
         this.loginType = LoginType.DEFAULT;
-        this.blockStatus=0;
+        this.blockStatus=false;
     }
 }

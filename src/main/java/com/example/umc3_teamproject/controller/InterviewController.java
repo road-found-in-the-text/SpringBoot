@@ -1,11 +1,13 @@
 package com.example.umc3_teamproject.controller;
 
+import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.dto.request.InterviewRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.InterviewResponseDto;
 import com.example.umc3_teamproject.domain.item.Interview;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.InterviewRepository;
 import com.example.umc3_teamproject.service.InterviewService;
+import com.example.umc3_teamproject.service.JwtService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,7 @@ public class InterviewController {
     private final InterviewService interviewService;
     private final InterviewRepository interviewRepository;
     private final InterviewResponseDto interviewResponseDto;
+    private final JwtService jwtService;
 
     @PostMapping("/new")
     public ResponseEntity<?> writeInterview(@Validated InterviewRequestDto.Register write){
@@ -50,8 +54,9 @@ public class InterviewController {
         return null;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> readScriptByUser(@PathVariable("userId") Long userId) {
+    @GetMapping("/user/me")
+    public ResponseEntity<?> readScriptByUser() throws IOException, ResponseException {
+        Long userId = jwtService.getmemberId();
 
         List<Interview> interviewList=null;
 
