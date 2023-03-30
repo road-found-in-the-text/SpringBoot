@@ -34,9 +34,7 @@ public class LoginService {
 
     // 로그인(password 검사)
     public LoginRes logIn(LoginReq loginReq) throws ResponseException {
-
-
-        if (checkEmail(loginReq.getEmail()) == 0) {
+        if (checkEmail(loginReq.getEmail()) == false) {
             throw new ResponseException(USER_NOT_FOUND);
         }
         Member member = memberRepository.getPw(loginReq);
@@ -66,7 +64,7 @@ public class LoginService {
     }
 
     // 해당 이메일이 이미 User Table에 존재하는지 확인
-    public Long checkEmail(String email) throws ResponseException {
+    public boolean checkEmail(String email) throws ResponseException {
         try {
             return memberRepository.checkEmail(email);
         } catch (Exception exception) {

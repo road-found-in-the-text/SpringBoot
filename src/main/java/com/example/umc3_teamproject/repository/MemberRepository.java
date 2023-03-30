@@ -41,7 +41,7 @@ public class MemberRepository {
 
     private final EntityManager em;
     private final JPAQueryFactory jpaQueryFactory;
-
+    private final JpaMemberRepository jpaMemberRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -71,14 +71,13 @@ public class MemberRepository {
 
 
 
+
     // 이메일 확인
-    public Long checkEmail(String email) {
+    public boolean checkEmail(String email) {
         try {
-            String checkEmailQuery = "select exists(select email from umc3.member where email = ?)"; // User Table에 해당 email 값을 갖는 유저 정보가 존재하는가?
-            String checkEmailParams = email; // 해당(확인할) 이메일 값
-            return this.jdbcTemplate.queryForObject(checkEmailQuery, Long.class, checkEmailParams); // checkEmailQuery, checkEmailParams를 통해 가져온 값(intgud)을 반환한다. -> 쿼리문의 결과(존재하지 않음(False,0),존재함(True, 1))를 int형(0,1)으로 반환됩니다.
+            return jpaMemberRepository.existsMemberByEmail(email);
         } catch (EmptyResultDataAccessException e){
-            return Long.valueOf(0);
+            return false;
         }
     }
 
@@ -163,7 +162,7 @@ public class MemberRepository {
                         Tier.values()[rs.getInt("tier")],
                         LoginType.values()[rs.getInt("login_type")],
                         rs.getInt("member_status"),
-                        rs.getInt("block_status")
+                        rs.getBoolean("block_status")
                 ),
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
@@ -207,12 +206,13 @@ public class MemberRepository {
         int result=0;
         String queryString = "SELECT COUNT(*) " +
                 "FROM Member m " +
-                "LEFT JOIN Script s ON m.id=s.memberId ";
+                "LEFT JOIN Script s ON m.id= "+userIdx;
 
 
         if (userIdx!= null) {
             queryString+= "WHERE m.id= :userIdx" ;
         }
+
         TypedQuery<Long> query = em.createQuery(queryString, Long.class);
         query.setParameter("userIdx",userIdx);
 

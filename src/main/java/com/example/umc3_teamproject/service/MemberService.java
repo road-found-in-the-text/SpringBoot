@@ -36,7 +36,7 @@ public class MemberService {
     @Transactional(rollbackFor = Exception.class)
     public SignupRes createUser(SignupReq signupReq) throws ResponseException {
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
-        if (loginService.checkEmail(signupReq.getEmail()) == 1) {
+        if (loginService.checkEmail(signupReq.getEmail()) == true) {
             throw new ResponseException(EMAIL_DUPLICATED);
         }
         String pwd;
