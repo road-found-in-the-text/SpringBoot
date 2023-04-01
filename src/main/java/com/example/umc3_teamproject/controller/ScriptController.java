@@ -2,12 +2,15 @@ package com.example.umc3_teamproject.controller;
 
 import com.example.umc3_teamproject.domain.dto.request.ScriptRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ScriptResponseDto;
+import com.example.umc3_teamproject.domain.item.Paragraph;
 import com.example.umc3_teamproject.domain.item.Script;
 import com.example.umc3_teamproject.repository.ScriptRepository;
+import com.example.umc3_teamproject.service.ParagraphService;
 import com.example.umc3_teamproject.service.ScriptService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,7 +35,10 @@ import java.util.stream.Collectors;
 @Api(tags = {"Script Api"})
 public class ScriptController {
 
+    @Autowired
     private final ScriptService scriptService;
+    @Autowired
+    private final ParagraphService paragraphService;
     private final ScriptRepository scriptRepository;
     private final ScriptResponseDto scriptResponseDto;
 
@@ -46,12 +52,25 @@ public class ScriptController {
     public ResponseEntity<?> readScriptById(@PathVariable("id") Long id) {
 
         // 참고 문헌: https://jogeum.net/9
+        /*
         Optional<Script> optionalProduct=scriptRepository.findById(id);
         if (optionalProduct.isPresent()) {
             Script script1 = optionalProduct.get();
             return scriptResponseDto.successScript(script1);
         }
         return null;
+
+         */
+
+        List<Paragraph> paragraphList=paragraphService.findByScriptId(id);
+        //model.addAttribute("scriptList", scriptList);
+
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", paragraphList);
+        result.put("count", paragraphList.size());
+
+        return ResponseEntity.ok().body(result);
+
     }
 
     @GetMapping("/member/{memberId}")
@@ -64,6 +83,21 @@ public class ScriptController {
         Map<String, Object> result=new HashMap<>();
         result.put("scripts", scriptList);
         result.put("count", scriptList.size());
+
+        return ResponseEntity.ok().body(result);
+
+    }
+
+    @GetMapping("/script/{scriptId}")
+    public ResponseEntity<?> findParagraphByScript(@PathVariable("scriptId") Long scriptId) {
+        // @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        List<Paragraph> paragraphList=paragraphService.findByScriptId(scriptId);
+        //model.addAttribute("scriptList", scriptList);
+
+        Map<String, Object> result=new HashMap<>();
+        result.put("scripts", paragraphList);
+        result.put("count", paragraphList.size());
 
         return ResponseEntity.ok().body(result);
 
