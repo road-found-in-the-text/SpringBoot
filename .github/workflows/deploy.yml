@@ -37,7 +37,7 @@ jobs:
 
       ## 4) Docker Hub에 Push한 이미지를 리눅스 서버에 받아와서 run
       - name: Deploy
-        uses: actions/checkout@v2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_TEST_X_HOST }}
           username: ${{ secrets.AWS_TEST_X_USERNAME }}
