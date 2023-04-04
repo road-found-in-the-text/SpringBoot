@@ -17,7 +17,8 @@ jobs:
       - name: make application.yml
         run: |
           cd ./src/main/resources
-          printf '%s' "${{ secrets.YML }}" > ./application.yml
+          touch ./application.yml
+          echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
 
       ## 2) 스프링 프로젝트 jar 파일 빌드
@@ -39,7 +40,7 @@ jobs:
           host: ${{ secrets.AWS_TEST_X_HOST }}
           username: ${{ secrets.AWS_TEST_X_USERNAME }}
           key: ${{ secrets.AWS_TEST_X_KEY }}
-          port: ${{ secrets.AWS_TEST_X_PORT }}          
+          envs: GITHUB_SHA  
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             if [ "$(docker ps -q)" ]; then
@@ -50,4 +51,5 @@ jobs:
             fi
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker-compose up -d
+            docker image prune -f
             
