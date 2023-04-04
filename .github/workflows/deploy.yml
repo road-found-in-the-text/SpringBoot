@@ -42,6 +42,8 @@ jobs:
           port: ${{ secrets.AWS_TEST_X_PORT }}          
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+            docker rm -f $(docker ps -a -q)
+            docker rmi -f $(docker images -a -q)
             docker rm $(docker ps -a -q)
             docker rmi ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
