@@ -42,8 +42,12 @@ jobs:
           port: ${{ secrets.AWS_TEST_X_PORT }}          
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-            docker stop ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
-            docker rm ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
+            if [ "$(docker ps -q)" ]; then
+              docker stop $(docker ps -q)
+            fi
+            if [ "$(docker ps -aq)" ]; then
+              docker rm $(docker ps -aq)
+            fi
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker-compose up -d
             
