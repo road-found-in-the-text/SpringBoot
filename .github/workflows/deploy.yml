@@ -43,13 +43,7 @@ jobs:
           envs: GITHUB_SHA  
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-            if [ "$(docker ps -q)" ]; then
-              docker stop $(docker ps -q)
-            fi
-            if [ "$(docker ps -aq)" ]; then
-              docker rm $(docker ps -aq)
-            fi
+            docker rm -f $(docker ps -qa)
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
             docker-compose up -d
             docker image prune -f
-            
