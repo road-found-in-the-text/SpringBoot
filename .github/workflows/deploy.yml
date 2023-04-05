@@ -45,5 +45,5 @@ jobs:
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker rm -f $(docker ps -qa)
             docker pull ${{ secrets.USERNAME }}/text-in-the-road-server:0.1
-            docker-compose -f ../Springboot/docker-compose.yml up -d
+            docker-compose -f ../../../docker-compose.yml up -d
             docker image prune -f
