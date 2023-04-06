@@ -1,3 +1,8 @@
+# server tech
+
+![image](https://user-images.githubusercontent.com/81344634/218734889-8d702a3b-7841-4e77-8358-48710769879c.png)
+
+
 ## ec2 사용한 무중단 배포
 
 <aside>
