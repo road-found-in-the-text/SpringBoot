@@ -103,7 +103,7 @@ public class Member extends BaseTimeEntity {
         this.memberStatus = memberStatus;
         this.blockStatus = blockStatus;
     }
-
+    @Builder
     public void createMember(String email,String pw, String nickName, String imageUrl ){
         this.email = email;
         this.pw = pw;

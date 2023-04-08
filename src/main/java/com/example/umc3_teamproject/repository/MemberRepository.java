@@ -52,8 +52,6 @@ public class MemberRepository {
     }
 
 
-
-
     @Transactional(rollbackFor = Exception.class)
     public Long createMember(SignupReq signupReq) {
         Member member = new Member();
