@@ -20,6 +20,7 @@ public enum ResponseTemplateStatus {
     DATABASE_ERROR(false, "데이버베이스 요청 오류", 3000),
     PATCH_DATABASE_ERROR(false, "닉네임 수정 데이터베이스 요청 오류", 3001),
     QUERY_ERROR(false,"쿼리 오류", 3002),
+    NULL_POINTER(false,"객체 null 오류", 3003),
     //4000: 유저 부분 오류
     EMPTY_EMAIL(false, "이메일을 입력해주세요",4001),
     EMPTY_UPDATE(false, "변경할 사항이 없습니다.", 4002),

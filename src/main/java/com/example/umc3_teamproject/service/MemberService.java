@@ -51,10 +51,10 @@ public class MemberService {
 //            return new PostUserRes(userIdx);
             String jwt = jwtService.createJwt(userIdx);
             return new SignupRes(userIdx, jwt);
-
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
-            throw new ResponseException(DATABASE_ERROR);
+            throw new ResponseException(NULL_POINTER);
         }
+
     }
 
     public Member findById(Long userIdx) {
