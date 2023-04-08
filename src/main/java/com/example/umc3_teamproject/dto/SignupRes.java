@@ -11,4 +11,6 @@ public class SignupRes {
 
     private Long memberId;
     private String jwt;
+
+
 }

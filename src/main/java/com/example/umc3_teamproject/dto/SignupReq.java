@@ -1,6 +1,7 @@
 package com.example.umc3_teamproject.dto;
 
 
+import com.example.umc3_teamproject.domain.Tier;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class SignupReq {
     private String pw;
 
 
-    private int tier;
+    private Tier tier;
 
     @Pattern(regexp="[가-힣|a-z|A-Z|0-9]{1,30}",message="1~30길이의 알파벳, 한글, 숫자로 입력해주세요")
     @NotBlank(message="닉네임을 입력해주세요.")
