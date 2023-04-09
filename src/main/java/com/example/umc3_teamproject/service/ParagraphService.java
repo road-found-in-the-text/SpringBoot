@@ -11,9 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 
 @Service
@@ -57,15 +58,14 @@ public class ParagraphService {
         return toChangeParagraph;
     }
 
-
-
-
-
     @Transactional
     public void saveItem(Paragraph paragraph) {
-
         paragraphRepository.save(paragraph);
-
-
     }
+
+    public List<Paragraph> findByScriptId(Long scriptId){
+        return  em.createQuery("select s from Paragraph s where s.scriptId.id= :id", Paragraph.class)
+                .setParameter("id", scriptId)
+                .getResultList();
+    };
 }

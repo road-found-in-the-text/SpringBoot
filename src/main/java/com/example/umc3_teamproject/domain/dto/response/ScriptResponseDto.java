@@ -31,6 +31,7 @@ public class ScriptResponseDto {
         private String title;
         //private String type;
         private String contents;
+        private int count;
         private List<Paragraph> paragraphList;
 
         private LocalDateTime createdDate;
@@ -45,6 +46,7 @@ public class ScriptResponseDto {
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
                 .contents("no contents")
+                .count(0)
                 .createdDate(script.getCreatedDate())
                 .modifiedDate(script.getModifiedDate())
                 .build();
@@ -55,6 +57,7 @@ public class ScriptResponseDto {
 
         List<Paragraph> paragraphList = new ArrayList<>();
         paragraphList=script.getParagraphList();
+        int paragraph_length=paragraphList.size();
 
         //Member script_member=memberRepository.getUser(script.getMemberId());
 
@@ -74,6 +77,7 @@ public class ScriptResponseDto {
                 .scriptId(script.getScriptId())
                 .title(script.getTitle())
                 .contents(firestScriptContent)
+                .count(paragraph_length)
                 .paragraphList(script.getParagraphList())
                 .createdDate(script.getCreatedDate())
                 .modifiedDate(script.getModifiedDate())
