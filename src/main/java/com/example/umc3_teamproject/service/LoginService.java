@@ -7,7 +7,7 @@ import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.domain.Tier;
 import com.example.umc3_teamproject.dto.LoginReq;
 import com.example.umc3_teamproject.dto.LoginRes;
-import com.example.umc3_teamproject.dto.MemberRes;
+import com.example.umc3_teamproject.repository.JpaMemberRepository;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +22,14 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
+    private final JpaMemberRepository jpaMemberRepository;
 //    final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Autowired //readme 참고
-    public LoginService(MemberRepository memberRepository, JwtService jwtService) {
+    public LoginService(MemberRepository memberRepository, JwtService jwtService, JpaMemberRepository jpaMemberRepository) {
         this.memberRepository = memberRepository;
         this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
+        this.jpaMemberRepository = jpaMemberRepository;
     }
     // ******************************************************************************
 
@@ -66,7 +68,7 @@ public class LoginService {
     // 해당 이메일이 이미 User Table에 존재하는지 확인
     public boolean checkEmail(String email) throws ResponseException {
         try {
-            return memberRepository.checkEmail(email);
+            return jpaMemberRepository.existsMemberByEmail(email);
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
         }
@@ -76,7 +78,7 @@ public class LoginService {
     // User들의 정보를 조회
     public List<Member> getUsers() throws ResponseException {
         try {
-            List<Member> getUserRes = memberRepository.getUsers();
+            List<Member> getUserRes = jpaMemberRepository.findAll();
             return getUserRes;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
@@ -86,7 +88,7 @@ public class LoginService {
     // 해당 nickname을 갖는 User들의 정보 조회
     public List<Member> getUsersByNickname(String nickname) throws ResponseException {
         try {
-            List<Member> getUsersRes = memberRepository.getUsersByNickName(nickname);
+            List<Member> getUsersRes = jpaMemberRepository.findByNickName(nickname);
             return getUsersRes;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
@@ -97,7 +99,7 @@ public class LoginService {
     // 해당 userIdx를 갖는 User의 정보 조회
     public Member getUser(Long userIdx) throws ResponseException {
         try {
-            Member member = memberRepository.getUser(userIdx);
+            Member member = jpaMemberRepository.getById(userIdx);
             int scriptnum=memberRepository.getScriptsNum(member.getId());
 
 

@@ -3,10 +3,7 @@ package com.example.umc3_teamproject.repository;
 
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.sql.DataSource;;
-import java.util.List;
 import java.util.Optional;
 
 //데이터베이스 관련 작업을 전담.
@@ -40,20 +35,6 @@ public class MemberRepository {
     }
 
 
-    // 이메일 확인
-    public boolean checkEmail(String email) {
-            return jpaMemberRepository.existsMemberByEmail(email);
-    }
-
-    // 회원정보 변경
-    public int modifyUserName(UpdateNickNameReq updateNickNameReq) {
-
-        return em.createQuery("update Member m set m.nickName = :nickName where m.id = :memberId")
-                .setParameter("nickName", updateNickNameReq.getNickName())
-                .setParameter("memberId", updateNickNameReq.getMemberId())
-                .executeUpdate();
-    }
-
     @Transactional(readOnly = true)
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
     public Member getPw(LoginReq loginReq) {
@@ -62,27 +43,6 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
-
-    // 해당 nickname을 갖는 유저들의 정보 조회
-    @Transactional(readOnly = true)
-    public List<Member> getUsersByNickName(String name) {
-        return jpaMemberRepository.findByNickName(name);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Member> getUsers() {
-        List<Member> members = em.createQuery("SELECT m FROM Member m", Member.class).getResultList();
-        return members;
-    }
-
-    // 해당 userIdx를 갖는 유저조회
-    public Member getUser(Long userIdx) {
-        String getUserQuery = "select m from Member m where m.id = :userIdx";
-        TypedQuery<Member> query = em.createQuery(getUserQuery, Member.class);
-        query.setParameter("userIdx", userIdx);
-
-        return query.getSingleResult();
-    }
 
 
     //USER table tuple 삭제
@@ -131,7 +91,6 @@ public class MemberRepository {
     public int modifyIntroduction(UpdateIntroReq updateIntroReq) {
         Member user = em.find(Member.class, updateIntroReq.getMemberId());
         user.setIntroduction(updateIntroReq.getIntroduction());
-
         return 1; // 변경 성공 시 1 반환
     }
 }

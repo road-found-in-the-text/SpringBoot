@@ -5,6 +5,7 @@ import com.example.umc3_teamproject.config.SecurityConfig;
 import com.example.umc3_teamproject.config.resTemplate.ResponseException;
 import com.example.umc3_teamproject.domain.Member;
 import com.example.umc3_teamproject.dto.*;
+import com.example.umc3_teamproject.repository.JpaMemberRepository;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,19 @@ public class MemberService {
 
     // *********************** 동작에 있어 필요한 요소들을 불러옵니다. *************************
     private final MemberRepository memberRepository;
+    private final JpaMemberRepository jpaMemberRepository;
+
     private final JwtService jwtService;
     private final LoginService loginService;
 
 
 
     @Autowired //readme 참고
-    public MemberService(MemberRepository memberRepository, LoginService loginService, JwtService jwtService) {
+    public MemberService(MemberRepository memberRepository, LoginService loginService, JwtService jwtService, JpaMemberRepository jpaMemberRepository) {
         this.memberRepository = memberRepository;
         this.loginService = loginService;
         this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
-
+        this.jpaMemberRepository = jpaMemberRepository;
     }
     // ******************************************************************************
     // 회원가입(POST)
@@ -58,14 +61,14 @@ public class MemberService {
     }
 
     public Member findById(Long userIdx) {
-        return memberRepository.getUser(userIdx);
+        return jpaMemberRepository.getById(userIdx);
     }
 
 
     // 회원정보 수정(Patch)
     public void modifyNickName(UpdateNickNameReq updateNickNameReq) throws ResponseException {
         try {
-            int result = memberRepository.modifyUserName(updateNickNameReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+            int result = jpaMemberRepository.modifyMemberName(updateNickNameReq.getMemberId(), updateNickNameReq.getNickName()); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
                 throw new ResponseException(MODIFY_FAIL_NICKNAME);
             }
