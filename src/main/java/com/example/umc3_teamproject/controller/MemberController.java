@@ -88,13 +88,13 @@ public class MemberController {
     //Query String
     @ResponseBody   // return되는 자바 객체를 JSON으로 바꿔서 HTTP body에 담는 어노테이션.
     @GetMapping("")
-    public ResponseTemplate<List<MemberRes>> getUsers(@RequestParam(required = false) String nickname) {
+    public ResponseTemplate<List<Member>> getUsers(@RequestParam(required = false) String nickname) {
         try {
             if (nickname == null) {
-                List<MemberRes> getUsersRes = loginService.getUsers();
+                List<Member> getUsersRes = loginService.getUsers();
                 return new ResponseTemplate<>(getUsersRes);
             }
-            List<MemberRes> getUsersRes = loginService.getUsersByNickname(nickname);
+            List<Member> getUsersRes = loginService.getUsersByNickname(nickname);
             return new ResponseTemplate<>(getUsersRes);
         } catch (ResponseException exception) {
             return new ResponseTemplate<>((exception.getStatus()));

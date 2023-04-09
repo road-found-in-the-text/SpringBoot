@@ -23,6 +23,6 @@ public class MemberRes {
 
     private int memberStatus;
 
-    private int blockStatus;
+    private boolean blockStatus;
 
 }

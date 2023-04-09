@@ -74,9 +74,9 @@ public class LoginService {
 
 
     // User들의 정보를 조회
-    public List<MemberRes> getUsers() throws ResponseException {
+    public List<Member> getUsers() throws ResponseException {
         try {
-            List<MemberRes> getUserRes = memberRepository.getUsers();
+            List<Member> getUserRes = memberRepository.getUsers();
             return getUserRes;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
@@ -84,9 +84,9 @@ public class LoginService {
     }
 
     // 해당 nickname을 갖는 User들의 정보 조회
-    public List<MemberRes> getUsersByNickname(String nickname) throws ResponseException {
+    public List<Member> getUsersByNickname(String nickname) throws ResponseException {
         try {
-            List<MemberRes> getUsersRes = memberRepository.getUsersByNickName(nickname);
+            List<Member> getUsersRes = memberRepository.getUsersByNickName(nickname);
             return getUsersRes;
         } catch (Exception exception) {
             throw new ResponseException(DATABASE_ERROR);
