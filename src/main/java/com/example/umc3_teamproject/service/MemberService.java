@@ -68,7 +68,7 @@ public class MemberService {
     // 회원정보 수정(Patch)
     public void modifyNickName(UpdateNickNameReq updateNickNameReq) throws ResponseException {
         try {
-            int result = jpaMemberRepository.modifyMemberName(updateNickNameReq.getMemberId(), updateNickNameReq.getNickName()); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+            int result = jpaMemberRepository.updateNickNameById(updateNickNameReq.getMemberId(), updateNickNameReq.getNickName()); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
                 throw new ResponseException(MODIFY_FAIL_NICKNAME);
             }

@@ -24,3 +24,4 @@ public interface ScriptRepository extends JpaRepository<Script, Long> , CrudRepo
     // @SQLDelete(sql = "UPDATE script SET deleted = true WHERE scriptId = ?")
     // Optional<Script> deleteScriptById(Long id);
 }
+

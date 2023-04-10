@@ -4,6 +4,7 @@ import com.example.umc3_teamproject.domain.dto.request.ParagraphRequestDto;
 import com.example.umc3_teamproject.domain.dto.response.ParagraphResponseDto;
 import com.example.umc3_teamproject.domain.item.Paragraph;
 import com.example.umc3_teamproject.domain.item.Script;
+import com.example.umc3_teamproject.repository.JpaMemberRepository;
 import com.example.umc3_teamproject.repository.MemberRepository;
 import com.example.umc3_teamproject.repository.ParagraphRepository;
 import com.example.umc3_teamproject.repository.ScriptRepository;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class ParagraphService {
     @Autowired
-    private final MemberRepository memberRepository;
+    private final JpaMemberRepository jpaMemberRepository;
     @Autowired
     private final ScriptRepository scriptRepository;
     @Autowired
@@ -34,7 +35,7 @@ public class ParagraphService {
 
     public ResponseEntity<?> writeParagraph(ParagraphRequestDto.Register paragraph1) {
 
-        Member paragraph_member=memberRepository.getUser(paragraph1.getMemberId());
+        Member paragraph_member=jpaMemberRepository.getById(paragraph1.getMemberId());
         Script paragraph_script = scriptRepository.getById(paragraph1.getScriptId());
 
         Paragraph paragraph=Paragraph.builder()
